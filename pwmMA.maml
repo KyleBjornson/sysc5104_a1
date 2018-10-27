@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CDPlusPlus_Builder_Version_1.0.0>
+  <top>
+    <components> pwm@Pwm &#xd;</components>
+    <out> pwmStateOut &#xd;</out>
+    <in> dutyCycleIn &#xd;</in>
+    <Link> dutyCycleIn dutyCycleIn@pwm&#xd;</Link>
+    <Link> pwmStateOut@pwm pwmStateOut&#xd;</Link>
+  </top>
+  <pwm>
+    <period> 10&#xd;</period>
+  </pwm>
+</CDPlusPlus_Builder_Version_1.0.0>

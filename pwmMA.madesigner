@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns="http://www.example.org/DEVSModeler" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation">
+  <CoupledModelType xmi:id="_Y6HzUdoQEeieRok9Pasdsg" modelName="top" defined="true" sourceFileRelativePath="pwmMA.ma">
+    <ports xmi:type="CoupledPort" xmi:id="_Y6HzUtoQEeieRok9Pasdsg" portName="pwmStateOut" portType="OUTPUT_PORT" incomingLinks="_Y6HzW9oQEeieRok9Pasdsg"/>
+    <ports xmi:type="CoupledPort" xmi:id="_Y6HzU9oQEeieRok9Pasdsg" portName="dutyCycleIn" outgoingLinks="_Y6HzWtoQEeieRok9Pasdsg"/>
+    <atomicModels xmi:type="AtomicModelInstance" xmi:id="_Y6HzVNoQEeieRok9Pasdsg" instanceName="pwm">
+      <modelType xmi:type="CPPAtomicModelType" xmi:id="_Y6HzVdoQEeieRok9Pasdsg" modelName="Pwm" defined="true" sourceFileRelativePath="pwm.cpp">
+        <ports xmi:type="InputAtomicPort" xmi:id="_Y6HzVtoQEeieRok9Pasdsg" portName="dutyCycleIn" incomingLinks="_Y6HzWtoQEeieRok9Pasdsg"/>
+        <ports xmi:type="OutputAtomicPort" xmi:id="_Y6HzV9oQEeieRok9Pasdsg" portName="pwmStateOut" portType="OUTPUT_PORT" outgoingLinks="_Y6HzW9oQEeieRok9Pasdsg"/>
+        <parameters xmi:type="AtomicModelTypeParameter" xmi:id="_Y6HzWNoQEeieRok9Pasdsg" name="period"/>
+      </modelType>
+      <parameters xmi:type="AtomicModelInstanceParameter" xmi:id="_Y6HzWdoQEeieRok9Pasdsg" name="period" value="10"/>
+    </atomicModels>
+    <links xmi:type="CoupledLink" xmi:id="_Y6HzWtoQEeieRok9Pasdsg" target="_Y6HzVtoQEeieRok9Pasdsg" source="_Y6HzU9oQEeieRok9Pasdsg"/>
+    <links xmi:type="CoupledLink" xmi:id="_Y6HzW9oQEeieRok9Pasdsg" target="_Y6HzUtoQEeieRok9Pasdsg" source="_Y6HzV9oQEeieRok9Pasdsg"/>
+  </CoupledModelType>
+  <notation:Diagram xmi:id="_Y6IaYNoQEeieRok9Pasdsg" type="DEVS" element="_Y6HzUdoQEeieRok9Pasdsg" name="pwmMA.madesigner" measurementUnit="Pixel">
+    <styles xmi:type="notation:DiagramStyle" xmi:id="_Y6IaYdoQEeieRok9Pasdsg"/>
+  </notation:Diagram>
+</xmi:XMI>
