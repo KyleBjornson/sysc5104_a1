@@ -1,0 +1,8 @@
+00:00:05:00 speed 5
+00:00:06:00 speed 10
+00:00:07:00 GpsInstruction {1,10}
+00:00:08:00 speed 15
+00:00:08:30 speed 20
+00:00:30:00 GpsInstruction {0,50}
+00:00:31:00 GpsInstruction {1,10}
+00:00:31:00 GpsInstruction {1,15}
