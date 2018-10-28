@@ -28,7 +28,7 @@ GpsQueue::GpsQueue( const string &name )
 , turnRequest( addOutputPort( "turnRequest" ) )
 {
 	speed = 0;
-	nextTurn = 0;
+	nextTurn = none;
 	distance = 0;
 }
 
@@ -66,7 +66,7 @@ Model &GpsQueue::externalFunction( const ExternalMessage &msg ) {
 			/*This will calculate the distance traveled at the old speed*/
 			distance -= (msg.time() - lastChange()) * speed; 
 			/*Update speed and calculate the new timeout*/
-			holdIn(active, Time( static_cast<float>((distance / speed)));
+			holdIn(active, Time( static_cast<float>((distance / speed))));
 		}
 		speed = x;
 	}

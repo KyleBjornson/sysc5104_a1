@@ -11,7 +11,7 @@
 *******************************************************************/
 
 /** include files **/
-#include "odomoter.h"      // class Queue
+#include "odometer.h"      // class Queue
 #include "message.h"    // class ExternalMessage, InternalMessage
 #include "mainsimu.h"   // MainSimulator::Instance().getParameter( ... )
 
