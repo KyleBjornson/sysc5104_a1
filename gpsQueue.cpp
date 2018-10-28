@@ -28,6 +28,7 @@ GpsQueue::GpsQueue( const string &name )
 , turnRequest( addOutputPort( "turnRequest" ) )
 {
 	speed = 0;
+	nextTurn = 0;
 	distance = 0;
 }
 
@@ -47,10 +48,10 @@ Model &GpsQueue::initFunction() {
 ********************************************************************/
 Model &GpsQueue::externalFunction( const ExternalMessage &msg ) {
 	if( msg.port() == gpsInstructionIn) {
-		GpsInstruction x = (GpsInstruction) msg.value(); /*Yikes, I sure hope I can just do this... Sorry :P*/
+		GpsInstruction x = gpsInstruction(msg.value()); /*Yikes, I sure hope I can just do this... Sorry :P*/
 		if (this->state() == passive) {
 			distance = x.distance;
-			direction = x.direction;
+			nextTurn = x.direction;
 			holdIn(active, (distance / speed));
 		} else {
 			instructionQueue.push(x);
@@ -83,7 +84,7 @@ Model &GpsQueue::internalFunction( const InternalMessage & ){
 		passivate();
 	} else {
 		distance = instructionQueue.front().distance;
-		direction = instructionQueue.front().direction;
+		nextTurn = instructionQueue.front().direction;
 		instructionQueue.pop();
 		holdIn(active, (distance / speed));
 	}
@@ -95,6 +96,6 @@ Model &GpsQueue::internalFunction( const InternalMessage & ){
 * Description: 
 ********************************************************************/
 Model &GpsQueue::outputFunction( const InternalMessage &msg ){
-	sendOutput( msg.time(), turnRequest, direction);
+	sendOutput( msg.time(), turnRequest, nextTurn);
 	return *this ;
 }

@@ -11,17 +11,17 @@
 *******************************************************************/
 
 /** include files **/
-#include "gpsQueue.h"      // class Queue
+#include "odomoter.h"      // class Queue
 #include "message.h"    // class ExternalMessage, InternalMessage
 #include "mainsimu.h"   // MainSimulator::Instance().getParameter( ... )
 
 /** public functions **/
 
 /*******************************************************************
-* Function Name: GpsQueue
+* Function Name: Odomoter
 * Description: 
 ********************************************************************/
-GpsQueue::GpsQueue( const string &name )
+Odomoter::Odomoter( const string &name )
 : Atomic( name )
 , speedIn( addInputPort( "speedIn" ) )
 , distanceTraveled( addOutputPort( "distanceTraveled" ) )
@@ -36,7 +36,7 @@ GpsQueue::GpsQueue( const string &name )
 * Description: Resetea la lista
 * Precondition: El tiempo del proximo evento interno es Infinito
 ********************************************************************/
-Model &GpsQueue::initFunction() {
+Model &Odomoter::initFunction() {
 	this-> passivate();
 	return *this ;
 }
@@ -45,7 +45,7 @@ Model &GpsQueue::initFunction() {
 * Function Name: externalFunction
 * Description: 
 ********************************************************************/
-Model &GpsQueue::externalFunction( const ExternalMessage &msg ) {
+Model &Odomoter::externalFunction( const ExternalMessage &msg ) {
 	if( msg.port() == speedIn) {
 		float x = float(msg.value());
 		if (this->state() == passive) {
@@ -73,7 +73,7 @@ Model &GpsQueue::externalFunction( const ExternalMessage &msg ) {
 * Function Name: internalFunction
 * Description: 
 ********************************************************************/
-Model &GpsQueue::internalFunction( const InternalMessage & ){
+Model &Odomoter::internalFunction( const InternalMessage & ){
 	distance++;
 	partOfMeterLeft = 1;
 	holdIn(active, secondsToTravelOneMeter);
@@ -84,7 +84,7 @@ Model &GpsQueue::internalFunction( const InternalMessage & ){
 * Function Name: outputFunction
 * Description: 
 ********************************************************************/
-Model &GpsQueue::outputFunction( const InternalMessage &msg ){
+Model &Odomoter::outputFunction( const InternalMessage &msg ){
 	sendOutput( msg.time(), distanceTraveled, distance);
 	return *this ;
 }

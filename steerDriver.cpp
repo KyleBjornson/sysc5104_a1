@@ -51,7 +51,7 @@ Model &SteerDriver::externalFunction( const ExternalMessage &msg ) {
 		int x = int(msg.value()); /*Yikes, I sure hope I can just do this... Sorry :P*/
 		if(x < -25) x = -25;
 		if(x > 25) x = 25;
-		desiredWheelDirection = x
+		desiredWheelDirection = x;
 		if (this->state() == passive) {
 			holdIn(active, (speed * SPEED_TIMEOUT_MULTIPLIER));
 		} else {

@@ -42,6 +42,7 @@ private:
 	Port &turnRequest;
 	float speed;
 	float distance;
+	Direction nextTurn;
 	queue<GpsInstruction> instructionQueue;
 };	// class GpsQueue
 
