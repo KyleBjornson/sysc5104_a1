@@ -1,6 +1,6 @@
 /*******************************************************************
 *
-*  DESCRIPTION: Atomic Model Sender
+*  DESCRIPTION: Atomic Model ActualSpeedCalc
 *
 *  AUTHOR:
 *
@@ -11,17 +11,17 @@
 *******************************************************************/
 
 /** include files **/
-#include "gpsQueue.h"      // class Queue
+#include "actualSpeedCalc.h"      // class ActualSpeedCalc
 #include "message.h"    // class ExternalMessage, InternalMessage
 #include "mainsimu.h"   // MainSimulator::Instance().getParameter( ... )
 
 /** public functions **/
 
 /*******************************************************************
-* Function Name: GpsQueue
+* Function Name: ActualSpeedCalc
 * Description: 
 ********************************************************************/
-GpsQueue::GpsQueue( const string &name )
+ActualSpeedCalc::ActualSpeedCalc( const string &name )
 : Atomic( name )
 , brakeIntensityIn( addInputPort( "brakeIntensityIn" ) )
 , motorDutyCyleIn( addInputPort( "motorDutyCyleIn" ) )
@@ -37,7 +37,7 @@ GpsQueue::GpsQueue( const string &name )
 * Description: Resetea la lista
 * Precondition: El tiempo del proximo evento interno es Infinito
 ********************************************************************/
-Model &GpsQueue::initFunction() {
+Model &ActualSpeedCalc::initFunction() {
 	this-> passivate();
 	return *this ;
 }
@@ -46,7 +46,7 @@ Model &GpsQueue::initFunction() {
 * Function Name: externalFunction
 * Description: 
 ********************************************************************/
-Model &GpsQueue::externalFunction( const ExternalMessage &msg ) {
+Model &ActualSpeedCalc::externalFunction( const ExternalMessage &msg ) {
 	if( msg.port() == brakeIntensityIn) {
 		brakeIntensity = float(msg.value())/100;
 		if (brakeIntensity < 0) brakeIntensity = 0;
@@ -78,7 +78,7 @@ Model &GpsQueue::externalFunction( const ExternalMessage &msg ) {
 * Function Name: internalFunction
 * Description: 
 ********************************************************************/
-Model &GpsQueue::internalFunction( const InternalMessage & ){
+Model &ActualSpeedCalc::internalFunction( const InternalMessage & ){
 	if(speed < motorDutyCyle) {
 		speed++;
 		holdIn(active, MOTOR_INCREASE_TIMEOUT);		
@@ -95,7 +95,7 @@ Model &GpsQueue::internalFunction( const InternalMessage & ){
 * Function Name: outputFunction
 * Description: 
 ********************************************************************/
-Model &GpsQueue::outputFunction( const InternalMessage &msg ){
+Model &ActualSpeedCalc::outputFunction( const InternalMessage &msg ){
 	sendOutput( msg.time(), turnRequest, direction);
 	return *this ;
 }

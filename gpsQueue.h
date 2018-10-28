@@ -21,7 +21,7 @@
 enum Direction {LEFT, RIGHT};
 struct GpsInstruction {
 	Direction direction;
-	int distance
+	int distance;
 };
 
 class GpsQueue : public Atomic
