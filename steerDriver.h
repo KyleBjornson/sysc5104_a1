@@ -16,6 +16,7 @@
 #include "atomic.h"     // class Atomic
 
 #define SPEED_TIMEOUT_MULTIPLIER 1/(15*25)
+#define MPS_FROM_KMPH 1/3.6
 
 class SteerDriver : public Atomic
 {
