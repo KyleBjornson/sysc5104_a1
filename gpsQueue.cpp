@@ -28,7 +28,7 @@ GpsQueue::GpsQueue( const string &name )
 , turnRequest( addOutputPort( "turnRequest" ) )
 {
 	speed = 0;
-	nextTurn = none;
+	nextTurn = 0;
 	distance = 0;
 }
 
@@ -48,13 +48,17 @@ Model &GpsQueue::initFunction() {
 ********************************************************************/
 Model &GpsQueue::externalFunction( const ExternalMessage &msg ) {
 	if( msg.port() == gpsInstructionIn) {
-		GpsInstruction x = gpsInstruction(msg.value()); /*Yikes, I sure hope I can just do this... Sorry :P*/
+		//GpsInstruction x = gpsInstruction(msg.value()); /*Yikes, I sure hope I can just do this... Sorry :P*/
+		int x = int (msg.value());
+		distance = x & (0x7FFF);
+		nextTurn = (x & (0x8000)) >> 31;
 		if (this->state() == passive) {
-			distance = x.distance;
-			nextTurn = x.direction;
 			holdIn(active, (distance / speed));
 		} else {
-			instructionQueue.push(x);
+			GpsInstruction inst;
+			inst.distance = distance;
+			inst.direction = nextTurn;
+			instructionQueue.push(inst);
 			holdIn(active, (msg.time() - lastChange()));
 		}
 	} else if (msg.port() == speedIn) {
@@ -64,7 +68,7 @@ Model &GpsQueue::externalFunction( const ExternalMessage &msg ) {
 			this->passivate();
 		} else {
 			/*This will calculate the distance traveled at the old speed*/
-			distance -= (msg.time() - lastChange()) * speed; 
+			distance -= (msg.time() - lastChange()) * speed;
 			/*Update speed and calculate the new timeout*/
 			holdIn(active, Time( static_cast<float>((distance / speed))));
 		}

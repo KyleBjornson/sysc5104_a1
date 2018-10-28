@@ -18,9 +18,10 @@
 
 #define MPS_FROM_KMPH 1/3.6
 
-enum Direction {LEFT, RIGHT};
+//enum Direction {LEFT=1, RIGHT=2};
 struct GpsInstruction {
-	Direction direction;
+	//Direction direction;
+	int direction;
 	int distance;
 };
 
@@ -42,7 +43,7 @@ private:
 	Port &turnRequest;
 	float speed;
 	float distance;
-	Direction nextTurn;
+	int nextTurn;
 	queue<GpsInstruction> instructionQueue;
 };	// class GpsQueue
 
