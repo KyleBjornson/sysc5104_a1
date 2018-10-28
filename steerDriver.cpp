@@ -53,7 +53,7 @@ Model &SteerDriver::externalFunction( const ExternalMessage &msg ) {
 		if(x > 25) x = 25;
 		desiredWheelDirection = x;
 		if (this->state() == passive) {
-			holdIn(active, (speed * SPEED_TIMEOUT_MULTIPLIER));
+			holdIn(active, Time( static_cast<float>((speed * SPEED_TIMEOUT_MULTIPLIER))));
 		} else {
 			holdIn(active, (msg.time() - lastChange()));
 		}
@@ -84,7 +84,7 @@ Model &SteerDriver::internalFunction( const InternalMessage & ){
 		} else {
 			wheelDirection--;		
 		}
-		holdIn(active, (speed * SPEED_TIMEOUT_MULTIPLIER));
+		holdIn(active, Time( static_cast<float>(speed * SPEED_TIMEOUT_MULTIPLIER)));
 	}
 	return *this ;
 }

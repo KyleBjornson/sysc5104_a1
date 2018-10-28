@@ -52,15 +52,15 @@ Model &Odomoter::externalFunction( const ExternalMessage &msg ) {
 			if(x == 0){
 				passivate();
 			} else if(partOfMeterLeft == 0) {
-				holdIn(active, 1/x);
+				holdIn(active, Time( static_cast<float>(1/x)));
 				partOfMeterLeft = 1;
 			} else {
-				holdIn(active, partOfMeterLeft/x);
+				holdIn(active, Time( static_cast<float>(partOfMeterLeft/x)));
 			}
 		} else {
 			partOfMeterLeft -= (msg.time() - lastChange())/secondsToTravelOneMeter;
 			if(x == 0) passivate(); /*we are not moving, wait until we are moving again*/
-			else holdIn(active, partOfMeterLeft/x);
+			else holdIn(active, Time( static_cast<float>(partOfMeterLeft/x)));
 		}
 		if(x!= 0) secondsToTravelOneMeter = 1/x;
 		else secondsToTravelOneMeter = 0;
@@ -76,7 +76,7 @@ Model &Odomoter::externalFunction( const ExternalMessage &msg ) {
 Model &Odomoter::internalFunction( const InternalMessage & ){
 	distance++;
 	partOfMeterLeft = 1;
-	holdIn(active, secondsToTravelOneMeter);
+	holdIn(active, Time( static_cast<float>(secondsToTravelOneMeter)));
 	return *this ;
 }
 

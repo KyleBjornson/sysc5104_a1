@@ -66,7 +66,7 @@ Model &GpsQueue::externalFunction( const ExternalMessage &msg ) {
 			/*This will calculate the distance traveled at the old speed*/
 			distance -= (msg.time() - lastChange()) * speed; 
 			/*Update speed and calculate the new timeout*/
-			holdIn(active, (distance / speed));
+			holdIn(active, Time( static_cast<float>((distance / speed)));
 		}
 		speed = x;
 	}
