@@ -96,6 +96,6 @@ Model &ActualSpeedCalc::internalFunction( const InternalMessage & ){
 * Description: 
 ********************************************************************/
 Model &ActualSpeedCalc::outputFunction( const InternalMessage &msg ){
-	sendOutput( msg.time(), turnRequest, direction);
+	sendOutput( msg.time(), actualSpeed, speed);
 	return *this ;
 }
