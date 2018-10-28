@@ -1,0 +1,6 @@
+00:00:05:00 motorDutyCyle 100
+00:01:00:00 brakeIntensity 10
+00:03:00:00 motorDutyCyle 100
+00:04:00:00 brakeIntensity 100
+00:06:00:00 motorDutyCyle 140
+00:07:00:00 brakeIntensity 110
