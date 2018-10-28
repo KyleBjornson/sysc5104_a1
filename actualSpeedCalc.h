@@ -31,10 +31,10 @@ protected:
 
 private:
 	const Port &brakeIntensityIn;
-	const Port &motorDutyCyleIn;
+	const Port &motorDutyCycleIn;
 	Port &actualSpeed;
 	float brakeIntensity;
-	float motorDutyCyle;
+	float motorDutyCycle;
 	float speed;
 };	// class ActualSpeedCalc
 

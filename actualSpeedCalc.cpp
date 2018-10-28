@@ -24,11 +24,11 @@
 ActualSpeedCalc::ActualSpeedCalc( const string &name )
 : Atomic( name )
 , brakeIntensityIn( addInputPort( "brakeIntensityIn" ) )
-, motorDutyCyleIn( addInputPort( "motorDutyCyleIn" ) )
+, motorDutyCycleIn( addInputPort( "motorDutyCycleIn" ) )
 , actualSpeed( addOutputPort( "actualSpeed" ) )
 {
 	brakeIntensity = 0;
-	motorDutyCyle = 0;
+	motorDutyCycle = 0;
 	speed = 0;
 }
 
@@ -51,7 +51,7 @@ Model &ActualSpeedCalc::externalFunction( const ExternalMessage &msg ) {
 		brakeIntensity = float(msg.value())/100;
 		if (brakeIntensity < 0) brakeIntensity = 0;
 		if (brakeIntensity > 1) brakeIntensity = 1;
-		motorDutyCyle = 0;
+		motorDutyCycle = 0;
 
 		if (this->state() == passive) {
 			float timeout = MAX_BRAKING_TIMEOUT * brakeIntensity;
@@ -59,10 +59,10 @@ Model &ActualSpeedCalc::externalFunction( const ExternalMessage &msg ) {
 		} else {
 			holdIn(active, (msg.time() - lastChange()));
 		}
-	} else if (msg.port() == motorDutyCyleIn) {
-		motorDutyCyle = float(msg.value());
-		if (motorDutyCyle < 0) motorDutyCyle = 0;
-		if (motorDutyCyle > 100) motorDutyCyle = 100;
+	} else if (msg.port() == motorDutyCycleIn) {
+		motorDutyCycle = float(msg.value());
+		if (motorDutyCycle < 0) motorDutyCycle = 0;
+		if (motorDutyCycle > 100) motorDutyCycle = 100;
 		brakeIntensity = 0;
 		
 		if (this->state() == passive) {
@@ -80,10 +80,10 @@ Model &ActualSpeedCalc::externalFunction( const ExternalMessage &msg ) {
 * Description: 
 ********************************************************************/
 Model &ActualSpeedCalc::internalFunction( const InternalMessage & ){
-	if(speed < motorDutyCyle) {
+	if(speed < motorDutyCycle) {
 		speed++;
 		holdIn(active, Time( static_cast<float>(MOTOR_INCREASE_TIMEOUT)));		
-	} else if (speed > motorDutyCyle) {
+	} else if (speed > motorDutyCycle) {
 		speed--;		
 		float timeout = MAX_BRAKING_TIMEOUT * brakeIntensity;
 		holdIn(active, Time(timeout));

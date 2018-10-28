@@ -2,9 +2,9 @@
 components : actualSpeedCalc@ActualSpeedCalc 
 out : actualSpeed 
 in : brakeIntensityIn 
-in : motorDutyCyleIn 
+in : motorDutyCycleIn 
 Link : brakeIntensityIn brakeIntensityIn@ActualSpeedCalc 
-Link : motorDutyCyleIn motorDutyCyleIn@ActualSpeedCalc 
+Link : motorDutyCycleIn motorDutyCycleIn@ActualSpeedCalc 
 Link : actualSpeed@ActualSpeedCalc  actualSpeed
 
 [actualSpeedCalc]

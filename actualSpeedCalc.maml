@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CDPlusPlus_Builder_Version_1.0.0>
+  <top>
+    <components> actualSpeedCalc@ActualSpeedCalc &#xd;</components>
+    <out> actualSpeed &#xd;</out>
+    <in> brakeIntensityIn &#xd;</in>
+    <in> motorDutyCycleIn &#xd;</in>
+    <Link> brakeIntensityIn brakeIntensityIn@ActualSpeedCalc &#xd;</Link>
+    <Link> motorDutyCycleIn motorDutyCycleIn@ActualSpeedCalc &#xd;</Link>
+    <Link> actualSpeed@ActualSpeedCalc  actualSpeed&#xd;</Link>
+  </top>
+  <actualSpeedCalc/>
+</CDPlusPlus_Builder_Version_1.0.0>
