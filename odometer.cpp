@@ -18,10 +18,10 @@
 /** public functions **/
 
 /*******************************************************************
-* Function Name: Odomoter
+* Function Name: Odometer
 * Description: 
 ********************************************************************/
-Odomoter::Odomoter( const string &name )
+Odometer::Odometer( const string &name )
 : Atomic( name )
 , speedIn( addInputPort( "speedIn" ) )
 , distanceTraveled( addOutputPort( "distanceTraveled" ) )
@@ -36,7 +36,7 @@ Odomoter::Odomoter( const string &name )
 * Description: Resetea la lista
 * Precondition: El tiempo del proximo evento interno es Infinito
 ********************************************************************/
-Model &Odomoter::initFunction() {
+Model &Odometer::initFunction() {
 	this-> passivate();
 	return *this ;
 }
@@ -45,7 +45,7 @@ Model &Odomoter::initFunction() {
 * Function Name: externalFunction
 * Description: 
 ********************************************************************/
-Model &Odomoter::externalFunction( const ExternalMessage &msg ) {
+Model &Odometer::externalFunction( const ExternalMessage &msg ) {
 	if( msg.port() == speedIn) {
 		float x = float(msg.value());
 		if (this->state() == passive) {
@@ -73,7 +73,7 @@ Model &Odomoter::externalFunction( const ExternalMessage &msg ) {
 * Function Name: internalFunction
 * Description: 
 ********************************************************************/
-Model &Odomoter::internalFunction( const InternalMessage & ){
+Model &Odometer::internalFunction( const InternalMessage & ){
 	distance++;
 	partOfMeterLeft = 1;
 	holdIn(active, Time( static_cast<float>(secondsToTravelOneMeter)));
@@ -84,7 +84,7 @@ Model &Odomoter::internalFunction( const InternalMessage & ){
 * Function Name: outputFunction
 * Description: 
 ********************************************************************/
-Model &Odomoter::outputFunction( const InternalMessage &msg ){
+Model &Odometer::outputFunction( const InternalMessage &msg ){
 	sendOutput( msg.time(), distanceTraveled, distance);
 	return *this ;
 }
