@@ -76,10 +76,10 @@ Model &SteerDriver::externalFunction( const ExternalMessage &msg ) {
 ********************************************************************/
 Model &SteerDriver::internalFunction( const InternalMessage & ){
 	/*We just output vout, select timeout related to the current output*/
-	if(wheelDirection == wheelDirectionIn) {
+	if(wheelDirection == desiredWheelDirection) {
 		passivate();
 	} else {
-		if(wheelDirection < wheelDirectionIn) {
+		if(wheelDirection < desiredWheelDirection) {
 			wheelDirection++;		
 		} else {
 			wheelDirection--;		
