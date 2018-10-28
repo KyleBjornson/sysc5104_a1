@@ -60,7 +60,10 @@ Model &Odometer::externalFunction( const ExternalMessage &msg ) {
 		} else {
 			partOfMeterLeft -= (msg.time() - lastChange())/secondsToTravelOneMeter;
 			if(x == 0) passivate(); /*we are not moving, wait until we are moving again*/
-			else holdIn(active, Time( static_cast<float>(partOfMeterLeft/x)));
+			else {
+				float timeout = partOfMeterLeft/x;
+				holdIn(active, Time(timeout));
+			}
 		}
 		if(x!= 0) secondsToTravelOneMeter = 1/x;
 		else secondsToTravelOneMeter = 0;
