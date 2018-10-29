@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns="http://www.example.org/DEVSModeler" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation">
+  <CoupledModelType xmi:id="_Wx59ANrpEei99rtH8mcH0g" modelName="top" defined="true" sourceFileRelativePath="steerDriver.ma">
+    <ports xmi:type="CoupledPort" xmi:id="_Wx59AdrpEei99rtH8mcH0g" portName="servoDutyCylce" portType="OUTPUT_PORT" incomingLinks="_Wx59C9rpEei99rtH8mcH0g"/>
+    <ports xmi:type="CoupledPort" xmi:id="_Wx59AtrpEei99rtH8mcH0g" portName="wheelDirectionIn" outgoingLinks="_Wx59CdrpEei99rtH8mcH0g"/>
+    <ports xmi:type="CoupledPort" xmi:id="_Wx59A9rpEei99rtH8mcH0g" portName="speedIn" outgoingLinks="_Wx59CtrpEei99rtH8mcH0g"/>
+    <atomicModels xmi:type="AtomicModelInstance" xmi:id="_Wx59BNrpEei99rtH8mcH0g" instanceName="steerDriver">
+      <modelType xmi:type="CPPAtomicModelType" xmi:id="_Wx59BdrpEei99rtH8mcH0g" modelName="SteerDriver" defined="true" sourceFileRelativePath="steerDriver.cpp">
+        <ports xmi:type="InputAtomicPort" xmi:id="_Wx59BtrpEei99rtH8mcH0g" portName="wheelDirectionIn" incomingLinks="_Wx59CdrpEei99rtH8mcH0g"/>
+        <ports xmi:type="InputAtomicPort" xmi:id="_Wx59B9rpEei99rtH8mcH0g" portName="speedIn" incomingLinks="_Wx59CtrpEei99rtH8mcH0g"/>
+        <ports xmi:type="OutputAtomicPort" xmi:id="_Wx59CNrpEei99rtH8mcH0g" portName="servoDutyCylce" portType="OUTPUT_PORT" outgoingLinks="_Wx59C9rpEei99rtH8mcH0g"/>
+      </modelType>
+    </atomicModels>
+    <links xmi:type="CoupledLink" xmi:id="_Wx59CdrpEei99rtH8mcH0g" target="_Wx59BtrpEei99rtH8mcH0g" source="_Wx59AtrpEei99rtH8mcH0g"/>
+    <links xmi:type="CoupledLink" xmi:id="_Wx59CtrpEei99rtH8mcH0g" target="_Wx59B9rpEei99rtH8mcH0g" source="_Wx59A9rpEei99rtH8mcH0g"/>
+    <links xmi:type="CoupledLink" xmi:id="_Wx59C9rpEei99rtH8mcH0g" target="_Wx59AdrpEei99rtH8mcH0g" source="_Wx59CNrpEei99rtH8mcH0g"/>
+  </CoupledModelType>
+  <notation:Diagram xmi:id="_Wx59DNrpEei99rtH8mcH0g" type="DEVS" element="_Wx59ANrpEei99rtH8mcH0g" name="steerDriver.madesigner" measurementUnit="Pixel">
+    <styles xmi:type="notation:DiagramStyle" xmi:id="_Wx59DdrpEei99rtH8mcH0g"/>
+  </notation:Diagram>
+</xmi:XMI>
