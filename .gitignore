@@ -1,0 +1,6 @@
+
+.project
+*.o
+Makefile
+*.log
+*.out
