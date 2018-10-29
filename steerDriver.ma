@@ -1,6 +1,6 @@
 [top]
 components : steerDriver@SteerDriver 
-out : servoDutyCylce 
+out : servoDutyCycle 
 in : wheelDirectionIn 
 in : speedIn 
 Link : wheelDirectionIn wheelDirectionIn@SteerDriver
