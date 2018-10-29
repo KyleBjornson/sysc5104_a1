@@ -27,7 +27,7 @@ Odometer::Odometer( const string &name )
 , distanceTraveled( addOutputPort( "distanceTraveled" ) )
 {
 	secondsToTravelOneMeter = 0;
-	distance = 0;
+	distance = 1;
 	partOfMeterLeft = 0;
 }
 
@@ -58,7 +58,8 @@ Model &Odometer::externalFunction( const ExternalMessage &msg ) {
 				holdIn(active, Time( static_cast<float>(partOfMeterLeft/x)));
 			}
 		} else {
-			partOfMeterLeft -= (msg.time().seconds() - lastChange().seconds())/secondsToTravelOneMeter;
+			/*TODO:: Fix e maths */
+			partOfMeterLeft -= ((60*msg.time().minutes() + msg.time().seconds()) - (60*lastChange().minutes() + lastChange().seconds()))*secondsToTravelOneMeter;
 			if(x == 0) passivate(); /*we are not moving, wait until we are moving again*/
 			else {
 				float timeout = partOfMeterLeft/x;

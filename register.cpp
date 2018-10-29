@@ -26,7 +26,7 @@ void MainSimulator::registerNewAtomics()
 	SingleModelAdm::Instance().registerAtomic( NewAtomicFunction<Pwm>(), "Pwm" ) ;
 	SingleModelAdm::Instance().registerAtomic( NewAtomicFunction<ActualSpeedCalc>(), "ActualSpeedCalc" ) ;
 	SingleModelAdm::Instance().registerAtomic( NewAtomicFunction<GpsQueue>(), "GpsQueue" ) ;
-	//SingleModelAdm::Instance().registerAtomic( NewAtomicFunction<Odometer>(), "Odometer" ) ;
+	SingleModelAdm::Instance().registerAtomic( NewAtomicFunction<Odometer>(), "Odometer" ) ;
 	SingleModelAdm::Instance().registerAtomic( NewAtomicFunction<SteerDriver>(), "SteerDriver" ) ;
 }
 

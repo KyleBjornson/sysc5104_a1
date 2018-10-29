@@ -10,8 +10,8 @@
 *
 *******************************************************************/
 
-#ifndef __ACTUAL_SPEED_CALC_H
-#define __ACTUAL_SPEED_CALC_H
+#ifndef __ODOMETER_H
+#define __ODOMETER_H
 
 #include "atomic.h"     // class Atomic
 
@@ -42,4 +42,4 @@ string Odometer::className() const
 	return "Odometer" ;
 }
 
-#endif   //__ACTUAL_SPEED_CALC_H
+#endif   //__ODOMETER_H
