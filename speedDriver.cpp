@@ -92,7 +92,7 @@ Model &SpeedDriver::externalFunction( const ExternalMessage &msg ) {
 
 	} else if (msg.port() == currentSpeedIn) {
 		currentSpeed = int (msg.value());
-		holdIn(active, msg.time() - lastChange());
+		holdIn(active, nextChange());
 	}
 
 	return *this;
