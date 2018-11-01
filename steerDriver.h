@@ -33,7 +33,7 @@ protected:
 private:
 	const Port &wheelDirectionIn;
 	const Port &speedIn;
-	Port &servoDutyCylce;
+	Port &servoDutyCycle;
 	float speed;
 	float duty;
 	int wheelDirection;

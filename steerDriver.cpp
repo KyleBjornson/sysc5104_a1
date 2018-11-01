@@ -25,7 +25,7 @@ SteerDriver::SteerDriver( const string &name )
 : Atomic( name )
 , wheelDirectionIn( addInputPort( "wheelDirectionIn" ) )
 , speedIn( addInputPort( "speedIn" ) )
-, servoDutyCylce( addOutputPort( "servoDutyCylce" ) )
+, servoDutyCycle( addOutputPort( "servoDutyCycle" ) )
 {
 	speed = 0;
 	wheelDirection = 0;
@@ -94,6 +94,6 @@ Model &SteerDriver::internalFunction( const InternalMessage & ){
 * Description: 
 ********************************************************************/
 Model &SteerDriver::outputFunction( const InternalMessage &msg ){
-	sendOutput( msg.time(), servoDutyCylce, (7.5 + (0.1*wheelDirection)));
+	sendOutput( msg.time(), servoDutyCycle, (7.5 + (0.1*wheelDirection)));
 	return *this ;
 }
