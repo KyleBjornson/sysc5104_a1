@@ -1,9 +1,23 @@
-00:00:05:00 speed 5
-00:00:06:00 speed 10
-00:00:07:00 wheelDirectionIn 10
-00:00:08:00 speed 20
-00:00:30:00 wheelDirectionIn -10
-00:01:00:00 wheelDirectionIn -30
-00:01:01:00 speed 80
-00:02:00:00 speed 20
-00:02:00:00 wheelDirectionIn 25
+00:00:05:000 desiredSpeedIn 335545320
+00:00:06:000 currentSpeedIn 1
+00:00:07:000 currentSpeedIn 2
+00:00:08:000 currentSpeedIn 3
+00:00:09:000 currentSpeedIn 4
+00:00:10:000 currentSpeedIn 5
+00:00:11:000 currentSpeedIn 6
+00:00:12:000 currentSpeedIn 7
+00:00:13:000 currentSpeedIn 8
+00:00:14:000 currentSpeedIn 9
+00:00:15:000 currentSpeedIn 10
+00:00:16:000 currentSpeedIn 11
+00:00:17:000 currentSpeedIn 12
+00:00:18:000 currentSpeedIn 13
+00:00:19:000 currentSpeedIn 14
+00:00:20:000 currentSpeedIn 15
+00:00:21:000 currentSpeedIn 16
+00:00:22:000 currentSpeedIn 17
+00:00:23:000 currentSpeedIn 18
+00:00:24:000 currentSpeedIn 19
+00:00:25:000 currentSpeedIn 20
+
+

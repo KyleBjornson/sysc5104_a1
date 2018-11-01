@@ -33,15 +33,16 @@ protected:
 private:
 	const Port &desiredSpeedIn;
 	const Port &currentSpeedIn;
-	Port &motorDutyCycle;
-	Port &brakeIntensity;
+	Port &motorSpeedOut;
+	Port &brakeIntensityOut;
 
 	float currentSpeed;
-	float brakeIntensityOut;
+	float brakeIntensity;
 	float desiredSpeed;
 	float distance;
-	float accelerationTimeout;
-	float accelerationInterval;
+	Time accelerationTimeout;
+	Time accelerationInterval;
+	float motorSpeed;
 };	// class SpeedDriver
 
 // ** inline ** // 

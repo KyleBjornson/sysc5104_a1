@@ -17,24 +17,27 @@
 #include <stdlib.h>
 
 /** public functions **/
+#define DESIRED_SPEED_MASK(msg) ((msg >> 24) & 0x000000FF)
+#define DISTANCE_MASK(msg)  (msg & 0x00FFFFFF)
 
 /*******************************************************************
-* Function Name: SteerDriver
+* Function Name: SpeedDriver
 * Description: 
 ********************************************************************/
 SpeedDriver::SpeedDriver( const string &name )
 : Atomic( name )
 , desiredSpeedIn( addInputPort( "desiredSpeedIn" ) )
 , currentSpeedIn( addInputPort( "currentSpeedIn" ) )
-, motorDutyCycle( addOutputPort( "motorDutyCycle" ) )
-, brakeIntensity( addOutputPort( "brakeIntensity" ) )
+, motorSpeedOut( addOutputPort( "motorSpeedOut" ) )
+, brakeIntensityOut( addOutputPort( "brakeIntensityOut" ) )
 {
 	currentSpeed = 0;
-	brakeIntensityOut = 0;
+	brakeIntensity = 0;
 	desiredSpeed = 0;
 	distance = 0;
-	accelerationTimeout = 0;
-	accelerationInterval = 0;
+	accelerationTimeout = Time::Zero;
+	accelerationInterval = Time::Zero;
+	motorSpeed = 0;
 }
 
 /*******************************************************************
@@ -54,32 +57,32 @@ Model &SpeedDriver::initFunction() {
 Model &SpeedDriver::externalFunction( const ExternalMessage &msg ) {
 
 	if (msg.port() == desiredSpeedIn) {
-		desiredSpeed = int (msg.value()); //fix these..
-		distance = int (msg.value());
+		desiredSpeed = DESIRED_SPEED_MASK(int (msg.value()));
+		distance = DISTANCE_MASK(int (msg.value()));
 
-		accelerationTimeout = (3600*2*distance)/(desiredSpeed + currentSpeed);
-
-		accelerationInterval = accelerationTimeout / abs(desiredSpeed - currentSpeed);
+		float timeout = (distance)/(3.6*(desiredSpeed + currentSpeed));
+		float interval = timeout / abs(desiredSpeed - currentSpeed);
 
 		//Bounded acceleration to 0-100km/h in 10 seconds
-		if (accelerationInterval < 0.1) {
-			accelerationInterval = 0.1;
+		if (interval < 0.1) {
+			interval = 0.1;
 		}
-
+		accelerationTimeout = Time(0, 0, int(timeout), int((timeout - int(timeout))*1000));
+		accelerationInterval = Time(0, 0, int(interval), int((interval - int(interval))*1000));
 
 		//Now deal with the new desiredSpeed
 		if (desiredSpeed < currentSpeed) {
 
-			brakeIntensityOut = ((abs(currentSpeed - desiredSpeed))*(abs(currentSpeed - desiredSpeed))) / (200*distance);
+			brakeIntensity = ((abs(currentSpeed - desiredSpeed))*(abs(currentSpeed - desiredSpeed))) / (200*distance);
 
 			//Intensity is bounded to <= 1
-			if (brakeIntensityOut > 1) {
-				brakeIntensityOut = 1;
+			if (brakeIntensity > 1) {
+				brakeIntensity = 1;
 			}
 			holdIn(active, Time::Zero); //Deal with this now
 
 		} else if (desiredSpeed > currentSpeed) {
-			brakeIntensityOut = 0;
+			brakeIntensity = 0;
 			holdIn(active, Time::Zero);  //Deal with this now
 
 		} else { //No change, do nothing..
@@ -99,17 +102,21 @@ Model &SpeedDriver::externalFunction( const ExternalMessage &msg ) {
 * Description: 
 ********************************************************************/
 Model &SpeedDriver::internalFunction( const InternalMessage & ){
-	/*We just output vout, select timeout related to the current output*/
-/*	if(wheelDirection == desiredWheelDirection) {
-		passivate();
+
+	if (desiredSpeed > currentSpeed) {
+		motorSpeed++;
+		holdIn(active, Time(accelerationInterval));
+
+	} else if (desiredSpeed < currentSpeed) {
+		motorSpeed = 0; //Coast
+		holdIn(active, Time(accelerationTimeout));
+
 	} else {
-		if(wheelDirection < desiredWheelDirection) {
-			wheelDirection++;		
-		} else {
-			wheelDirection--;		
-		}
-		holdIn(active, Time( static_cast<float>(speed * SPEED_TIMEOUT_MULTIPLIER)));
-	}*/
+		motorSpeed = currentSpeed;
+		brakeIntensity = 0;
+		this->passivate();
+	}
+
 	return *this ;
 }
 
@@ -118,6 +125,7 @@ Model &SpeedDriver::internalFunction( const InternalMessage & ){
 * Description: 
 ********************************************************************/
 Model &SpeedDriver::outputFunction( const InternalMessage &msg ){
-	//sendOutput( msg.time(), servoDutyCylce, (7.5 + (0.1*wheelDirection)));
+	sendOutput(msg.time(), motorSpeedOut, motorSpeed);
+	sendOutput(msg.time(), brakeIntensityOut, brakeIntensity);
 	return *this ;
 }
