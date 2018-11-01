@@ -48,31 +48,37 @@ Model &ActualSpeedCalc::initFunction() {
 ********************************************************************/
 Model &ActualSpeedCalc::externalFunction( const ExternalMessage &msg ) {
 	if( msg.port() == brakeIntensityIn) {
-		brakeIntensity = float(msg.value())/100;
-		if (brakeIntensity < 0) brakeIntensity = 0;
-		if (brakeIntensity > 1) brakeIntensity = 1;
-		motorDutyCycle = 0;
-
-		if (this->state() == passive) {
-			if (brakeIntensity == 0){
+		int old = brakeIntensity;
+		brakeIntensity = float(msg.value());
+		if(brakeIntensity > 1) brakeIntensity = 1;
+		if(brakeIntensity < 0) brakeIntensity = 0;
+		if(brakeIntensity > 0 && old == 0){
+			//Stop accelerating and start braking
+			motorDutyCycle = 0;
+			if(speed == 0) {
 				passivate();
-			} else {
+			} else if(old == 0 || this->state() == passive){
 				float timeout = MAX_BRAKING_TIMEOUT * brakeIntensity;
 				holdIn(active, Time(timeout));
+				speed --;
+			} else {
+				//continue as you were before
+				holdIn(active, nextChange());
 			}
-		} else {
-			holdIn(active, (msg.time() - lastChange()));
 		}
 	} else if (msg.port() == motorDutyCycleIn) {
+		int old = motorDutyCycle;
 		motorDutyCycle = float(msg.value());
 		if (motorDutyCycle < 0) motorDutyCycle = 0;
 		if (motorDutyCycle > 100) motorDutyCycle = 100;
-		brakeIntensity = 0;
-		
-		if (this->state() == passive) {
-			holdIn(active, Time( static_cast<float>(MOTOR_INCREASE_TIMEOUT)));
-		} else {
-			holdIn(active, (msg.time() - lastChange()));
+		if(motorDutyCycle > 0 ) {
+			brakeIntensity = 0;
+			if (old == 0 || this->state() == passive) {
+				holdIn(active, Time( static_cast<float>(MOTOR_INCREASE_TIMEOUT)));
+				speed ++;
+			} else {
+				holdIn(active, (nextChange()));
+			}
 		}
 	}
 
@@ -84,16 +90,24 @@ Model &ActualSpeedCalc::externalFunction( const ExternalMessage &msg ) {
 * Description: 
 ********************************************************************/
 Model &ActualSpeedCalc::internalFunction( const InternalMessage & ){
-	if(speed < motorDutyCycle) {
-		speed++;
-		holdIn(active, Time( static_cast<float>(MOTOR_INCREASE_TIMEOUT)));		
-	} else if (speed > motorDutyCycle) {
-		speed--;		
-		if(brakeIntensity == 0) {
+	if (brakeIntensity != 0) {
+		if(speed < 1) {
+			speed = 0;
 			passivate();
 		} else {
+			speed--;
 			float timeout = MAX_BRAKING_TIMEOUT * brakeIntensity;
 			holdIn(active, Time(timeout));
+		}
+	}else if(motorDutyCycle != 0) {
+		if(speed < motorDutyCycle) {
+			speed++;
+			holdIn(active, Time( static_cast<float>(MOTOR_INCREASE_TIMEOUT)));
+		} else if (speed == motorDutyCycle) {
+			passivate();
+		} else {
+			speed--;
+			holdIn(active, Time( static_cast<float>(MOTOR_INCREASE_TIMEOUT)));
 		}
 	} else {
 		passivate();

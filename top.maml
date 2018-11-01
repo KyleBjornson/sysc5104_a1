@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CDPlusPlus_Builder_Version_1.0.0>
+  <top>
+    <components> Car &#xd;</components>
+    <components> actualSpeedCalc@ActualSpeedCalc &#xd;</components>
+    <out> motorVoltage turnRequest brakeIntensity steerState&#xd;</out>
+    <in> laneDetection centerRange leftRange rightRange infrastructure gps&#xd;</in>
+    <Link> actualSpeed@ActualSpeedCalc speedIn@Car&#xd;</Link>
+    <Link> brakeIntensityOut@Car brakeIntensityIn@ActualSpeedCalc&#xd;</Link>
+    <Link> motorDutyCycleOut@Car motorDutyCycleIn@ActualSpeedCalc&#xd;</Link>
+    <Link/>
+  </top>
+  <actualSpeed/>
+  <Car>
+    <components> SpeedController&#xd;</components>
+    <out> motorDutyCycleOut brakeIntensityOut  motorVoltage turnRequest brakeIntensity steerState&#xd;</out>
+    <in> speedIn laneDetection centerRange leftRange rightRange infrastructure gps&#xd;</in>
+  </Car>
+  <SpeedController>
+    <components> desiredSpeedCalculator@DesiredSpeedCalculator&#xd;</components>
+    <components> speedDriver@SpeedDriver&#xd;</components>
+    <components> motorPwm@Pwm&#xd;</components>
+  </SpeedController>
+</CDPlusPlus_Builder_Version_1.0.0>

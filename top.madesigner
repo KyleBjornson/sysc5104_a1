@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns="http://www.example.org/DEVSModeler" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation">
+  <CoupledModelType xmi:id="_PqQLht4jEei1LL-K598Ykw" modelName="top" defined="true" sourceFileRelativePath="top.ma">
+    <ports xmi:type="CoupledPort" xmi:id="_PqQLh94jEei1LL-K598Ykw" portName="motorVoltage" portType="OUTPUT_PORT"/>
+    <ports xmi:type="CoupledPort" xmi:id="_PqQLiN4jEei1LL-K598Ykw" portName="turnRequest" portType="OUTPUT_PORT"/>
+    <ports xmi:type="CoupledPort" xmi:id="_PqQLid4jEei1LL-K598Ykw" portName="brakeIntensity" portType="OUTPUT_PORT"/>
+    <ports xmi:type="CoupledPort" xmi:id="_PqQLit4jEei1LL-K598Ykw" portName="steerState" portType="OUTPUT_PORT"/>
+    <ports xmi:type="CoupledPort" xmi:id="_PqQLi94jEei1LL-K598Ykw" portName="laneDetection"/>
+    <ports xmi:type="CoupledPort" xmi:id="_PqQLjN4jEei1LL-K598Ykw" portName="centerRange"/>
+    <ports xmi:type="CoupledPort" xmi:id="_PqQLjd4jEei1LL-K598Ykw" portName="leftRange"/>
+    <ports xmi:type="CoupledPort" xmi:id="_PqQLjt4jEei1LL-K598Ykw" portName="rightRange"/>
+    <ports xmi:type="CoupledPort" xmi:id="_PqQLj94jEei1LL-K598Ykw" portName="infrastructure"/>
+    <ports xmi:type="CoupledPort" xmi:id="_PqQLkN4jEei1LL-K598Ykw" portName="gps"/>
+    <coupledModels xmi:type="CoupledModelInstance" xmi:id="_PqQLkd4jEei1LL-K598Ykw" instanceName="Car">
+      <modelType xmi:type="CoupledModelType" xmi:id="_PqQLkt4jEei1LL-K598Ykw" modelName="Car">
+        <ports xmi:type="CoupledPort" xmi:id="_PqQLk94jEei1LL-K598Ykw" portName="motorDutyCycleOut" portType="OUTPUT_PORT" outgoingLinks="_PqQLtd4jEei1LL-K598Ykw"/>
+        <ports xmi:type="CoupledPort" xmi:id="_PqQLlN4jEei1LL-K598Ykw" portName="brakeIntensityOut" portType="OUTPUT_PORT" outgoingLinks="_PqQLtN4jEei1LL-K598Ykw"/>
+        <ports xmi:type="CoupledPort" xmi:id="_PqQLld4jEei1LL-K598Ykw" portName="speedIn" incomingLinks="_PqQLs94jEei1LL-K598Ykw"/>
+        <coupledModels xmi:type="CoupledModelInstance" xmi:id="_PqQLlt4jEei1LL-K598Ykw" instanceName="SpeedController">
+          <modelType xmi:type="CoupledModelType" xmi:id="_PqQLl94jEei1LL-K598Ykw" modelName="SpeedController">
+            <atomicModels xmi:type="AtomicModelInstance" xmi:id="_PqQLmN4jEei1LL-K598Ykw" instanceName="desiredSpeedCalculator">
+              <modelType xmi:type="CPPAtomicModelType" xmi:id="_PqQLmd4jEei1LL-K598Ykw" modelName="DesiredSpeedCalculator" defined="true" sourceFileRelativePath="desiredSpeedCalculator.cpp">
+                <ports xmi:type="InputAtomicPort" xmi:id="_PqQLmt4jEei1LL-K598Ykw" portName="leftRangeIn"/>
+                <ports xmi:type="InputAtomicPort" xmi:id="_PqQLm94jEei1LL-K598Ykw" portName="centerRangeIn"/>
+                <ports xmi:type="InputAtomicPort" xmi:id="_PqQLnN4jEei1LL-K598Ykw" portName="rightRangeIn"/>
+                <ports xmi:type="InputAtomicPort" xmi:id="_PqQLnd4jEei1LL-K598Ykw" portName="speedIn"/>
+                <ports xmi:type="InputAtomicPort" xmi:id="_PqQLnt4jEei1LL-K598Ykw" portName="odometerIn"/>
+                <ports xmi:type="InputAtomicPort" xmi:id="_PqQLn94jEei1LL-K598Ykw" portName="infrastructureIn"/>
+                <ports xmi:type="InputAtomicPort" xmi:id="_PqQLoN4jEei1LL-K598Ykw" portName="desiredSpeedReachedIn"/>
+                <ports xmi:type="OutputAtomicPort" xmi:id="_PqQLod4jEei1LL-K598Ykw" portName="desiredSpeedOut" portType="OUTPUT_PORT"/>
+              </modelType>
+            </atomicModels>
+            <atomicModels xmi:type="AtomicModelInstance" xmi:id="_PqQLot4jEei1LL-K598Ykw" instanceName="speedDriver">
+              <modelType xmi:type="CPPAtomicModelType" xmi:id="_PqQLo94jEei1LL-K598Ykw" modelName="SpeedDriver" defined="true" sourceFileRelativePath="speedDriver.cpp">
+                <ports xmi:type="InputAtomicPort" xmi:id="_PqQLpN4jEei1LL-K598Ykw" portName="desiredSpeedIn"/>
+                <ports xmi:type="InputAtomicPort" xmi:id="_PqQLpd4jEei1LL-K598Ykw" portName="currentSpeedIn"/>
+                <ports xmi:type="OutputAtomicPort" xmi:id="_PqQLpt4jEei1LL-K598Ykw" portName="motorSpeedOut" portType="OUTPUT_PORT"/>
+                <ports xmi:type="OutputAtomicPort" xmi:id="_PqQLp94jEei1LL-K598Ykw" portName="brakeIntensityOut" portType="OUTPUT_PORT"/>
+              </modelType>
+            </atomicModels>
+            <atomicModels xmi:type="AtomicModelInstance" xmi:id="_PqQLqN4jEei1LL-K598Ykw" instanceName="motorPwm">
+              <modelType xmi:type="CPPAtomicModelType" xmi:id="_PqQLqd4jEei1LL-K598Ykw" modelName="Pwm" defined="true" sourceFileRelativePath="pwm.cpp">
+                <ports xmi:type="InputAtomicPort" xmi:id="_PqQLqt4jEei1LL-K598Ykw" portName="dutyCycleIn"/>
+                <ports xmi:type="OutputAtomicPort" xmi:id="_PqQLq94jEei1LL-K598Ykw" portName="pwmStateOut" portType="OUTPUT_PORT"/>
+                <parameters xmi:type="AtomicModelTypeParameter" xmi:id="_PqQLrN4jEei1LL-K598Ykw" name="period"/>
+              </modelType>
+              <parameters xmi:type="AtomicModelInstanceParameter" xmi:id="_PqQLrd4jEei1LL-K598Ykw" name="period"/>
+            </atomicModels>
+          </modelType>
+        </coupledModels>
+      </modelType>
+    </coupledModels>
+    <atomicModels xmi:type="AtomicModelInstance" xmi:id="_PqQLrt4jEei1LL-K598Ykw" instanceName="actualSpeedCalc">
+      <modelType xmi:type="CPPAtomicModelType" xmi:id="_PqQLr94jEei1LL-K598Ykw" modelName="ActualSpeedCalc" defined="true" sourceFileRelativePath="actualSpeedCalc.cpp">
+        <ports xmi:type="InputAtomicPort" xmi:id="_PqQLsN4jEei1LL-K598Ykw" portName="brakeIntensityIn" incomingLinks="_PqQLtN4jEei1LL-K598Ykw"/>
+        <ports xmi:type="InputAtomicPort" xmi:id="_PqQLsd4jEei1LL-K598Ykw" portName="motorDutyCycleIn" incomingLinks="_PqQLtd4jEei1LL-K598Ykw"/>
+        <ports xmi:type="OutputAtomicPort" xmi:id="_PqQLst4jEei1LL-K598Ykw" portName="actualSpeed" portType="OUTPUT_PORT" outgoingLinks="_PqQLs94jEei1LL-K598Ykw"/>
+      </modelType>
+    </atomicModels>
+    <links xmi:type="CoupledLink" xmi:id="_PqQLs94jEei1LL-K598Ykw" target="_PqQLld4jEei1LL-K598Ykw" source="_PqQLst4jEei1LL-K598Ykw"/>
+    <links xmi:type="CoupledLink" xmi:id="_PqQLtN4jEei1LL-K598Ykw" target="_PqQLsN4jEei1LL-K598Ykw" source="_PqQLlN4jEei1LL-K598Ykw"/>
+    <links xmi:type="CoupledLink" xmi:id="_PqQLtd4jEei1LL-K598Ykw" target="_PqQLsd4jEei1LL-K598Ykw" source="_PqQLk94jEei1LL-K598Ykw"/>
+  </CoupledModelType>
+  <notation:Diagram xmi:id="_PqQLtt4jEei1LL-K598Ykw" type="DEVS" element="_PqQLht4jEei1LL-K598Ykw" name="top.madesigner" measurementUnit="Pixel">
+    <styles xmi:type="notation:DiagramStyle" xmi:id="_PqQLt94jEei1LL-K598Ykw"/>
+  </notation:Diagram>
+</xmi:XMI>
