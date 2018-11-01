@@ -67,8 +67,8 @@ Model &SpeedDriver::externalFunction( const ExternalMessage &msg ) {
 		if (interval < 0.1) {
 			interval = 0.1;
 		}
-		accelerationTimeout = Time(0, 0, int(timeout), int((timeout - int(timeout))*1000));
-		accelerationInterval = Time(0, 0, int(interval), int((interval - int(interval))*1000));
+		accelerationTimeout = Time(timeout);
+		accelerationInterval = Time(interval);
 
 		//Now deal with the new desiredSpeed
 		if (desiredSpeed < currentSpeed) {
@@ -126,6 +126,6 @@ Model &SpeedDriver::internalFunction( const InternalMessage & ){
 ********************************************************************/
 Model &SpeedDriver::outputFunction( const InternalMessage &msg ){
 	sendOutput(msg.time(), motorSpeedOut, motorSpeed);
-	sendOutput(msg.time(), brakeIntensityOut, brakeIntensity);
+	//sendOutput(msg.time(), brakeIntensityOut, brakeIntensity);
 	return *this ;
 }

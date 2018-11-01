@@ -54,8 +54,12 @@ Model &ActualSpeedCalc::externalFunction( const ExternalMessage &msg ) {
 		motorDutyCycle = 0;
 
 		if (this->state() == passive) {
-			float timeout = MAX_BRAKING_TIMEOUT * brakeIntensity;
-			holdIn(active, Time(timeout));
+			if (brakeIntensity == 0){
+				passivate();
+			} else {
+				float timeout = MAX_BRAKING_TIMEOUT * brakeIntensity;
+				holdIn(active, Time(timeout));
+			}
 		} else {
 			holdIn(active, (msg.time() - lastChange()));
 		}
@@ -85,8 +89,12 @@ Model &ActualSpeedCalc::internalFunction( const InternalMessage & ){
 		holdIn(active, Time( static_cast<float>(MOTOR_INCREASE_TIMEOUT)));		
 	} else if (speed > motorDutyCycle) {
 		speed--;		
-		float timeout = MAX_BRAKING_TIMEOUT * brakeIntensity;
-		holdIn(active, Time(timeout));
+		if(brakeIntensity == 0) {
+			passivate();
+		} else {
+			float timeout = MAX_BRAKING_TIMEOUT * brakeIntensity;
+			holdIn(active, Time(timeout));
+		}
 	} else {
 		passivate();
 	}
