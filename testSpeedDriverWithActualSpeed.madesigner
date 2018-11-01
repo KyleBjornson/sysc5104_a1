@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns="http://www.example.org/DEVSModeler" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation">
+  <CoupledModelType xmi:id="_moMZ0t4WEei1LL-K598Ykw" modelName="top" defined="true" sourceFileRelativePath="testSpeedDriverWithActualSpeed.ma">
+    <ports xmi:type="CoupledPort" xmi:id="_moMZ094WEei1LL-K598Ykw" portName="motorSpeedOut" portType="OUTPUT_PORT" incomingLinks="_moMZ594WEei1LL-K598Ykw"/>
+    <ports xmi:type="CoupledPort" xmi:id="_moMZ1N4WEei1LL-K598Ykw" portName="brakeIntensityOut" portType="OUTPUT_PORT" incomingLinks="_moMZ6N4WEei1LL-K598Ykw"/>
+    <ports xmi:type="CoupledPort" xmi:id="_moMZ1d4WEei1LL-K598Ykw" portName="actualSpeed" portType="OUTPUT_PORT" incomingLinks="_moMZ5t4WEei1LL-K598Ykw"/>
+    <ports xmi:type="CoupledPort" xmi:id="_moMZ1t4WEei1LL-K598Ykw" portName="desiredSpeedIn" outgoingLinks="_moMZ4t4WEei1LL-K598Ykw"/>
+    <atomicModels xmi:type="AtomicModelInstance" xmi:id="_moMZ194WEei1LL-K598Ykw" instanceName="speedDriver">
+      <modelType xmi:type="CPPAtomicModelType" xmi:id="_moMZ2N4WEei1LL-K598Ykw" modelName="SpeedDriver" defined="true" sourceFileRelativePath="speedDriver.cpp">
+        <ports xmi:type="InputAtomicPort" xmi:id="_moMZ2d4WEei1LL-K598Ykw" portName="desiredSpeedIn" incomingLinks="_moMZ4t4WEei1LL-K598Ykw"/>
+        <ports xmi:type="InputAtomicPort" xmi:id="_moMZ2t4WEei1LL-K598Ykw" portName="currentSpeedIn" incomingLinks="_moMZ494WEei1LL-K598Ykw"/>
+        <ports xmi:type="OutputAtomicPort" xmi:id="_moMZ294WEei1LL-K598Ykw" portName="motorSpeedOut" portType="OUTPUT_PORT" outgoingLinks="_moMZ5N4WEei1LL-K598Ykw _moMZ594WEei1LL-K598Ykw"/>
+        <ports xmi:type="OutputAtomicPort" xmi:id="_moMZ3N4WEei1LL-K598Ykw" portName="brakeIntensityOut" portType="OUTPUT_PORT" outgoingLinks="_moMZ5d4WEei1LL-K598Ykw _moMZ6N4WEei1LL-K598Ykw"/>
+      </modelType>
+    </atomicModels>
+    <atomicModels xmi:type="AtomicModelInstance" xmi:id="_moMZ3d4WEei1LL-K598Ykw" instanceName="actualSpeedCalc">
+      <modelType xmi:type="CPPAtomicModelType" xmi:id="_moMZ3t4WEei1LL-K598Ykw" modelName="ActualSpeedCalc" defined="true" sourceFileRelativePath="actualSpeedCalc.cpp">
+        <ports xmi:type="InputAtomicPort" xmi:id="_moMZ394WEei1LL-K598Ykw" portName="brakeIntensityIn" incomingLinks="_moMZ5d4WEei1LL-K598Ykw"/>
+        <ports xmi:type="InputAtomicPort" xmi:id="_moMZ4N4WEei1LL-K598Ykw" portName="motorDutyCycleIn" incomingLinks="_moMZ5N4WEei1LL-K598Ykw"/>
+        <ports xmi:type="OutputAtomicPort" xmi:id="_moMZ4d4WEei1LL-K598Ykw" portName="actualSpeed" portType="OUTPUT_PORT" outgoingLinks="_moMZ494WEei1LL-K598Ykw _moMZ5t4WEei1LL-K598Ykw"/>
+      </modelType>
+    </atomicModels>
+    <links xmi:type="CoupledLink" xmi:id="_moMZ4t4WEei1LL-K598Ykw" target="_moMZ2d4WEei1LL-K598Ykw" source="_moMZ1t4WEei1LL-K598Ykw"/>
+    <links xmi:type="CoupledLink" xmi:id="_moMZ494WEei1LL-K598Ykw" target="_moMZ2t4WEei1LL-K598Ykw" source="_moMZ4d4WEei1LL-K598Ykw"/>
+    <links xmi:type="CoupledLink" xmi:id="_moMZ5N4WEei1LL-K598Ykw" target="_moMZ4N4WEei1LL-K598Ykw" source="_moMZ294WEei1LL-K598Ykw"/>
+    <links xmi:type="CoupledLink" xmi:id="_moMZ5d4WEei1LL-K598Ykw" target="_moMZ394WEei1LL-K598Ykw" source="_moMZ3N4WEei1LL-K598Ykw"/>
+    <links xmi:type="CoupledLink" xmi:id="_moMZ5t4WEei1LL-K598Ykw" target="_moMZ1d4WEei1LL-K598Ykw" source="_moMZ4d4WEei1LL-K598Ykw"/>
+    <links xmi:type="CoupledLink" xmi:id="_moMZ594WEei1LL-K598Ykw" target="_moMZ094WEei1LL-K598Ykw" source="_moMZ294WEei1LL-K598Ykw"/>
+    <links xmi:type="CoupledLink" xmi:id="_moMZ6N4WEei1LL-K598Ykw" target="_moMZ1N4WEei1LL-K598Ykw" source="_moMZ3N4WEei1LL-K598Ykw"/>
+  </CoupledModelType>
+  <notation:Diagram xmi:id="_moMZ6d4WEei1LL-K598Ykw" type="DEVS" element="_moMZ0t4WEei1LL-K598Ykw" name="testSpeedDriverWithActualSpeed.madesigner" measurementUnit="Pixel">
+    <styles xmi:type="notation:DiagramStyle" xmi:id="_moMZ6t4WEei1LL-K598Ykw"/>
+  </notation:Diagram>
+</xmi:XMI>

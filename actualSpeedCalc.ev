@@ -4,3 +4,5 @@
 00:04:00:00 brakeIntensityIn 100
 00:06:00:00 motorDutyCycleIn 140
 00:07:00:00 brakeIntensityIn 110
+00:10:00:00 brakeIntensityIn 10
+00:10:30:00 motorDutyCycleIn 50
