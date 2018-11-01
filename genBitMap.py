@@ -11,14 +11,15 @@ else:
 	if sys.argv[1] == "-gSpeed":
 		speed = (int) (sys.argv[2])
 		distance = (int) (sys.argv[3])
-		speedBitMap = (speed & 0xF) << 24
-		distanceBitMap = distance & 0x0FFF
+		speedBitMap = (speed & 0xFF) << 24
+		distanceBitMap = distance & 0x00FFFFFF
 		x = distanceBitMap + speedBitMap
 		print(x)	
 	elif sys.argv[1] == "-dSpeed":
 		x = (int) (sys.argv[2])
-		speed = x & 0xF000 >> 24
-		distance =x & 0x0FFF
+		speed = (x & 0xFF000000) >> 24
+		print(speed)
+		distance = x & 0x00FFFFFF
 		print("speed: ", speed)
 		print("distance: ", distance)
 	elif sys.argv[1] == "-gSign":
