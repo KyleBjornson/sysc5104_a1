@@ -19,6 +19,7 @@
 /** public functions **/
 #define DESIRED_SPEED_MASK(msg) ((msg >> 24) & 0x000000FF)
 #define DISTANCE_MASK(msg)  (msg & 0x00FFFFFF)
+float prevIntensity = 0;
 
 /*******************************************************************
 * Function Name: SpeedDriver
@@ -126,6 +127,9 @@ Model &SpeedDriver::internalFunction( const InternalMessage & ){
 ********************************************************************/
 Model &SpeedDriver::outputFunction( const InternalMessage &msg ){
 	sendOutput(msg.time(), motorSpeedOut, motorSpeed);
-	//sendOutput(msg.time(), brakeIntensityOut, brakeIntensity);
+	if (prevIntensity != brakeIntensity) {
+		prevIntensity = brakeIntensity;
+		sendOutput(msg.time(), brakeIntensityOut, brakeIntensity);
+	}
 	return *this ;
 }
