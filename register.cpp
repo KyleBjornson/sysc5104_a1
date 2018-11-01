@@ -20,6 +20,7 @@
 #include "odometer.h"
 #include "steerDriver.h"
 #include "speedDriver.h"
+#include "desiredSpeedCalculator.h"
 
 
 void MainSimulator::registerNewAtomics()
@@ -30,5 +31,6 @@ void MainSimulator::registerNewAtomics()
 	SingleModelAdm::Instance().registerAtomic( NewAtomicFunction<Odometer>(), "Odometer" ) ;
 	SingleModelAdm::Instance().registerAtomic( NewAtomicFunction<SteerDriver>(), "SteerDriver" ) ;
 	SingleModelAdm::Instance().registerAtomic( NewAtomicFunction<SpeedDriver>(), "SpeedDriver" ) ;
+	SingleModelAdm::Instance().registerAtomic( NewAtomicFunction<DesiredSpeedCalculator>(), "DesiredSpeedCalculator" ) ;
 }
 

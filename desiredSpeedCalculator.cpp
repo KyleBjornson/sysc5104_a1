@@ -137,9 +137,9 @@ Model &DesiredSpeedCalculator::externalFunction( const ExternalMessage &msg ) {
 	} else if (msg.port() == infrastructureIn) {
 		if (this->state() == passive) {
 			int temp = float(msg.value());
-			int x = (temp & 0xC000) >> (30);
+			int x = (temp & 0xC0000000) >> (30);
 			nextSign.type = ((x == 0) ? NONE : ((x == 1) ? STOP : ((x == 2) ? YIELD : SPEED))); //top 2 bits are used for type
-			nextSign.value = ((temp & 0x3E00) >> (25))*5; //next 5 for the value if needed (in km/5hr to preserve bits)
+			nextSign.value = ((temp & 0x3E000000) >> (25))*5; //next 5 for the value if needed (in km/5hr to preserve bits)
 			nextSign.distance = ((temp& 0x01FF)); //distance in m using the remianing bits
 			nextSign.distance += odometer;
 			switch(nextSign.type) {
@@ -267,10 +267,10 @@ Model &DesiredSpeedCalculator::internalFunction( const InternalMessage & ){
 Model &DesiredSpeedCalculator::outputFunction( const InternalMessage &msg) {
 	int out;
 	if(emergencySpeed.value != 0 || emergencySpeed.distance != 0) {
-		out = ((emergencySpeed.value & 0xF000) << 8) + (emergencySpeed.distance & 0x0FFF);
+		out = ((emergencySpeed.value & 0xF) << 24) + (emergencySpeed.distance & 0x0FFF);
 		sendOutput( msg.time(), desiredSpeedOut, out);
 	} else {
-		out = ((desiredSpeed.value & 0xF000) << 8) + (desiredSpeed.distance & 0x0FFF);
+		out = ((desiredSpeed.value & 0xF) << 24) + (desiredSpeed.distance & 0x0FFF);
 		sendOutput( msg.time(), desiredSpeedOut, out);
 	}
 	return *this ;
