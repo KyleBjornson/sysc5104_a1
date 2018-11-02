@@ -1,9 +1,5 @@
-00:00:05:00 speedIn 5
-00:00:06:00 speedIn 10
-00:00:07:00 wheelDirectionIn 10
-00:00:08:00 speedIn 20
-00:00:30:00 wheelDirectionIn -10
-00:01:00:00 wheelDirectionIn -30
-00:01:01:00 speedIn 80
-00:02:00:00 speedIn 20
-00:02:00:00 wheelDirectionIn 25
+00:00:5:00 speedIn 100
+00:00:10:00 wheelDirectionIn 10
+00:00:25:00 speedIn 10
+00:00:30:00 wheelDirectionIn 0
+00:01:10:00 wheelDirectionIn 10
