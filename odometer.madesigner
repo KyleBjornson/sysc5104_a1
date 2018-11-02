@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns="http://www.example.org/DEVSModeler" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation">
+  <CoupledModelType xmi:id="_qGjbcN40Eei1LL-K598Ykw" modelName="top" defined="true" sourceFileRelativePath="odometer.ma">
+    <ports xmi:type="CoupledPort" xmi:id="_qGjbcd40Eei1LL-K598Ykw" portName="distanceTraveled" portType="OUTPUT_PORT" incomingLinks="_qGjbeN40Eei1LL-K598Ykw"/>
+    <ports xmi:type="CoupledPort" xmi:id="_qGjbct40Eei1LL-K598Ykw" portName="speedIn" outgoingLinks="_qGjbd940Eei1LL-K598Ykw"/>
+    <atomicModels xmi:type="AtomicModelInstance" xmi:id="_qGjbc940Eei1LL-K598Ykw" instanceName="odometer">
+      <modelType xmi:type="CPPAtomicModelType" xmi:id="_qGjbdN40Eei1LL-K598Ykw" modelName="Odometer" defined="true" sourceFileRelativePath="odometer.cpp">
+        <ports xmi:type="InputAtomicPort" xmi:id="_qGjbdd40Eei1LL-K598Ykw" portName="speedIn" incomingLinks="_qGjbd940Eei1LL-K598Ykw"/>
+        <ports xmi:type="OutputAtomicPort" xmi:id="_qGjbdt40Eei1LL-K598Ykw" portName="distanceTraveled" portType="OUTPUT_PORT" outgoingLinks="_qGjbeN40Eei1LL-K598Ykw"/>
+      </modelType>
+    </atomicModels>
+    <links xmi:type="CoupledLink" xmi:id="_qGjbd940Eei1LL-K598Ykw" target="_qGjbdd40Eei1LL-K598Ykw" source="_qGjbct40Eei1LL-K598Ykw"/>
+    <links xmi:type="CoupledLink" xmi:id="_qGjbeN40Eei1LL-K598Ykw" target="_qGjbcd40Eei1LL-K598Ykw" source="_qGjbdt40Eei1LL-K598Ykw"/>
+  </CoupledModelType>
+  <notation:Diagram xmi:id="_qGjbed40Eei1LL-K598Ykw" type="DEVS" element="_qGjbcN40Eei1LL-K598Ykw" name="odometer.madesigner" measurementUnit="Pixel">
+    <styles xmi:type="notation:DiagramStyle" xmi:id="_qGjbet40Eei1LL-K598Ykw"/>
+  </notation:Diagram>
+</xmi:XMI>
