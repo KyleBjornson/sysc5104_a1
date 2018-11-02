@@ -18,6 +18,7 @@
 #define DEBUG 0
 /** public functions **/
 bool braking = true;
+float previousSpeed = -1;
 
 
 /*******************************************************************
@@ -237,6 +238,9 @@ Model &ActualSpeedCalc::internalFunction( const InternalMessage & ){
 * Description: 
 ********************************************************************/
 Model &ActualSpeedCalc::outputFunction( const InternalMessage &msg ){
-	sendOutput( msg.time(), actualSpeed, speed);
+	if (speed != previousSpeed) {
+		previousSpeed = speed;
+		sendOutput( msg.time(), actualSpeed, speed);
+	}
 	return *this ;
 }
