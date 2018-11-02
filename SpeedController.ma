@@ -30,7 +30,8 @@ in : speedIn centerRange leftRange rightRange infrastructure distanceTraveledOut
 Link : leftRange@SpeedController leftRangeIn@desiredSpeedCalculator  
 Link : centerRange@SpeedController centerRangeIn@desiredSpeedCalculator  
 Link : rightRange@SpeedController rightRangeIn@desiredSpeedCalculator  
-Link : speedIn@SpeedController speedIn@desiredSpeedCalculator  
+Link : speedIn@SpeedController speedIn@desiredSpeedCalculator   
+Link : speedIn@SpeedController currentSpeedIn@speedDriver  
 Link : distanceTraveledOut@SpeedController odometerIn@desiredSpeedCalculator  
 Link : infrastructure@SpeedController infrastructureIn@desiredSpeedCalculator  
 Link : desiredSpeedOut@desiredSpeedCalculator desiredSpeedIn@speedDriver  

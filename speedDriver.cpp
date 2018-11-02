@@ -15,12 +15,14 @@
 #include "message.h"    // class ExternalMessage, InternalMessage
 #include "mainsimu.h"   // MainSimulator::Instance().getParameter( ... )
 #include <stdlib.h>
+#define DEBUG 1
 
 /** public functions **/
 #define DESIRED_SPEED_MASK(msg) ((msg >> 24) & 0x000000FF)
 #define DISTANCE_MASK(msg)  (msg & 0x00FFFFFF)
 float prevIntensity = 0;
 int prevMotor = 0;
+bool desSpeed = false;
 
 /*******************************************************************
 * Function Name: SpeedDriver
@@ -32,6 +34,7 @@ SpeedDriver::SpeedDriver( const string &name )
 , currentSpeedIn( addInputPort( "currentSpeedIn" ) )
 , motorSpeedOut( addOutputPort( "motorSpeedOut" ) )
 , brakeIntensityOut( addOutputPort( "brakeIntensityOut" ) )
+, desiredSpeedReached(addOutputPort( "desiredSpeedReached"))
 {
 	currentSpeed = 0;
 	brakeIntensity = 0;
@@ -61,7 +64,9 @@ Model &SpeedDriver::externalFunction( const ExternalMessage &msg ) {
 	if (msg.port() == desiredSpeedIn) {
 		desiredSpeed = DESIRED_SPEED_MASK(int (msg.value()));
 		distance = DISTANCE_MASK(int (msg.value()));
-
+		#if DEBUG
+			std::cout << "New desired speed motorSpeed: " << motorSpeed << " desiredSpeed: " << desiredSpeed << "\n";
+		#endif
 		float timeout = (distance)/(3.6*(desiredSpeed + currentSpeed));
 		float interval = timeout / abs(desiredSpeed - currentSpeed);
 
@@ -85,20 +90,27 @@ Model &SpeedDriver::externalFunction( const ExternalMessage &msg ) {
 
 		} else if (desiredSpeed > currentSpeed) {
 			brakeIntensity = 0;
-			desiredSpeed++;
+			currentSpeed++;
 			holdIn(active, Time::Zero);  //Deal with this now
 
-		} else { //No change, do nothing..
-			this->passivate();
+		} else {
+			desSpeed = true;
+			holdIn(active, Time::Zero);
 		}
 
 	} else if (msg.port() == currentSpeedIn) {
 		currentSpeed = int (msg.value());
+#if DEBUG
+	std::cout << "[SD] New current speed " << currentSpeed << "\n";
+#endif
 		if(this->state() != passive) {
 			holdIn(active, nextChange());
 		} else {
+			#if DEBUG
+				std::cout << "New current speed while passive - motor: " << motorSpeed << " currentSpeed: " << desiredSpeed << "\n";
+			#endif
 			if(currentSpeed == desiredSpeed){
-				motorSpeed = desiredSpeed;
+				desSpeed = true;
 				holdIn(active, Time::Zero);
 			} else {
 				passivate();
@@ -114,11 +126,17 @@ Model &SpeedDriver::externalFunction( const ExternalMessage &msg ) {
 * Description: 
 ********************************************************************/
 Model &SpeedDriver::internalFunction( const InternalMessage & ){
+	#if DEBUG
+		std::cout << "Speed driver dint, motorSpeed: " << motorSpeed << " desiredSpeed: " << desiredSpeed << "\n";
+	#endif
 
-	if (desiredSpeed-1 > motorSpeed) {
+	if (desiredSpeed > motorSpeed) {
 		motorSpeed++;
 		holdIn(active, Time(accelerationInterval));
 	} else {
+		#if DEBUG
+			std::cout << "Not accelerating, passivate\n";
+		#endif
 		/* We have either met our desired speed or we are slowing down, passivate.*/
 		this->passivate();
 	}
@@ -133,9 +151,22 @@ Model &SpeedDriver::outputFunction( const InternalMessage &msg ){
 	if (prevIntensity != brakeIntensity) {
 		prevIntensity = brakeIntensity;
 		sendOutput(msg.time(), brakeIntensityOut, brakeIntensity);
+		#if DEBUG
+			std::cout << "Sending new brake intensity\n";
+		#endif
 	} else if(prevMotor != motorSpeed) {
 		prevMotor = motorSpeed;
 		sendOutput(msg.time(), motorSpeedOut, motorSpeed);
+		#if DEBUG
+			std::cout << "Sending new motor speed\n";
+		#endif
+	}
+	if (desSpeed){
+		#if DEBUG
+			std::cout << "Sending desired speed reached\n";
+		#endif
+		sendOutput(msg.time(), desiredSpeedReached, 1);
+		desSpeed = false;
 	}
 	return *this ;
 }

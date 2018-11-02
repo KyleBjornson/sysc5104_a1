@@ -52,12 +52,12 @@ private:
 	const Port &infrastructureIn;
 	const Port &desiredSpeedReachedIn;
 	Port &desiredSpeedOut;
-	float leftRange;
-	float centerRange;
-	float rightRange;
-	float speedLimit;
-	float odometer;
-	float speed;
+	int leftRange;
+	int centerRange;
+	int rightRange;
+	int speedLimit;
+	int odometer;
+	int speed;
 	SpeedInstruction desiredSpeed;
 	SpeedInstruction emergencySpeed;
 	Sign nextSign;

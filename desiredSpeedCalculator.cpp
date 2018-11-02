@@ -14,7 +14,8 @@
 #include "desiredSpeedCalculator.h"      // class DesiredSpeedCalculator
 #include "message.h"    // class ExternalMessage, InternalMessage
 #include "mainsimu.h"   // MainSimulator::Instance().getParameter( ... )
-
+#define DEBUG 1
+#define SUPRESS_ODO 1
 /** public functions **/
 
 /*******************************************************************
@@ -117,6 +118,9 @@ Model &DesiredSpeedCalculator::externalFunction( const ExternalMessage &msg ) {
 			holdIn(active, (msg.time() - lastChange()));
 		}
 	} else if (msg.port() == speedIn) {
+		#if DEBUG
+			std::cout << "Got speedIn " << float(msg.value()) <<"\n";
+		#endif
 		speed = float(msg.value());
 		if (this->state() == passive) {
 			passivate();
@@ -125,6 +129,9 @@ Model &DesiredSpeedCalculator::externalFunction( const ExternalMessage &msg ) {
 		}
 	} else if (msg.port() == odometerIn) {
 		odometer = float(msg.value());
+		#if DEBUG & !SUPRESS_ODO
+			std::cout << "Got odometerIn " << float(msg.value()) <<"\n";
+		#endif
 		if (this->state() == passive) {
 			if(emergencySpeed.value == 0 && emergencySpeed.distance == 0 && odometer == nextSign.distance) {
 				holdIn(active, Time::Zero);
@@ -135,13 +142,19 @@ Model &DesiredSpeedCalculator::externalFunction( const ExternalMessage &msg ) {
 			holdIn(active, (msg.time() - lastChange()));
 		}
 	} else if (msg.port() == infrastructureIn) {
+		unsigned long temp = msg.value();
+		#if DEBUG
+			std::cout << "Got infrastructureIn " << temp <<"\n";
+		#endif
 		if (this->state() == passive) {
-			int temp = float(msg.value());
 			int x = (temp & 0xC0000000) >> (30);
 			nextSign.type = ((x == 0) ? NONE : ((x == 1) ? STOP : ((x == 2) ? YIELD : SPEED))); //top 2 bits are used for type
 			nextSign.value = ((temp & 0x3E000000) >> (25))*5; //next 5 for the value if needed (in km/5hr to preserve bits)
 			nextSign.distance = ((temp& 0x01FF)); //distance in m using the remianing bits
 			nextSign.distance += odometer;
+			#if DEBUG
+				std::cout << "The msg contents are: " << nextSign.type << ", " << nextSign.value << ", "<< nextSign.distance << "\n";
+			#endif
 			switch(nextSign.type) {
 				case NONE: 
 					desiredSpeed.value = speedLimit;
@@ -167,10 +180,19 @@ Model &DesiredSpeedCalculator::externalFunction( const ExternalMessage &msg ) {
 			holdIn(active, (msg.time() - lastChange()));
 		}
 	} else if (msg.port() == desiredSpeedReachedIn) {
+		#if DEBUG
+			std::cout << "We reached the desired speed: " << speed << "\n";
+		#endif
 		if(emergencySpeed.value != 0 || emergencySpeed.distance != 0) {
+			#if DEBUG
+				std::cout << "Speed was being controlled by LiDAR, wait until the path is clear " << "\n";
+			#endif
 			/* IF the lidar obstacle detection is controlling the car, wait until path is clear */
 			passivate();
 		} else {
+		#if DEBUG
+			std::cout << "Speed was being controlled by infrastructure. Next Sign: "  << nextSign.type << ", " << nextSign.value << ", "<< nextSign.distance << speed << "\n";
+		#endif
 			switch(nextSign.type) {
 				case NONE: 
 					/*Should never happen */
@@ -267,10 +289,16 @@ Model &DesiredSpeedCalculator::internalFunction( const InternalMessage & ){
 Model &DesiredSpeedCalculator::outputFunction( const InternalMessage &msg) {
 	int out;
 	if(emergencySpeed.value != 0 || emergencySpeed.distance != 0) {
-		out = ((emergencySpeed.value & 0xF) << 24) + (emergencySpeed.distance & 0x0FFF);
+		#if DEBUG
+			std::cout << "Sending new desired speed " << emergencySpeed.value << "\n";
+		#endif
+		out = ((emergencySpeed.value & 0xFF) << 24) + (emergencySpeed.distance & 0x00FFFFFF);
 		sendOutput( msg.time(), desiredSpeedOut, out);
 	} else {
-		out = ((desiredSpeed.value & 0xF) << 24) + (desiredSpeed.distance & 0x0FFF);
+		#if DEBUG
+			std::cout << "Sending new desired speed " << desiredSpeed.value << "\n";
+		#endif
+		out = ((desiredSpeed.value & 0xFF) << 24) + (desiredSpeed.distance & 0x00FFFFFF);
 		sendOutput( msg.time(), desiredSpeedOut, out);
 	}
 	return *this ;

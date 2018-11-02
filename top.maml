@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CDPlusPlus_Builder_Version_1.0.0>
   <top>
-    <components> Car &#xd;</components>
+    <components> CarController &#xd;</components>
     <components> actualSpeedCalc@ActualSpeedCalc &#xd;</components>
     <components> motorPwm@Pwm&#xd;</components>
     <components> servoPwm@Pwm&#xd;</components>
     <components> odometer@Odometer&#xd;</components>
     <out> motorVoltage turnRequest brakeIntensity servoVoltage&#xd;</out>
     <in> laneDetection centerRange leftRange rightRange infrastructure gps&#xd;</in>
-    <Link> actualSpeed@ActualSpeedCalc speedIn@Car&#xd;</Link>
-    <Link> brakeIntensity@Car brakeIntensityIn@ActualSpeedCalc&#xd;</Link>
-    <Link> motorDutyCycleOut@Car motorDutyCycleIn@ActualSpeedCalc&#xd;</Link>
+    <Link> actualSpeed@ActualSpeedCalc speedIn@CarController&#xd;</Link>
+    <Link> brakeIntensity@CarController brakeIntensityIn@ActualSpeedCalc&#xd;</Link>
+    <Link> motorDutyCycleOut@CarController motorDutyCycleIn@ActualSpeedCalc&#xd;</Link>
     <Link> actualSpeed@ActualSpeedCalc speedIn@Odometer &#xd;</Link>
-    <Link> distanceTraveled@Odometer  distanceTraveledOut@Car&#xd;</Link>
-    <Link> motorDutyCycleOut@Car dutyCycleIn@motorPwm&#xd;</Link>
+    <Link> distanceTraveled@Odometer  distanceTraveledOut@CarController&#xd;</Link>
+    <Link> motorDutyCycleOut@CarController dutyCycleIn@motorPwm&#xd;</Link>
     <Link> pwmStateOut@motorPwm motorVoltage&#xd;</Link>
-    <Link> servoDutyCycle@Car dutyCycleIn@servoPwm&#xd;</Link>
+    <Link> servoDutyCycle@CarController dutyCycleIn@servoPwm&#xd;</Link>
     <Link> pwmStateOut@servoPwm servoVoltage&#xd;</Link>
-    <Link> turnRequest@Car turnRequest&#xd;</Link>
-    <Link> brakeIntensity@Car brakeIntensity&#xd;</Link>
-    <Link> laneDetection laneDetection@Car&#xd;</Link>
-    <Link> centerRange centerRange@Car&#xd;</Link>
-    <Link> leftRange leftRange@Car&#xd;</Link>
-    <Link> rightRange rightRange@Car&#xd;</Link>
-    <Link> infrastructure infrastructure@Car&#xd;</Link>
-    <Link> gps gps@Car&#xd;</Link>
+    <Link> turnRequest@CarController turnRequest&#xd;</Link>
+    <Link> brakeIntensity@CarController brakeIntensity&#xd;</Link>
+    <Link> laneDetection laneDetection@CarController&#xd;</Link>
+    <Link> centerRange centerRange@CarController&#xd;</Link>
+    <Link> leftRange leftRange@CarController&#xd;</Link>
+    <Link> rightRange rightRange@CarController&#xd;</Link>
+    <Link> infrastructure infrastructure@CarController&#xd;</Link>
+    <Link> gps gps@CarController&#xd;</Link>
   </top>
   <motorPwm>
     <period> 100&#xd;</period>
@@ -32,25 +32,25 @@
   <servoPwm>
     <period> 10&#xd;</period>
   </servoPwm>
-  <Car>
+  <CarController>
     <components> SpeedController&#xd;</components>
     <components> DirectionController&#xd;</components>
     <out> motorDutyCycleOut turnRequest brakeIntensity servoDutyCycle&#xd;</out>
     <in> speedIn laneDetection centerRange leftRange rightRange infrastructure gps distanceTraveledOut&#xd;</in>
-    <Link> leftRange@Car leftRange@SpeedController &#xd;</Link>
-    <Link> centerRange@Car centerRange@SpeedController &#xd;</Link>
-    <Link> rightRange@Car rightRange@SpeedController &#xd;</Link>
-    <Link> speedIn@Car speedIn@SpeedController &#xd;</Link>
-    <Link> distanceTraveledOut@Car distanceTraveledOut@SpeedController  &#xd;</Link>
-    <Link> infrastructure@Car infrastructure@SpeedController   &#xd;</Link>
-    <Link> brakeIntensity@SpeedController brakeIntensity@Car&#xd;</Link>
-    <Link> motorDutyCycleOut@SpeedController motorDutyCycleOut@Car&#xd;</Link>
-    <Link> laneDetection@Car laneDetection@DirectionController&#xd;</Link>
-    <Link> gps@Car gps@DirectionController&#xd;</Link>
-    <Link> speedIn@Car speedIn@DirectionController&#xd;</Link>
-    <Link> turnRequest@DirectionController turnRequest@Car&#xd;</Link>
-    <Link> servoDutyCycle@DirectionController servoDutyCycle@Car&#xd;</Link>
-  </Car>
+    <Link> leftRange@CarController leftRange@SpeedController &#xd;</Link>
+    <Link> centerRange@CarController centerRange@SpeedController &#xd;</Link>
+    <Link> rightRange@CarController rightRange@SpeedController &#xd;</Link>
+    <Link> speedIn@CarController speedIn@SpeedController &#xd;</Link>
+    <Link> distanceTraveledOut@CarController distanceTraveledOut@SpeedController  &#xd;</Link>
+    <Link> infrastructure@CarController infrastructure@SpeedController   &#xd;</Link>
+    <Link> brakeIntensity@SpeedController brakeIntensity@CarController&#xd;</Link>
+    <Link> motorDutyCycleOut@SpeedController motorDutyCycleOut@CarController&#xd;</Link>
+    <Link> laneDetection@CarController laneDetection@DirectionController&#xd;</Link>
+    <Link> gps@CarController gps@DirectionController&#xd;</Link>
+    <Link> speedIn@CarController speedIn@DirectionController&#xd;</Link>
+    <Link> turnRequest@DirectionController turnRequest@CarController&#xd;</Link>
+    <Link> servoDutyCycle@DirectionController servoDutyCycle@CarController&#xd;</Link>
+  </CarController>
   <SpeedController>
     <components> desiredSpeedCalculator@DesiredSpeedCalculator&#xd;</components>
     <components> speedDriver@SpeedDriver&#xd;</components>
@@ -60,6 +60,7 @@
     <Link> centerRange@SpeedController centerRangeIn@desiredSpeedCalculator  &#xd;</Link>
     <Link> rightRange@SpeedController rightRangeIn@desiredSpeedCalculator  &#xd;</Link>
     <Link> speedIn@SpeedController speedIn@desiredSpeedCalculator  &#xd;</Link>
+    <Link> speedIn@SpeedController currentSpeedIn@speedDriver  &#xd;</Link>
     <Link> distanceTraveledOut@SpeedController odometerIn@desiredSpeedCalculator  &#xd;</Link>
     <Link> infrastructure@SpeedController infrastructureIn@desiredSpeedCalculator  &#xd;</Link>
     <Link> desiredSpeedOut@desiredSpeedCalculator desiredSpeedIn@speedDriver  &#xd;</Link>

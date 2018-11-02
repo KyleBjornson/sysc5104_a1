@@ -59,12 +59,14 @@ Link : leftRange@SpeedController leftRangeIn@desiredSpeedCalculator
 Link : centerRange@SpeedController centerRangeIn@desiredSpeedCalculator  
 Link : rightRange@SpeedController rightRangeIn@desiredSpeedCalculator  
 Link : speedIn@SpeedController speedIn@desiredSpeedCalculator  
+Link : speedIn@SpeedController currentSpeedIn@speedDriver  
 Link : distanceTraveledOut@SpeedController odometerIn@desiredSpeedCalculator  
 Link : infrastructure@SpeedController infrastructureIn@desiredSpeedCalculator  
 Link : desiredSpeedOut@desiredSpeedCalculator desiredSpeedIn@speedDriver  
 Link : desiredSpeedReached@speedDriver desiredSpeedReachedIn@desiredSpeedCalculator
 Link : motorSpeedOut@speedDriver motorDutyCycleOut@SpeedController
 Link : brakeIntensityOut@speedDriver brakeIntensity@SpeedController
+
 
 [DirectionController]
 components : gpsQueue@GpsQueue

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CDPlusPlus_Builder_Version_1.0.0>
+  <top>
+    <components> SpeedController&#xd;</components>
+    <components> actualSpeedCalc@ActualSpeedCalc &#xd;</components>
+    <components> odometer@Odometer&#xd;</components>
+    <out> motorDutyCycleOut brakeIntensity actualSpeed distanceTraveledOut&#xd;</out>
+    <in> centerRange leftRange rightRange infrastructure&#xd;</in>
+    <Link> actualSpeed@ActualSpeedCalc speedIn@SpeedController&#xd;</Link>
+    <Link> actualSpeed@ActualSpeedCalc actualSpeed&#xd;</Link>
+    <Link> brakeIntensity@SpeedController brakeIntensityIn@ActualSpeedCalc&#xd;</Link>
+    <Link> motorDutyCycleOut@SpeedController motorDutyCycleIn@ActualSpeedCalc&#xd;</Link>
+    <Link> actualSpeed@ActualSpeedCalc speedIn@Odometer &#xd;</Link>
+    <Link> distanceTraveled@Odometer  distanceTraveledOut@SpeedController&#xd;</Link>
+    <Link> distanceTraveled@Odometer  distanceTraveledOut&#xd;</Link>
+    <Link> motorDutyCycleOut@SpeedController motorDutyCycleOut&#xd;</Link>
+    <Link> brakeIntensity@SpeedController brakeIntensity&#xd;</Link>
+    <Link> centerRange centerRange@SpeedController&#xd;</Link>
+    <Link> leftRange leftRange@SpeedController&#xd;</Link>
+    <Link> rightRange rightRange@SpeedController&#xd;</Link>
+    <Link> infrastructure infrastructure@SpeedController&#xd;</Link>
+  </top>
+  <SpeedController>
+    <components> desiredSpeedCalculator@DesiredSpeedCalculator&#xd;</components>
+    <components> speedDriver@SpeedDriver&#xd;</components>
+    <out> motorDutyCycleOut  brakeIntensity &#xd;</out>
+    <in> speedIn centerRange leftRange rightRange infrastructure distanceTraveledOut&#xd;</in>
+    <Link> leftRange@SpeedController leftRangeIn@desiredSpeedCalculator  &#xd;</Link>
+    <Link> centerRange@SpeedController centerRangeIn@desiredSpeedCalculator  &#xd;</Link>
+    <Link> rightRange@SpeedController rightRangeIn@desiredSpeedCalculator  &#xd;</Link>
+    <Link> speedIn@SpeedController speedIn@desiredSpeedCalculator   &#xd;</Link>
+    <Link> speedIn@SpeedController currentSpeedIn@speedDriver  &#xd;</Link>
+    <Link> distanceTraveledOut@SpeedController odometerIn@desiredSpeedCalculator  &#xd;</Link>
+    <Link> infrastructure@SpeedController infrastructureIn@desiredSpeedCalculator  &#xd;</Link>
+    <Link> desiredSpeedOut@desiredSpeedCalculator desiredSpeedIn@speedDriver  &#xd;</Link>
+    <Link> desiredSpeedReached@speedDriver desiredSpeedReachedIn@desiredSpeedCalculator&#xd;</Link>
+    <Link> motorSpeedOut@speedDriver motorDutyCycleOut@SpeedController&#xd;</Link>
+    <Link> brakeIntensityOut@speedDriver brakeIntensity@SpeedController&#xd;</Link>
+  </SpeedController>
+</CDPlusPlus_Builder_Version_1.0.0>

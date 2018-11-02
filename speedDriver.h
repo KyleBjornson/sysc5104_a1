@@ -35,6 +35,7 @@ private:
 	const Port &currentSpeedIn;
 	Port &motorSpeedOut;
 	Port &brakeIntensityOut;
+	Port &desiredSpeedReached;
 
 	float currentSpeed;
 	float brakeIntensity;
