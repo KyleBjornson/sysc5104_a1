@@ -11,8 +11,8 @@
     <Link> actualSpeed@ActualSpeedCalc speedIn@CarController&#xd;</Link>
     <Link> brakeIntensity@CarController brakeIntensityIn@ActualSpeedCalc&#xd;</Link>
     <Link> motorDutyCycleOut@CarController motorDutyCycleIn@ActualSpeedCalc&#xd;</Link>
-    <Link> actualSpeed@ActualSpeedCalc speedIn@Odometer &#xd;</Link>
-    <Link> distanceTraveled@Odometer  distanceTraveledOut@CarController&#xd;</Link>
+    <Link> actualSpeed@ActualSpeedCalc speedIn@odometer &#xd;</Link>
+    <Link> distanceTraveled@odometer  distanceTraveledOut@CarController&#xd;</Link>
     <Link> motorDutyCycleOut@CarController dutyCycleIn@motorPwm&#xd;</Link>
     <Link> pwmStateOut@motorPwm motorVoltage&#xd;</Link>
     <Link> servoDutyCycle@CarController dutyCycleIn@servoPwm&#xd;</Link>
@@ -59,7 +59,7 @@
     <Link> leftRange@SpeedController leftRangeIn@desiredSpeedCalculator  &#xd;</Link>
     <Link> centerRange@SpeedController centerRangeIn@desiredSpeedCalculator  &#xd;</Link>
     <Link> rightRange@SpeedController rightRangeIn@desiredSpeedCalculator  &#xd;</Link>
-    <Link> speedIn@SpeedController speedIn@desiredSpeedCalculator  &#xd;</Link>
+    <Link> speedIn@SpeedController speedIn@desiredSpeedCalculator   &#xd;</Link>
     <Link> speedIn@SpeedController currentSpeedIn@speedDriver  &#xd;</Link>
     <Link> distanceTraveledOut@SpeedController odometerIn@desiredSpeedCalculator  &#xd;</Link>
     <Link> infrastructure@SpeedController infrastructureIn@desiredSpeedCalculator  &#xd;</Link>

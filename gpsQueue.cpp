@@ -15,7 +15,7 @@
 #include "message.h"    // class ExternalMessage, InternalMessage
 #include "mainsimu.h"   // MainSimulator::Instance().getParameter( ... )
 #include <iostream.h>
-#define DEBUG 1
+#define DEBUG 0
 
 /** public functions **/
 
