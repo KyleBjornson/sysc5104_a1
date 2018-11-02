@@ -14,7 +14,7 @@
 #define __ACTUAL_SPEED_CALC_H
 
 #include "atomic.h"     // class Atomic
-#define MAX_BRAKING_TIMEOUT 100*0.036
+#define MAX_BRAKING_TIMEOUT 0.036
 #define MOTOR_INCREASE_TIMEOUT 0.1
 
 class ActualSpeedCalc : public Atomic
