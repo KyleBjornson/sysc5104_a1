@@ -9,8 +9,8 @@ in : laneDetection centerRange leftRange rightRange infrastructure gps
 Link : actualSpeed@ActualSpeedCalc speedIn@CarController
 Link : brakeIntensity@CarController brakeIntensityIn@ActualSpeedCalc
 Link : motorDutyCycleOut@CarController motorDutyCycleIn@ActualSpeedCalc
-Link : actualSpeed@ActualSpeedCalc speedIn@Odometer 
-Link : distanceTraveled@Odometer  distanceTraveledOut@CarController
+Link : actualSpeed@ActualSpeedCalc speedIn@odometer 
+Link : distanceTraveled@odometer  distanceTraveledOut@CarController
 Link : motorDutyCycleOut@CarController dutyCycleIn@motorPwm
 Link : pwmStateOut@motorPwm motorVoltage
 Link : servoDutyCycle@CarController dutyCycleIn@servoPwm
@@ -58,7 +58,7 @@ in : speedIn centerRange leftRange rightRange infrastructure distanceTraveledOut
 Link : leftRange@SpeedController leftRangeIn@desiredSpeedCalculator  
 Link : centerRange@SpeedController centerRangeIn@desiredSpeedCalculator  
 Link : rightRange@SpeedController rightRangeIn@desiredSpeedCalculator  
-Link : speedIn@SpeedController speedIn@desiredSpeedCalculator  
+Link : speedIn@SpeedController speedIn@desiredSpeedCalculator   
 Link : speedIn@SpeedController currentSpeedIn@speedDriver  
 Link : distanceTraveledOut@SpeedController odometerIn@desiredSpeedCalculator  
 Link : infrastructure@SpeedController infrastructureIn@desiredSpeedCalculator  
@@ -79,3 +79,4 @@ Link : turnRequest@gpsQueue turnRequest@DirectionController
 Link : laneDetection@DirectionController wheelDirectionIn@steerDriver
 Link : speedIn@DirectionController speedIn@steerDriver
 Link : servoDutyCycle@SteerDriver servoDutyCycle@DirectionController
+

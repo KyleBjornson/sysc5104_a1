@@ -1,0 +1,15 @@
+00:00:05:00 centerRange 60
+00:00:05:01 leftRange 50
+00:00:05:02 rightRange 50
+00:00:5:03 infrastructure 50226
+00:00:07:00 gps 33268
+00:00:10:00 laneDetection 10
+00:00:30:00 gps 200
+00:00:30:00 laneDetection 0
+00:00:40:00 infrastructure 59692
+00:05:00:00 gps 32969
+00:06:00:00 gps 50
+00:12:00:00 gps 32969
+00:15:00:00 gps 500
+00:01:10:00 laneDetection 10
+00:01:50:00 laneDetection -10
