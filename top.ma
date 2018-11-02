@@ -1,28 +1,28 @@
 [top]
-components : Car 
+components : CarController 
 components : actualSpeedCalc@ActualSpeedCalc 
 components : motorPwm@Pwm
 components : servoPwm@Pwm
 components : odometer@Odometer
 out : motorVoltage turnRequest brakeIntensity servoVoltage
 in : laneDetection centerRange leftRange rightRange infrastructure gps
-Link : actualSpeed@ActualSpeedCalc speedIn@Car
-Link : brakeIntensity@Car brakeIntensityIn@ActualSpeedCalc
-Link : motorDutyCycleOut@Car motorDutyCycleIn@ActualSpeedCalc
+Link : actualSpeed@ActualSpeedCalc speedIn@CarController
+Link : brakeIntensity@CarController brakeIntensityIn@ActualSpeedCalc
+Link : motorDutyCycleOut@CarController motorDutyCycleIn@ActualSpeedCalc
 Link : actualSpeed@ActualSpeedCalc speedIn@Odometer 
-Link : distanceTraveled@Odometer  distanceTraveledOut@Car
-Link : motorDutyCycleOut@Car dutyCycleIn@motorPwm
+Link : distanceTraveled@Odometer  distanceTraveledOut@CarController
+Link : motorDutyCycleOut@CarController dutyCycleIn@motorPwm
 Link : pwmStateOut@motorPwm motorVoltage
-Link : servoDutyCycle@Car dutyCycleIn@servoPwm
+Link : servoDutyCycle@CarController dutyCycleIn@servoPwm
 Link : pwmStateOut@servoPwm servoVoltage
-Link : turnRequest@Car turnRequest
-Link : brakeIntensity@Car brakeIntensity
-Link : laneDetection laneDetection@Car
-Link : centerRange centerRange@Car
-Link : leftRange leftRange@Car
-Link : rightRange rightRange@Car
-Link : infrastructure infrastructure@Car
-Link : gps gps@Car
+Link : turnRequest@CarController turnRequest
+Link : brakeIntensity@CarController brakeIntensity
+Link : laneDetection laneDetection@CarController
+Link : centerRange centerRange@CarController
+Link : leftRange leftRange@CarController
+Link : rightRange rightRange@CarController
+Link : infrastructure infrastructure@CarController
+Link : gps gps@CarController
 
 [motorPwm]
 period : 100
@@ -30,24 +30,24 @@ period : 100
 [servoPwm]
 period : 10
 
-[Car]
+[CarController]
 components : SpeedController
 components : DirectionController
 out : motorDutyCycleOut turnRequest brakeIntensity servoDutyCycle
 in : speedIn laneDetection centerRange leftRange rightRange infrastructure gps distanceTraveledOut
-Link : leftRange@Car leftRange@SpeedController 
-Link : centerRange@Car centerRange@SpeedController 
-Link : rightRange@Car rightRange@SpeedController 
-Link : speedIn@Car speedIn@SpeedController 
-Link : distanceTraveledOut@Car distanceTraveledOut@SpeedController  
-Link : infrastructure@Car infrastructure@SpeedController   
-Link : brakeIntensity@SpeedController brakeIntensity@Car
-Link : motorDutyCycleOut@SpeedController motorDutyCycleOut@Car
-Link : laneDetection@Car laneDetection@DirectionController
-Link : gps@Car gps@DirectionController
-Link : speedIn@Car speedIn@DirectionController
-Link : turnRequest@DirectionController turnRequest@Car
-Link : servoDutyCycle@DirectionController servoDutyCycle@Car
+Link : leftRange@CarController leftRange@SpeedController 
+Link : centerRange@CarController centerRange@SpeedController 
+Link : rightRange@CarController rightRange@SpeedController 
+Link : speedIn@CarController speedIn@SpeedController 
+Link : distanceTraveledOut@CarController distanceTraveledOut@SpeedController  
+Link : infrastructure@CarController infrastructure@SpeedController   
+Link : brakeIntensity@SpeedController brakeIntensity@CarController
+Link : motorDutyCycleOut@SpeedController motorDutyCycleOut@CarController
+Link : laneDetection@CarController laneDetection@DirectionController
+Link : gps@CarController gps@DirectionController
+Link : speedIn@CarController speedIn@DirectionController
+Link : turnRequest@DirectionController turnRequest@CarController
+Link : servoDutyCycle@DirectionController servoDutyCycle@CarController
 
 
 [SpeedController]
