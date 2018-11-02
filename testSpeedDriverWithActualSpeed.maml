@@ -3,7 +3,8 @@
   <top>
     <components> speedDriver@SpeedDriver &#xd;</components>
     <components> actualSpeedCalc@ActualSpeedCalc&#xd;</components>
-    <out> motorSpeedOut brakeIntensityOut actualSpeed  &#xd;</out>
+    <components> odometer@Odometer &#xd;</components>
+    <out> motorSpeedOut brakeIntensityOut actualSpeed distanceTraveledOut &#xd;</out>
     <in> desiredSpeedIn  &#xd;</in>
     <Link> desiredSpeedIn desiredSpeedIn@speedDriver&#xd;</Link>
     <Link> actualSpeed@ActualSpeedCalc currentSpeedIn@speedDriver&#xd;</Link>
@@ -12,6 +13,8 @@
     <Link> actualSpeed@ActualSpeedCalc  actualSpeed&#xd;</Link>
     <Link> motorSpeedOut@speedDriver motorSpeedOut&#xd;</Link>
     <Link> brakeIntensityOut@speedDriver brakeIntensityOut&#xd;</Link>
+    <Link> actualSpeed@ActualSpeedCalc speedIn@Odometer &#xd;</Link>
+    <Link> distanceTraveled@Odometer  distanceTraveledOut&#xd;</Link>
   </top>
   <speedDriver/>
   <actualSpeedCalc/>

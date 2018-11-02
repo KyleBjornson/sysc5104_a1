@@ -50,7 +50,7 @@ Model &Odometer::externalFunction( const ExternalMessage &msg ) {
 		float x = float(msg.value())/3.6;
 		if (this->state() == passive) {
 			if(x == 0) passivate();
-			holdIn(active, Time( static_cast<float>(partOfMeterLeft/x)));
+			else holdIn(active, Time( static_cast<float>(partOfMeterLeft/x)));
 		} else {
 			partOfMeterLeft -= ((msg.time().asMsecs()  - lastChange().asMsecs()) / 1000) / secondsToTravelOneMeter;
 			if(x <= 0) {

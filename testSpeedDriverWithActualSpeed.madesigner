@@ -1,34 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns="http://www.example.org/DEVSModeler" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation">
-  <CoupledModelType xmi:id="_f7Jbw95SEeie1JCoeHtgUg" modelName="top" defined="true" sourceFileRelativePath="testSpeedDriverWithActualSpeed.ma">
-    <ports xmi:type="CoupledPort" xmi:id="_f7JbxN5SEeie1JCoeHtgUg" portName="motorSpeedOut" portType="OUTPUT_PORT" incomingLinks="_f7Jb2N5SEeie1JCoeHtgUg"/>
-    <ports xmi:type="CoupledPort" xmi:id="_f7Jbxd5SEeie1JCoeHtgUg" portName="brakeIntensityOut" portType="OUTPUT_PORT" incomingLinks="_f7Jb2d5SEeie1JCoeHtgUg"/>
-    <ports xmi:type="CoupledPort" xmi:id="_f7Jbxt5SEeie1JCoeHtgUg" portName="actualSpeed" portType="OUTPUT_PORT" incomingLinks="_f7Jb195SEeie1JCoeHtgUg"/>
-    <ports xmi:type="CoupledPort" xmi:id="_f7Jbx95SEeie1JCoeHtgUg" portName="desiredSpeedIn" outgoingLinks="_f7Jb095SEeie1JCoeHtgUg"/>
-    <atomicModels xmi:type="AtomicModelInstance" xmi:id="_f7JbyN5SEeie1JCoeHtgUg" instanceName="speedDriver">
-      <modelType xmi:type="CPPAtomicModelType" xmi:id="_f7Jbyd5SEeie1JCoeHtgUg" modelName="SpeedDriver" defined="true" sourceFileRelativePath="speedDriver.cpp">
-        <ports xmi:type="InputAtomicPort" xmi:id="_f7Jbyt5SEeie1JCoeHtgUg" portName="desiredSpeedIn" incomingLinks="_f7Jb095SEeie1JCoeHtgUg"/>
-        <ports xmi:type="InputAtomicPort" xmi:id="_f7Jby95SEeie1JCoeHtgUg" portName="currentSpeedIn" incomingLinks="_f7Jb1N5SEeie1JCoeHtgUg"/>
-        <ports xmi:type="OutputAtomicPort" xmi:id="_f7JbzN5SEeie1JCoeHtgUg" portName="motorSpeedOut" portType="OUTPUT_PORT" outgoingLinks="_f7Jb1d5SEeie1JCoeHtgUg _f7Jb2N5SEeie1JCoeHtgUg"/>
-        <ports xmi:type="OutputAtomicPort" xmi:id="_f7Jbzd5SEeie1JCoeHtgUg" portName="brakeIntensityOut" portType="OUTPUT_PORT" outgoingLinks="_f7Jb1t5SEeie1JCoeHtgUg _f7Jb2d5SEeie1JCoeHtgUg"/>
+  <CoupledModelType xmi:id="_bKX-8t5TEeie1JCoeHtgUg" modelName="top" defined="true" sourceFileRelativePath="testSpeedDriverWithActualSpeed.ma">
+    <ports xmi:type="CoupledPort" xmi:id="_bKX-895TEeie1JCoeHtgUg" portName="motorSpeedOut" portType="OUTPUT_PORT" incomingLinks="_bKX_DN5TEeie1JCoeHtgUg"/>
+    <ports xmi:type="CoupledPort" xmi:id="_bKX-9N5TEeie1JCoeHtgUg" portName="brakeIntensityOut" portType="OUTPUT_PORT" incomingLinks="_bKX_Dd5TEeie1JCoeHtgUg"/>
+    <ports xmi:type="CoupledPort" xmi:id="_bKX-9d5TEeie1JCoeHtgUg" portName="actualSpeed" portType="OUTPUT_PORT" incomingLinks="_bKX_C95TEeie1JCoeHtgUg"/>
+    <ports xmi:type="CoupledPort" xmi:id="_bKX-9t5TEeie1JCoeHtgUg" portName="distanceTraveledOut" portType="OUTPUT_PORT" incomingLinks="_bKX_D95TEeie1JCoeHtgUg"/>
+    <ports xmi:type="CoupledPort" xmi:id="_bKX-995TEeie1JCoeHtgUg" portName="desiredSpeedIn" outgoingLinks="_bKX_B95TEeie1JCoeHtgUg"/>
+    <atomicModels xmi:type="AtomicModelInstance" xmi:id="_bKX--N5TEeie1JCoeHtgUg" instanceName="speedDriver">
+      <modelType xmi:type="CPPAtomicModelType" xmi:id="_bKX--d5TEeie1JCoeHtgUg" modelName="SpeedDriver" defined="true" sourceFileRelativePath="speedDriver.cpp">
+        <ports xmi:type="InputAtomicPort" xmi:id="_bKX--t5TEeie1JCoeHtgUg" portName="desiredSpeedIn" incomingLinks="_bKX_B95TEeie1JCoeHtgUg"/>
+        <ports xmi:type="InputAtomicPort" xmi:id="_bKX--95TEeie1JCoeHtgUg" portName="currentSpeedIn" incomingLinks="_bKX_CN5TEeie1JCoeHtgUg"/>
+        <ports xmi:type="OutputAtomicPort" xmi:id="_bKX-_N5TEeie1JCoeHtgUg" portName="motorSpeedOut" portType="OUTPUT_PORT" outgoingLinks="_bKX_Cd5TEeie1JCoeHtgUg _bKX_DN5TEeie1JCoeHtgUg"/>
+        <ports xmi:type="OutputAtomicPort" xmi:id="_bKX-_d5TEeie1JCoeHtgUg" portName="brakeIntensityOut" portType="OUTPUT_PORT" outgoingLinks="_bKX_Ct5TEeie1JCoeHtgUg _bKX_Dd5TEeie1JCoeHtgUg"/>
       </modelType>
     </atomicModels>
-    <atomicModels xmi:type="AtomicModelInstance" xmi:id="_f7Jbzt5SEeie1JCoeHtgUg" instanceName="actualSpeedCalc">
-      <modelType xmi:type="CPPAtomicModelType" xmi:id="_f7Jbz95SEeie1JCoeHtgUg" modelName="ActualSpeedCalc" defined="true" sourceFileRelativePath="actualSpeedCalc.cpp">
-        <ports xmi:type="InputAtomicPort" xmi:id="_f7Jb0N5SEeie1JCoeHtgUg" portName="brakeIntensityIn" incomingLinks="_f7Jb1t5SEeie1JCoeHtgUg"/>
-        <ports xmi:type="InputAtomicPort" xmi:id="_f7Jb0d5SEeie1JCoeHtgUg" portName="motorDutyCycleIn" incomingLinks="_f7Jb1d5SEeie1JCoeHtgUg"/>
-        <ports xmi:type="OutputAtomicPort" xmi:id="_f7Jb0t5SEeie1JCoeHtgUg" portName="actualSpeed" portType="OUTPUT_PORT" outgoingLinks="_f7Jb1N5SEeie1JCoeHtgUg _f7Jb195SEeie1JCoeHtgUg"/>
+    <atomicModels xmi:type="AtomicModelInstance" xmi:id="_bKX-_t5TEeie1JCoeHtgUg" instanceName="actualSpeedCalc">
+      <modelType xmi:type="CPPAtomicModelType" xmi:id="_bKX-_95TEeie1JCoeHtgUg" modelName="ActualSpeedCalc" defined="true" sourceFileRelativePath="actualSpeedCalc.cpp">
+        <ports xmi:type="InputAtomicPort" xmi:id="_bKX_AN5TEeie1JCoeHtgUg" portName="brakeIntensityIn" incomingLinks="_bKX_Ct5TEeie1JCoeHtgUg"/>
+        <ports xmi:type="InputAtomicPort" xmi:id="_bKX_Ad5TEeie1JCoeHtgUg" portName="motorDutyCycleIn" incomingLinks="_bKX_Cd5TEeie1JCoeHtgUg"/>
+        <ports xmi:type="OutputAtomicPort" xmi:id="_bKX_At5TEeie1JCoeHtgUg" portName="actualSpeed" portType="OUTPUT_PORT" outgoingLinks="_bKX_CN5TEeie1JCoeHtgUg _bKX_C95TEeie1JCoeHtgUg _bKX_Dt5TEeie1JCoeHtgUg"/>
       </modelType>
     </atomicModels>
-    <links xmi:type="CoupledLink" xmi:id="_f7Jb095SEeie1JCoeHtgUg" target="_f7Jbyt5SEeie1JCoeHtgUg" source="_f7Jbx95SEeie1JCoeHtgUg"/>
-    <links xmi:type="CoupledLink" xmi:id="_f7Jb1N5SEeie1JCoeHtgUg" target="_f7Jby95SEeie1JCoeHtgUg" source="_f7Jb0t5SEeie1JCoeHtgUg"/>
-    <links xmi:type="CoupledLink" xmi:id="_f7Jb1d5SEeie1JCoeHtgUg" target="_f7Jb0d5SEeie1JCoeHtgUg" source="_f7JbzN5SEeie1JCoeHtgUg"/>
-    <links xmi:type="CoupledLink" xmi:id="_f7Jb1t5SEeie1JCoeHtgUg" target="_f7Jb0N5SEeie1JCoeHtgUg" source="_f7Jbzd5SEeie1JCoeHtgUg"/>
-    <links xmi:type="CoupledLink" xmi:id="_f7Jb195SEeie1JCoeHtgUg" target="_f7Jbxt5SEeie1JCoeHtgUg" source="_f7Jb0t5SEeie1JCoeHtgUg"/>
-    <links xmi:type="CoupledLink" xmi:id="_f7Jb2N5SEeie1JCoeHtgUg" target="_f7JbxN5SEeie1JCoeHtgUg" source="_f7JbzN5SEeie1JCoeHtgUg"/>
-    <links xmi:type="CoupledLink" xmi:id="_f7Jb2d5SEeie1JCoeHtgUg" target="_f7Jbxd5SEeie1JCoeHtgUg" source="_f7Jbzd5SEeie1JCoeHtgUg"/>
+    <atomicModels xmi:type="AtomicModelInstance" xmi:id="_bKX_A95TEeie1JCoeHtgUg" instanceName="odometer">
+      <modelType xmi:type="CPPAtomicModelType" xmi:id="_bKX_BN5TEeie1JCoeHtgUg" modelName="Odometer" defined="true" sourceFileRelativePath="odometer.cpp">
+        <ports xmi:type="InputAtomicPort" xmi:id="_bKX_Bd5TEeie1JCoeHtgUg" portName="speedIn" incomingLinks="_bKX_Dt5TEeie1JCoeHtgUg"/>
+        <ports xmi:type="OutputAtomicPort" xmi:id="_bKX_Bt5TEeie1JCoeHtgUg" portName="distanceTraveled" portType="OUTPUT_PORT" outgoingLinks="_bKX_D95TEeie1JCoeHtgUg"/>
+      </modelType>
+    </atomicModels>
+    <links xmi:type="CoupledLink" xmi:id="_bKX_B95TEeie1JCoeHtgUg" target="_bKX--t5TEeie1JCoeHtgUg" source="_bKX-995TEeie1JCoeHtgUg"/>
+    <links xmi:type="CoupledLink" xmi:id="_bKX_CN5TEeie1JCoeHtgUg" target="_bKX--95TEeie1JCoeHtgUg" source="_bKX_At5TEeie1JCoeHtgUg"/>
+    <links xmi:type="CoupledLink" xmi:id="_bKX_Cd5TEeie1JCoeHtgUg" target="_bKX_Ad5TEeie1JCoeHtgUg" source="_bKX-_N5TEeie1JCoeHtgUg"/>
+    <links xmi:type="CoupledLink" xmi:id="_bKX_Ct5TEeie1JCoeHtgUg" target="_bKX_AN5TEeie1JCoeHtgUg" source="_bKX-_d5TEeie1JCoeHtgUg"/>
+    <links xmi:type="CoupledLink" xmi:id="_bKX_C95TEeie1JCoeHtgUg" target="_bKX-9d5TEeie1JCoeHtgUg" source="_bKX_At5TEeie1JCoeHtgUg"/>
+    <links xmi:type="CoupledLink" xmi:id="_bKX_DN5TEeie1JCoeHtgUg" target="_bKX-895TEeie1JCoeHtgUg" source="_bKX-_N5TEeie1JCoeHtgUg"/>
+    <links xmi:type="CoupledLink" xmi:id="_bKX_Dd5TEeie1JCoeHtgUg" target="_bKX-9N5TEeie1JCoeHtgUg" source="_bKX-_d5TEeie1JCoeHtgUg"/>
+    <links xmi:type="CoupledLink" xmi:id="_bKX_Dt5TEeie1JCoeHtgUg" target="_bKX_Bd5TEeie1JCoeHtgUg" source="_bKX_At5TEeie1JCoeHtgUg"/>
+    <links xmi:type="CoupledLink" xmi:id="_bKX_D95TEeie1JCoeHtgUg" target="_bKX-9t5TEeie1JCoeHtgUg" source="_bKX_Bt5TEeie1JCoeHtgUg"/>
   </CoupledModelType>
-  <notation:Diagram xmi:id="_f7Jb2t5SEeie1JCoeHtgUg" type="DEVS" element="_f7Jbw95SEeie1JCoeHtgUg" name="testSpeedDriverWithActualSpeed.madesigner" measurementUnit="Pixel">
-    <styles xmi:type="notation:DiagramStyle" xmi:id="_f7Jb295SEeie1JCoeHtgUg"/>
+  <notation:Diagram xmi:id="_bKX_EN5TEeie1JCoeHtgUg" type="DEVS" element="_bKX-8t5TEeie1JCoeHtgUg" name="testSpeedDriverWithActualSpeed.madesigner" measurementUnit="Pixel">
+    <styles xmi:type="notation:DiagramStyle" xmi:id="_bKX_Ed5TEeie1JCoeHtgUg"/>
   </notation:Diagram>
 </xmi:XMI>
