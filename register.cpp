@@ -2,19 +2,17 @@
 *
 *  DESCRIPTION: Simulator::registerNewAtomics()
 *
-*  AUTHOR:
+*  AUTHORS: Ben Earle, Kyle Bjornson
 *
-*  STUDENT#:
+*  EMAIL: ben.earle@cmail.carleton.ca, kyle.bjornson@cmail.carleton.ca
 *
-*  EMAIL:
-*
-*  DATE:
+*  DATE: November 2nd, 2018
 *
 *******************************************************************/
 
 #include "modeladm.h" 
 #include "mainsimu.h"
-#include "pwm.h"        // class Sender
+#include "pwm.h"
 #include "actualSpeedCalc.h"
 #include "gpsQueue.h"
 #include "odometer.h"

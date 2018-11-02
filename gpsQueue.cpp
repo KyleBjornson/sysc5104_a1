@@ -1,12 +1,12 @@
 /*******************************************************************
 *
-*  DESCRIPTION: Atomic Model Sender
+*  DESCRIPTION: Atomic Model GPSQueue
 *
-*  AUTHOR:
+*  AUTHORS: Ben Earle, Kyle Bjornson
 *
-*  EMAIL:
+*  EMAIL: ben.earle@cmail.carleton.ca, kyle.bjornson@cmail.carleton.ca
 *
-*  DATE:
+*  DATE: November 2nd, 2018
 *
 *******************************************************************/
 
@@ -27,7 +27,6 @@
 
 /*******************************************************************
 * Function Name: GpsQueue
-* Description: 
 ********************************************************************/
 GpsQueue::GpsQueue( const string &name )
 : Atomic( name )
@@ -42,8 +41,6 @@ GpsQueue::GpsQueue( const string &name )
 
 /*******************************************************************
 * Function Name: initFunction
-* Description: Resetea la lista
-* Precondition: El tiempo del proximo evento interno es Infinito
 ********************************************************************/
 Model &GpsQueue::initFunction() {
 	this-> passivate();
@@ -52,7 +49,6 @@ Model &GpsQueue::initFunction() {
 
 /*******************************************************************
 * Function Name: externalFunction
-* Description: 
 ********************************************************************/
 Model &GpsQueue::externalFunction( const ExternalMessage &msg ) {
 	if( msg.port() == gpsInstructionIn) {
@@ -127,7 +123,6 @@ Model &GpsQueue::externalFunction( const ExternalMessage &msg ) {
 
 /*******************************************************************
 * Function Name: internalFunction
-* Description: 
 ********************************************************************/
 Model &GpsQueue::internalFunction( const InternalMessage & ){
 	/*We just output vout, select timeout related to the current output*/
@@ -152,7 +147,6 @@ Model &GpsQueue::internalFunction( const InternalMessage & ){
 
 /*******************************************************************
 * Function Name: outputFunction
-* Description: 
 ********************************************************************/
 Model &GpsQueue::outputFunction( const InternalMessage &msg ){
 	#if DEBUG

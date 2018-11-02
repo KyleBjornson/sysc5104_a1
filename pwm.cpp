@@ -1,12 +1,12 @@
 /*******************************************************************
 *
-*  DESCRIPTION: Atomic Model Sender
+*  DESCRIPTION: Atomic Model PWM
 *
-*  AUTHOR:
+*  AUTHORS: Ben Earle, Kyle Bjornson
 *
-*  EMAIL:
+*  EMAIL: ben.earle@cmail.carleton.ca, kyle.bjornson@cmail.carleton.ca
 *
-*  DATE:
+*  DATE: November 2nd, 2018
 *
 *******************************************************************/
 
@@ -21,7 +21,6 @@
 
 /*******************************************************************
 * Function Name: Pwm
-* Description: 
 ********************************************************************/
 Pwm::Pwm( const string &name )
 : Atomic( name )
@@ -38,8 +37,6 @@ Pwm::Pwm( const string &name )
 
 /*******************************************************************
 * Function Name: initFunction
-* Description: Resetea la lista
-* Precondition: El tiempo del proximo evento interno es Infinito
 ********************************************************************/
 Model &Pwm::initFunction()
 {
@@ -49,12 +46,7 @@ Model &Pwm::initFunction()
 
 /*******************************************************************
 * Function Name: externalFunction
-* Description: 
 ********************************************************************/
-//		double seconds = period*dutyCycle;
-//		int s = int(seconds);
-//		int ms = int((seconds % s) *1000);
-//		timeout = new Time(0,0,s,ms);
 Model &Pwm::externalFunction( const ExternalMessage &msg )
 {
 	if( msg.port() == dutyCycleIn) {
@@ -77,7 +69,6 @@ Model &Pwm::externalFunction( const ExternalMessage &msg )
 
 /*******************************************************************
 * Function Name: internalFunction
-* Description: 
 ********************************************************************/
 Model &Pwm::internalFunction( const InternalMessage & ){
 	/*We just output vout, select timeout related to the current output*/
@@ -93,7 +84,6 @@ Model &Pwm::internalFunction( const InternalMessage & ){
 
 /*******************************************************************
 * Function Name: outputFunction
-* Description: 
 ********************************************************************/
 Model &Pwm::outputFunction( const InternalMessage &msg ){
 	sendOutput( msg.time(), pwmStateOut, vout);
