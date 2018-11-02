@@ -21,6 +21,7 @@
 #define DISTANCE_MASK(msg)  (msg & 0x00FFFFFF)
 float prevIntensity = 0;
 int prevMotor = 0;
+
 /*******************************************************************
 * Function Name: SpeedDriver
 * Description: 
@@ -73,7 +74,7 @@ Model &SpeedDriver::externalFunction( const ExternalMessage &msg ) {
 
 		//Now deal with the new desiredSpeed
 		if (desiredSpeed < currentSpeed) {
-
+			motorSpeed = 0;
 			brakeIntensity = ((abs(currentSpeed - desiredSpeed))*(abs(currentSpeed - desiredSpeed))) / (200*distance);
 
 			//Intensity is bounded to <= 1
@@ -93,7 +94,16 @@ Model &SpeedDriver::externalFunction( const ExternalMessage &msg ) {
 
 	} else if (msg.port() == currentSpeedIn) {
 		currentSpeed = int (msg.value());
-		holdIn(active, nextChange());
+		if(this->state() != passive) {
+			holdIn(active, nextChange());
+		} else {
+			if(currentSpeed == desiredSpeed){
+				motorSpeed = desiredSpeed;
+				holdIn(active, Time::Zero);
+			} else {
+				passivate();
+			}
+		}
 	}
 
 	return *this;
@@ -105,19 +115,13 @@ Model &SpeedDriver::externalFunction( const ExternalMessage &msg ) {
 ********************************************************************/
 Model &SpeedDriver::internalFunction( const InternalMessage & ){
 
-	if (desiredSpeed > motorSpeed) {
+	if (desiredSpeed-1 > motorSpeed) {
 		motorSpeed++;
 		holdIn(active, Time(accelerationInterval));
-
-	} else if (motorSpeed < currentSpeed) {
-		motorSpeed = 0; //Coast
-		holdIn(active, Time(accelerationTimeout));
-
 	} else {
-		brakeIntensity = 0;
+		/* We have either met our desired speed or we are slowing down, passivate.*/
 		this->passivate();
 	}
-
 	return *this ;
 }
 
@@ -128,7 +132,6 @@ Model &SpeedDriver::internalFunction( const InternalMessage & ){
 Model &SpeedDriver::outputFunction( const InternalMessage &msg ){
 	if (prevIntensity != brakeIntensity) {
 		prevIntensity = brakeIntensity;
-		prevMotor = -1;
 		sendOutput(msg.time(), brakeIntensityOut, brakeIntensity);
 	} else if(prevMotor != motorSpeed) {
 		prevMotor = motorSpeed;

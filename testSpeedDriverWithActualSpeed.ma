@@ -2,7 +2,7 @@
 components : speedDriver@SpeedDriver 
 components : actualSpeedCalc@ActualSpeedCalc
 components : odometer@Odometer 
-out : motorSpeedOut brakeIntensityOut actualSpeed distanceTraveledOut 
+out : motorSpeedOut brakeIntensityOut actualSpeed  
 in : desiredSpeedIn  
 Link : desiredSpeedIn desiredSpeedIn@speedDriver
 Link : actualSpeed@ActualSpeedCalc currentSpeedIn@speedDriver
@@ -12,7 +12,7 @@ Link : actualSpeed@ActualSpeedCalc  actualSpeed
 Link : motorSpeedOut@speedDriver motorSpeedOut
 Link : brakeIntensityOut@speedDriver brakeIntensityOut
 Link : actualSpeed@ActualSpeedCalc speedIn@Odometer 
-Link : distanceTraveled@Odometer  distanceTraveledOut
+
 
 [speedDriver]
 
