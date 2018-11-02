@@ -51,6 +51,7 @@ Model &ActualSpeedCalc::initFunction() {
 Model &ActualSpeedCalc::externalFunction( const ExternalMessage &msg ) {
 	if( msg.port() == brakeIntensityIn) {
 		float x = float(msg.value());
+		std::cout << "Got BrakeIntensityIn " <<x <<"\n";
 		if(x > 1) x = 1;
 		if(x <= 0.05) {
 			if (braking || x > 0){
@@ -65,11 +66,15 @@ Model &ActualSpeedCalc::externalFunction( const ExternalMessage &msg ) {
 		if(x > 0){
 			motorDutyCycle = 0;
 			if(this->state() == passive){
+				std::cout << "System was passive.\n";
 				/*We were idle, start braking */
-				float timeout = MAX_BRAKING_TIMEOUT / x;
-				holdIn(active, Time(timeout));
-				if(speed > 0) speed --;
+//				float timeout = MAX_BRAKING_TIMEOUT / x;
+//				holdIn(active, Time(timeout));
+//				if(speed > 0) speed --;
+
+				holdIn(active, Time::Zero );
 			} else if (braking) {
+				std::cout << "System was breaking.\n";
 				/*Calculate the new timeout given that we are part way though braking already.*/
 				float elapsedTime = ((msg.time().asMsecs()  - lastChange().asMsecs()) / 1000);
 				/* elapsed time - old timeout will give the % remaining of slow down period */
@@ -77,10 +82,13 @@ Model &ActualSpeedCalc::externalFunction( const ExternalMessage &msg ) {
 				/* multiply by the new timeout to get the new timeout remaining */
 				timeout *= MAX_BRAKING_TIMEOUT/x;
 			} else {
+				std::cout << "System was not breakign.\n";
 				/*For simplicity we are discarding the partial km/hr that we increased, will revisit this if time permits.*/
-				float timeout = MAX_BRAKING_TIMEOUT / x;
-				holdIn(active, Time(timeout));
-				if(speed > 0) speed --;
+//				float timeout = MAX_BRAKING_TIMEOUT / x;
+//				holdIn(active, Time(timeout));
+//				if(speed > 0) speed --;
+
+				holdIn(active, Time::Zero );
 			}
 			/* Set new intensity and update to show we're are now braking */
 			brakeIntensity = float(msg.value());
@@ -91,65 +99,86 @@ Model &ActualSpeedCalc::externalFunction( const ExternalMessage &msg ) {
 		}
 	} else if (msg.port() == motorDutyCycleIn) {
 		float x = float(msg.value());
+		std::cout << "Got MotorDutyCylce(x): " <<x <<"current val:" <<motorDutyCycle<<", speed: " << speed <<"\n";
 		if(x > 100) x = 100;
 		if(x > 0) {
 			brakeIntensity = 0;
 			if(this->state() == passive){
+				std::cout << "System was passive.\n";
 				/*We were idle handle the new speed*/
 				if(speed < x){
-					if(speed < 100) speed++;
-					holdIn(active, Time( static_cast<float>(MOTOR_INCREASE_TIMEOUT)));
+//					if(speed < 100) speed++;
+//					holdIn(active, Time( static_cast<float>(MOTOR_INCREASE_TIMEOUT)));
+					holdIn(active, Time::Zero );
 				} else if (speed == x) {
 					passivate();
 				} else {
-					speed--;
-					float timeout = MAX_BRAKING_TIMEOUT / 0.05; //Use this to model coasting
-					holdIn(active, Time(timeout));;
+					holdIn(active, Time::Zero );
+//					speed--;
+//					float timeout = MAX_BRAKING_TIMEOUT / 0.05; //Use this to model coasting
+//					holdIn(active, Time(timeout));;
 				}
 			} else if (!braking) {
+				std::cout << "System was not breaking.\n";
 				/*Calculate the new timeout given that we are part way though accelerating already.*/
 				float elapsedTime = ((msg.time().asMsecs()  - lastChange().asMsecs()) / 1000);
 				if(x == speed) {
+					std::cout << "Passivate, the speeds are the same.\n";
 					/*current speed is new speed */
 					passivate();
 				} else if(speed < motorDutyCycle){
 					/* We were speeding up */
+					std::cout << "We were speeding up.\n";
 					if(speed < x){
 						/*We are still speeding up, proceed as we were */
+						std::cout << "We are still speeding up.\n";
 						holdIn(active, nextChange());
 					} else {
-						/*We were slowing down, switch to speeding up */
+						/*We are now slowing down, switch to speeding up */
 						/*For simplicity we are discarding the partial km/hr that we decreased, will revisit this if time permits.*/
-						if(speed < 100) speed++;
-						holdIn(active, Time( static_cast<float>(MOTOR_INCREASE_TIMEOUT)));
+						std::cout << "We are now coasting.\n";
+//						speed--;
+//						float timeout = MAX_BRAKING_TIMEOUT / 0.05; //Use this to model coasting
+//						holdIn(active, Time(timeout));;
+
+						holdIn(active, Time::Zero );
 					}
 				} else {
+					std::cout << "We were coasting.\n";
+					/*we were coasting*/
 					if(speed > x){
-						/*We are still coasting up, proceed as we were */
+						std::cout << "We are still coasting.\n";
+						/*We are still coasting, proceed as we were */
 						holdIn(active, nextChange());
 					} else {
+						std::cout << "We are now speeding up.\n";
 						/*We were speeding up, switch to slowing down*/
 						/*For simplicity we are discarding the partial km/hr that we decreased, will revisit this if time permits.*/
-						speed--;
-						float timeout = MAX_BRAKING_TIMEOUT / 0.05; //Use this to model coasting
-						holdIn(active, Time(timeout));;
+//						if(speed < 100) speed++;
+//						holdIn(active, Time( static_cast<float>(MOTOR_INCREASE_TIMEOUT)));
+						holdIn(active, Time::Zero );
 					}
 				}
 				/* note: (speed == motorDutyCycle) condition is never going to happen, as state would have been passive. */
 			} else {
+				std::cout << "System was breaking.\n";
 				/*For simplicity we are discarding the partial km/hr that we decreased, will revisit this if time permits.*/
 				if(speed < x){
-					if(speed < 100) speed++;
-					holdIn(active, Time( static_cast<float>(MOTOR_INCREASE_TIMEOUT)));
+
+					holdIn(active, Time::Zero );
+//					if(speed < 100) speed++;
+//					holdIn(active, Time( static_cast<float>(MOTOR_INCREASE_TIMEOUT)));
 				} else if (speed == x) {
 					passivate();
 				} else {
-					speed--;
-					float timeout = MAX_BRAKING_TIMEOUT / 0.05; //Use this to model coasting
-					holdIn(active, Time(timeout));;
+//					speed--;
+//					float timeout = MAX_BRAKING_TIMEOUT / 0.05; //Use this to model coasting
+//					holdIn(active, Time(timeout));;
+					holdIn(active, Time::Zero );
 				}
 			}
 			/* Set new intensity and update to show we're are now braking */
+			std::cout << "Update motorDutyCycle.\n";
 			motorDutyCycle = float(msg.value());
 			braking = false;
 		} else if (braking){
