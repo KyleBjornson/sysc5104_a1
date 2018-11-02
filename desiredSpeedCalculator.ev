@@ -1,4 +1,9 @@
-00:00:01:00 centerRange 50
-00:00:02:00 leftRange 50
-00:00:03:00 rightRange 50
-00:00:10:00 infrastructure 3355443300
+00:00:05:00 centerRangeIn 60
+00:00:05:01 leftRangeIn 50
+00:00:05:02 rightRangeIn 50
+00:00:10:00 infrastructureIn 50226
+00:00:20:00 infrastructureIn 59692
+00:00:40:00 centerRangeIn 40
+00:00:42:00 centerRangeIn 45
+00:01:40:00 centerRangeIn 60
+00:21:40:00 centerRangeIn 10
