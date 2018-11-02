@@ -87,7 +87,6 @@ Model &GpsQueue::externalFunction( const ExternalMessage &msg ) {
 			inst.direction = inNextTurn;
 			instructionQueue.push(inst);
 			holdIn(active, nextChange());//(msg.time() - lastChange()));
-
 		}
 	} else if (msg.port() == speedIn) {
 		/*Speed in is in km/hr, this block will store it in m/s to simplify calculations.*/	
@@ -104,12 +103,14 @@ Model &GpsQueue::externalFunction( const ExternalMessage &msg ) {
 		} else if (distance > 0){
 			/*This will calculate the distance traveled at the old speed*/
 			distance -= (nextChange().asMsecs()) * (1/1000) * speed; //(msg.time().asMsecs() - lastChange().asMsecs()) * (1/1000) * speed;
-			/*Update speed and calculate the new timeout*/
-			float timeout = distance / x;
-			#if DEBUG
-				std::cout << "New wait time: " << timeout <<"\n";
-			#endif
-			holdIn(active, Time(timeout));
+			if(x>0) {
+				/*Update speed and calculate the new timeout*/
+				float timeout = distance / x;
+				#if DEBUG
+					std::cout << "New wait time: " << timeout <<"\n";
+				#endif
+				holdIn(active, Time(timeout));
+			} else passivate(); //The car is not moving, wait
 		} else {
 			/* distance is zero, passivate*/
 			passivate();
@@ -134,7 +135,7 @@ Model &GpsQueue::internalFunction( const InternalMessage & ){
 		#if DEBUG
 			std::cout << "No requests waiting to be serviced, passivate\n";
 		#endif
-		distance == 0;
+		distance = 0;
 		passivate();
 	} else {
 		#if DEBUG
