@@ -16,7 +16,7 @@
 #include "atomic.h"     // class Atomic
 #include <queue>        // queue
 
-#define MPS_FROM_KMPH 1/3.6
+#define MPS_FROM_KMPH (1/3.6)
 
 //enum Direction {LEFT=1, RIGHT=2};
 struct GpsInstruction {

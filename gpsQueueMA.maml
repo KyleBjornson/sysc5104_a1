@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CDPlusPlus_Builder_Version_1.0.0>
+  <top>
+    <components> gpsQueue@GpsQueue &#xd;</components>
+    <out> turnRequest &#xd;</out>
+    <in> gpsInstructionIn &#xd;</in>
+    <in> speedIn &#xd;</in>
+    <Link> gpsInstructionIn gpsInstructionIn@gpsQueue&#xd;</Link>
+    <Link> speedIn speedIn@gpsQueue&#xd;</Link>
+    <Link> turnRequest@gpsQueue turnRequest&#xd;</Link>
+  </top>
+  <gpsQueue/>
+</CDPlusPlus_Builder_Version_1.0.0>

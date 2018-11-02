@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns="http://www.example.org/DEVSModeler" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation">
+  <CoupledModelType xmi:id="_tfWxwd7NEeiE3L42Aisn9g" modelName="top" defined="true" sourceFileRelativePath="gpsQueueMA.ma">
+    <ports xmi:type="CoupledPort" xmi:id="_tfWxwt7NEeiE3L42Aisn9g" portName="turnRequest" portType="OUTPUT_PORT" incomingLinks="_tfWxzN7NEeiE3L42Aisn9g"/>
+    <ports xmi:type="CoupledPort" xmi:id="_tfWxw97NEeiE3L42Aisn9g" portName="gpsInstructionIn" outgoingLinks="_tfWxyt7NEeiE3L42Aisn9g"/>
+    <ports xmi:type="CoupledPort" xmi:id="_tfWxxN7NEeiE3L42Aisn9g" portName="speedIn" outgoingLinks="_tfWxy97NEeiE3L42Aisn9g"/>
+    <atomicModels xmi:type="AtomicModelInstance" xmi:id="_tfWxxd7NEeiE3L42Aisn9g" instanceName="gpsQueue">
+      <modelType xmi:type="CPPAtomicModelType" xmi:id="_tfWxxt7NEeiE3L42Aisn9g" modelName="GpsQueue" defined="true" sourceFileRelativePath="gpsQueue.cpp">
+        <ports xmi:type="InputAtomicPort" xmi:id="_tfWxx97NEeiE3L42Aisn9g" portName="gpsInstructionIn" incomingLinks="_tfWxyt7NEeiE3L42Aisn9g"/>
+        <ports xmi:type="InputAtomicPort" xmi:id="_tfWxyN7NEeiE3L42Aisn9g" portName="speedIn" incomingLinks="_tfWxy97NEeiE3L42Aisn9g"/>
+        <ports xmi:type="OutputAtomicPort" xmi:id="_tfWxyd7NEeiE3L42Aisn9g" portName="turnRequest" portType="OUTPUT_PORT" outgoingLinks="_tfWxzN7NEeiE3L42Aisn9g"/>
+      </modelType>
+    </atomicModels>
+    <links xmi:type="CoupledLink" xmi:id="_tfWxyt7NEeiE3L42Aisn9g" target="_tfWxx97NEeiE3L42Aisn9g" source="_tfWxw97NEeiE3L42Aisn9g"/>
+    <links xmi:type="CoupledLink" xmi:id="_tfWxy97NEeiE3L42Aisn9g" target="_tfWxyN7NEeiE3L42Aisn9g" source="_tfWxxN7NEeiE3L42Aisn9g"/>
+    <links xmi:type="CoupledLink" xmi:id="_tfWxzN7NEeiE3L42Aisn9g" target="_tfWxwt7NEeiE3L42Aisn9g" source="_tfWxyd7NEeiE3L42Aisn9g"/>
+  </CoupledModelType>
+  <notation:Diagram xmi:id="_tfWxzd7NEeiE3L42Aisn9g" type="DEVS" element="_tfWxwd7NEeiE3L42Aisn9g" name="gpsQueueMA.madesigner" measurementUnit="Pixel">
+    <styles xmi:type="notation:DiagramStyle" xmi:id="_tfWxzt7NEeiE3L42Aisn9g"/>
+  </notation:Diagram>
+</xmi:XMI>

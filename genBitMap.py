@@ -53,4 +53,16 @@ else:
 		print("typeSign: ", ts)
 		print("value: ", value)
 		print("distance: ", distance)
-		
+	elif sys.argv[1] == "-gGps":
+		direction = (int) (sys.argv[2])
+		distance = (int) (sys.argv[3])
+		directionBitMap = (direction & 0xF) << 28
+		distanceBitMap = distance & 0x0FFFFFFF
+		x = distanceBitMap + directionBitMap
+		print(x)	
+	elif sys.argv[1] == "-dGps":
+		x = (int) (sys.argv[2])
+		speed = (x & 0xF0000000) >> 28
+		distance = x & 0x0FFFFFFF
+		print("speed: ", speed)
+		print("distance: ", distance)

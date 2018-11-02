@@ -15,14 +15,15 @@
 #include "message.h"    // class ExternalMessage, InternalMessage
 #include "mainsimu.h"   // MainSimulator::Instance().getParameter( ... )
 #include <iostream.h>
+#define DEBUG 1
 
 /** public functions **/
 
 //GPS Input: 4 MSB bits = turn direction (only use one of the bits)
 //			 28 LSB bits = distance
 
-#define TURN_MASK(msg) ((msg >> 28) & 0x000000F)
-#define DISTANCE_MASK(msg) (msg & 0x0FFFFFFF)
+#define TURN_MASK(msg) ((msg >> 15) & 0x0001)
+#define DISTANCE_MASK(msg) (msg & 0x7FFF)
 
 /*******************************************************************
 * Function Name: GpsQueue
@@ -55,30 +56,60 @@ Model &GpsQueue::initFunction() {
 ********************************************************************/
 Model &GpsQueue::externalFunction( const ExternalMessage &msg ) {
 	if( msg.port() == gpsInstructionIn) {
-		//int inDistance = DISTANCE_MASK(int(msg.value()));
-		//int inNextTurn = TURN_MASK(int(msg.value()));
+		unsigned long temp = msg.value();
+		int inDistance = DISTANCE_MASK(temp);
+		int inNextTurn = TURN_MASK(temp);
+		#if DEBUG
+			std::cout << "Got gpsIIn " <<inNextTurn << " in "  << inDistance<<"\n";
+		#endif
 
 		if (this->state() == passive) {
-			holdIn(active, (distance / speed));
+			#if DEBUG
+				std::cout << "We were passive, assign d and next turn\n";
+			#endif
+			distance = inDistance;
+			nextTurn = inNextTurn;
+			float timeout = distance / speed;
+			#if DEBUG
+				std::cout << "New wait time: " << timeout <<"\n";
+			#endif
+			holdIn(active, Time(timeout));
 		} else {
+			#if DEBUG
+				std::cout << "We are busy, queue the gps event and continue waiting\n";
+			#endif
 			GpsInstruction inst;
-			inst.distance = DISTANCE_MASK(int(msg.value()));
-			inst.direction = TURN_MASK(int(msg.value()));
+			inst.distance = inDistance;
+			inst.direction = inNextTurn;
 			instructionQueue.push(inst);
 			holdIn(active, nextChange());//(msg.time() - lastChange()));
 		}
 	} else if (msg.port() == speedIn) {
 		/*Speed in is in km/hr, this block will store it in m/s to simplify calculations.*/	
-		float x = float(msg.value())* MPS_FROM_KMPH; 
+		float x = long(msg.value())* MPS_FROM_KMPH;
 		if (this->state() == passive) {
 			this->passivate();
+		} else if (speed == 0) {
+			float timeout = distance / x;
+			#if DEBUG
+				std::cout << "New wait time: " << timeout <<"\n";
+			#endif
+			holdIn(active, Time(timeout));
 		} else {
 			/*This will calculate the distance traveled at the old speed*/
 			distance -= (nextChange().asMsecs()) * (1/1000) * speed; //(msg.time().asMsecs() - lastChange().asMsecs()) * (1/1000) * speed;
 			/*Update speed and calculate the new timeout*/
-			holdIn(active, Time( static_cast<float>((distance / speed))));
+			float timeout = distance / x;
+			#if DEBUG
+				std::cout << "New wait time: " << timeout <<"\n";
+			#endif
+			holdIn(active, Time(timeout));
 		}
 		speed = x;
+
+		#if DEBUG
+			std::cout << "Store new speed: " << x <<"\n";
+		#endif
 	}
 
 	return *this;
@@ -91,8 +122,14 @@ Model &GpsQueue::externalFunction( const ExternalMessage &msg ) {
 Model &GpsQueue::internalFunction( const InternalMessage & ){
 	/*We just output vout, select timeout related to the current output*/
 	if (instructionQueue.empty()) {
+		#if DEBUG
+			std::cout << "No requests waiting to be serviced, passivate\n";
+		#endif
 		passivate();
 	} else {
+		#if DEBUG
+			std::cout << "Service next request\n";
+		#endif
 		distance = instructionQueue.front().distance;
 		nextTurn = instructionQueue.front().direction;
 		instructionQueue.pop();
@@ -106,6 +143,9 @@ Model &GpsQueue::internalFunction( const InternalMessage & ){
 * Description: 
 ********************************************************************/
 Model &GpsQueue::outputFunction( const InternalMessage &msg ){
+	#if DEBUG
+		std::cout << "Outputting a turn request\n";
+	#endif
 	sendOutput( msg.time(), turnRequest, nextTurn);
 	return *this ;
 }
