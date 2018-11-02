@@ -3,7 +3,7 @@ components : SpeedController
 components : actualSpeedCalc@ActualSpeedCalc 
 components : odometer@Odometer
 
-out : motorDutyCycleOut brakeIntensity actualSpeed distanceTraveledOut
+out : motorDutyCycleOut brakeIntensity actualSpeed
 in : centerRange leftRange rightRange infrastructure
 Link : actualSpeed@ActualSpeedCalc speedIn@SpeedController
 Link : actualSpeed@ActualSpeedCalc actualSpeed
@@ -12,7 +12,6 @@ Link : motorDutyCycleOut@SpeedController motorDutyCycleIn@ActualSpeedCalc
 
 Link : actualSpeed@ActualSpeedCalc speedIn@Odometer 
 Link : distanceTraveled@Odometer  distanceTraveledOut@SpeedController
-Link : distanceTraveled@Odometer  distanceTraveledOut
 
 Link : motorDutyCycleOut@SpeedController motorDutyCycleOut
 Link : brakeIntensity@SpeedController brakeIntensity

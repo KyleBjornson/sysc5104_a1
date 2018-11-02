@@ -14,8 +14,13 @@
 #include "desiredSpeedCalculator.h"      // class DesiredSpeedCalculator
 #include "message.h"    // class ExternalMessage, InternalMessage
 #include "mainsimu.h"   // MainSimulator::Instance().getParameter( ... )
-#define DEBUG 1
+
+#define DEBUG 0
 #define SUPRESS_ODO 1
+
+#define TYPE_MASK(msg) ((msg >> 14) & 0x0003)
+#define VALUE_MASK(msg) ((msg >> 9) & 0x001F)
+#define DISTANCE_MASK(msg) (msg & 0x1FF)
 /** public functions **/
 
 /*******************************************************************
@@ -60,27 +65,43 @@ Model &DesiredSpeedCalculator::initFunction() {
 * Function Name: externalFunction
 * Description: 
 ********************************************************************/
+//The desired speed calc is not very good, we need more logic to smooth the handling of obstacles in its path.
+//We ran out of time on the assignment and didn't get to play around with this too much.
+//We hope to improve it in the future.
 Model &DesiredSpeedCalculator::externalFunction( const ExternalMessage &msg ) {
 	if( msg.port() == leftRangeIn) {
 		leftRange = float(msg.value());
 		if (this->state() == passive) {
 			passivate();
 		} else {
-			holdIn(active, (msg.time() - lastChange()));
+			holdIn(active, nextChange());
 		}
 	} else if( msg.port() == centerRangeIn) {
 		centerRange = float(msg.value());
+		#if DEBUG
+			std::cout << "There is an update to the center range: " << centerRange <<"\n";
+		#endif
 		//float brakingDistance = ((speed < desiredSpeed.value) ? (desiredSpeed.value) : (speed))^2/200;
 		float brakingDistance = speed*speed/200;
 		if(centerRange <= 2) {
+			#if DEBUG
+				std::cout << "There is an obstacle in close range.\n";
+			#endif
 			emergencySpeed.value = 0;
 			emergencySpeed.distance = 1;
 			holdIn(active, Time::Zero);
 		} else if (centerRange < (brakingDistance + 2)){
+			#if DEBUG
+				std::cout << "There is an obstacle within risk of collision.\n";
+			#endif
 			emergencySpeed.value = 0;
 			emergencySpeed.distance = centerRange;
 			holdIn(active, Time::Zero);
 		} else if (emergencySpeed.value != 0 || emergencySpeed.distance != 0) {
+			#if DEBUG
+				std::cout << "There are no obstacles that are within risk of collision.\n";
+				std::cout << "The return to infrastructure control: " << nextSign.type << ", " << nextSign.value << ", "<< nextSign.distance << "\n";
+			#endif
 			emergencySpeed.value = 0;
 			emergencySpeed.distance = 0;
 			switch(nextSign.type) {
@@ -108,25 +129,67 @@ Model &DesiredSpeedCalculator::externalFunction( const ExternalMessage &msg ) {
 			passivate();
 		} else {
 			/* Should only happen if stopped at an intersection, wait until timeout */
-			holdIn(active, (msg.time() - lastChange()));
+			holdIn(active, nextChange());
 		}
 	} else if( msg.port() == rightRangeIn) {
 		rightRange = float(msg.value());
 		if (this->state() == passive) {
 			passivate();
 		} else {
-			holdIn(active, (msg.time() - lastChange()));
+			holdIn(active, nextChange());
 		}
 	} else if (msg.port() == speedIn) {
 		#if DEBUG
 			std::cout << "Got speedIn " << float(msg.value()) <<"\n";
 		#endif
 		speed = float(msg.value());
-		if (this->state() == passive) {
-			passivate();
+		float brakingDistance = speed*speed/200;
+		if(centerRange <= 2) {
+			#if DEBUG
+				std::cout << "There is an obstacle in close range.\n";
+			#endif
+			emergencySpeed.value = 0;
+			emergencySpeed.distance = 1;
+			holdIn(active, Time::Zero);
+		} else if (centerRange < (brakingDistance + 2)){
+			#if DEBUG
+				std::cout << "There is an obstacle within risk of collision.\n";
+			#endif
+			emergencySpeed.value = 0;
+			emergencySpeed.distance = centerRange;
+			holdIn(active, Time::Zero);
+		} else if (emergencySpeed.value != 0 || emergencySpeed.distance != 0) {
+			#if DEBUG
+				std::cout << "There are no obstacles that are within risk of collision.\n";
+				std::cout << "The return to infrastructure control: " << nextSign.type << ", " << nextSign.value << ", "<< nextSign.distance << "\n";
+			#endif
+			emergencySpeed.value = 0;
+			emergencySpeed.distance = 0;
+			switch(nextSign.type) {
+			case NONE:
+				desiredSpeed.value = speedLimit;
+				desiredSpeed.distance = ACCELERATE_DISTANCE;
+				break;
+			case STOP:
+				desiredSpeed.value = 0;
+				desiredSpeed.distance = (nextSign.distance - odometer);
+				break;
+			case YIELD:
+				desiredSpeed.value = YIELD_SPEED;
+				desiredSpeed.distance = (nextSign.distance - odometer);
+				break;
+			case SPEED:
+				desiredSpeed.value = nextSign.value;
+				desiredSpeed.distance = (nextSign.distance - odometer);
+				break;
+			default:
+				break;
+			}
+			holdIn(active, Time::Zero);
 		} else {
-			holdIn(active, (msg.time() - lastChange()));
+			holdIn(active, nextChange());
 		}
+
 	} else if (msg.port() == odometerIn) {
 		odometer = float(msg.value());
 		#if DEBUG & !SUPRESS_ODO
@@ -139,7 +202,7 @@ Model &DesiredSpeedCalculator::externalFunction( const ExternalMessage &msg ) {
 				passivate();
 			}
 		} else {
-			holdIn(active, (msg.time() - lastChange()));
+			holdIn(active, nextChange());
 		}
 	} else if (msg.port() == infrastructureIn) {
 		unsigned long temp = msg.value();
@@ -147,10 +210,10 @@ Model &DesiredSpeedCalculator::externalFunction( const ExternalMessage &msg ) {
 			std::cout << "Got infrastructureIn " << temp <<"\n";
 		#endif
 		if (this->state() == passive) {
-			int x = (temp & 0xC0000000) >> (30);
+			int x = TYPE_MASK(temp);
 			nextSign.type = ((x == 0) ? NONE : ((x == 1) ? STOP : ((x == 2) ? YIELD : SPEED))); //top 2 bits are used for type
-			nextSign.value = ((temp & 0x3E000000) >> (25))*5; //next 5 for the value if needed (in km/5hr to preserve bits)
-			nextSign.distance = ((temp& 0x01FF)); //distance in m using the remianing bits
+			nextSign.value = VALUE_MASK(temp) *5; //next 5 for the value if needed (in km/5hr to preserve bits)
+			nextSign.distance = DISTANCE_MASK(temp); //distance in m using the remianing bits
 			nextSign.distance += odometer;
 			#if DEBUG
 				std::cout << "The msg contents are: " << nextSign.type << ", " << nextSign.value << ", "<< nextSign.distance << "\n";
@@ -169,15 +232,19 @@ Model &DesiredSpeedCalculator::externalFunction( const ExternalMessage &msg ) {
 					desiredSpeed.distance = (nextSign.distance - odometer);
 					break;
 				case SPEED:
+					speedLimit = nextSign.value;
 					desiredSpeed.value = nextSign.value;
 					desiredSpeed.distance = (nextSign.distance - odometer);
+					#if DEBUG
+						std::cout << "Setting the new speed limit: " << desiredSpeed.value << "\n";
+					#endif
 					break;
 				default:
 					break;
 			}
             holdIn(active, Time::Zero);
 		} else {
-			holdIn(active, (msg.time() - lastChange()));
+			holdIn(active, nextChange());
 		}
 	} else if (msg.port() == desiredSpeedReachedIn) {
 		#if DEBUG
@@ -191,7 +258,7 @@ Model &DesiredSpeedCalculator::externalFunction( const ExternalMessage &msg ) {
 			passivate();
 		} else {
 		#if DEBUG
-			std::cout << "Speed was being controlled by infrastructure. Next Sign: "  << nextSign.type << ", " << nextSign.value << ", "<< nextSign.distance << speed << "\n";
+			std::cout << "Speed was being controlled by infrastructure. Next Sign: "  << nextSign.type << ", " << nextSign.value << ", "<< nextSign.distance << ", speed: " << speed << "\n";
 		#endif
 			switch(nextSign.type) {
 				case NONE: 
@@ -271,8 +338,7 @@ Model &DesiredSpeedCalculator::internalFunction( const InternalMessage & ){
 					holdIn(active, WAIT_TIMEOUT);
 				}
 				break;
-			case SPEED:						
-				nextSign.type = NONE;
+			case SPEED:
 				passivate();
 				break;
 			default:
@@ -290,15 +356,19 @@ Model &DesiredSpeedCalculator::outputFunction( const InternalMessage &msg) {
 	int out;
 	if(emergencySpeed.value != 0 || emergencySpeed.distance != 0) {
 		#if DEBUG
-			std::cout << "Sending new desired speed " << emergencySpeed.value << "\n";
+			std::cout << "Sending new emergency speed " << emergencySpeed.value << "\n";
 		#endif
-		out = ((emergencySpeed.value & 0xFF) << 24) + (emergencySpeed.distance & 0x00FFFFFF);
+		if(emergencySpeed.distance > 0x1FF) emergencySpeed.distance =0x1FFF;
+		if(emergencySpeed.value > 0x7F) emergencySpeed.value =0x7F;
+		out = ((emergencySpeed.value & 0x7F) << 9) + (emergencySpeed.distance & 0x1FF);
 		sendOutput( msg.time(), desiredSpeedOut, out);
 	} else {
 		#if DEBUG
 			std::cout << "Sending new desired speed " << desiredSpeed.value << "\n";
 		#endif
-		out = ((desiredSpeed.value & 0xFF) << 24) + (desiredSpeed.distance & 0x00FFFFFF);
+		if(desiredSpeed.distance > 0x1FF) desiredSpeed.distance =0x1FFF;
+		if(desiredSpeed.value > 0x7F) desiredSpeed.value =0x7F;
+		out = ((desiredSpeed.value & 0x7F) << 9) + (desiredSpeed.distance & 0x1FF);
 		sendOutput( msg.time(), desiredSpeedOut, out);
 	}
 	return *this ;

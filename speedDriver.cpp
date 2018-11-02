@@ -15,11 +15,11 @@
 #include "message.h"    // class ExternalMessage, InternalMessage
 #include "mainsimu.h"   // MainSimulator::Instance().getParameter( ... )
 #include <stdlib.h>
-#define DEBUG 1
+#define DEBUG 0
 
 /** public functions **/
-#define DESIRED_SPEED_MASK(msg) ((msg >> 24) & 0x000000FF)
-#define DISTANCE_MASK(msg)  (msg & 0x00FFFFFF)
+#define DESIRED_SPEED_MASK(msg) ((msg >> 9) & 0x7F)
+#define DISTANCE_MASK(msg)  (msg & 0x1FF)
 float prevIntensity = 0;
 int prevMotor = 0;
 bool desSpeed = false;
@@ -90,6 +90,7 @@ Model &SpeedDriver::externalFunction( const ExternalMessage &msg ) {
 
 		} else if (desiredSpeed > currentSpeed) {
 			brakeIntensity = 0;
+			motorSpeed = currentSpeed;
 			currentSpeed++;
 			holdIn(active, Time::Zero);  //Deal with this now
 

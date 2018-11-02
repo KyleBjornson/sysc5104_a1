@@ -29,12 +29,12 @@ else:
 		if typeSign == "none":
 			x = 0
 		elif typeSign == "stop":
-			x = 1 << 30
+			x = 1 << 14
 		elif typeSign == "yield":
-			x = 2 << 30
+			x = 2 << 14
 		elif typeSign == "speed":
-			x = 3 << 30
-		x += (value & 0x1F) << 25
+			x = 3 << 14
+		x += (value & 0x1F) << 9
 		x += distance & 0x01FF
 		print(x)
 	elif sys.argv[1] == "-dSign":

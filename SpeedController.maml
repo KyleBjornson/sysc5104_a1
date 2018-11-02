@@ -4,7 +4,7 @@
     <components> SpeedController&#xd;</components>
     <components> actualSpeedCalc@ActualSpeedCalc &#xd;</components>
     <components> odometer@Odometer&#xd;</components>
-    <out> motorDutyCycleOut brakeIntensity actualSpeed distanceTraveledOut&#xd;</out>
+    <out> motorDutyCycleOut brakeIntensity actualSpeed&#xd;</out>
     <in> centerRange leftRange rightRange infrastructure&#xd;</in>
     <Link> actualSpeed@ActualSpeedCalc speedIn@SpeedController&#xd;</Link>
     <Link> actualSpeed@ActualSpeedCalc actualSpeed&#xd;</Link>
@@ -12,7 +12,6 @@
     <Link> motorDutyCycleOut@SpeedController motorDutyCycleIn@ActualSpeedCalc&#xd;</Link>
     <Link> actualSpeed@ActualSpeedCalc speedIn@Odometer &#xd;</Link>
     <Link> distanceTraveled@Odometer  distanceTraveledOut@SpeedController&#xd;</Link>
-    <Link> distanceTraveled@Odometer  distanceTraveledOut&#xd;</Link>
     <Link> motorDutyCycleOut@SpeedController motorDutyCycleOut&#xd;</Link>
     <Link> brakeIntensity@SpeedController brakeIntensity&#xd;</Link>
     <Link> centerRange centerRange@SpeedController&#xd;</Link>
