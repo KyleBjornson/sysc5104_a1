@@ -20,7 +20,7 @@
 #define DESIRED_SPEED_MASK(msg) ((msg >> 24) & 0x000000FF)
 #define DISTANCE_MASK(msg)  (msg & 0x00FFFFFF)
 float prevIntensity = 0;
-
+int prevMotor = 0;
 /*******************************************************************
 * Function Name: SpeedDriver
 * Description: 
@@ -84,6 +84,7 @@ Model &SpeedDriver::externalFunction( const ExternalMessage &msg ) {
 
 		} else if (desiredSpeed > currentSpeed) {
 			brakeIntensity = 0;
+			desiredSpeed++;
 			holdIn(active, Time::Zero);  //Deal with this now
 
 		} else { //No change, do nothing..
@@ -104,16 +105,15 @@ Model &SpeedDriver::externalFunction( const ExternalMessage &msg ) {
 ********************************************************************/
 Model &SpeedDriver::internalFunction( const InternalMessage & ){
 
-	if (desiredSpeed > currentSpeed) {
+	if (desiredSpeed > motorSpeed) {
 		motorSpeed++;
 		holdIn(active, Time(accelerationInterval));
 
-	} else if (desiredSpeed < currentSpeed) {
+	} else if (motorSpeed < currentSpeed) {
 		motorSpeed = 0; //Coast
 		holdIn(active, Time(accelerationTimeout));
 
 	} else {
-		motorSpeed = currentSpeed;
 		brakeIntensity = 0;
 		this->passivate();
 	}
@@ -126,10 +126,13 @@ Model &SpeedDriver::internalFunction( const InternalMessage & ){
 * Description: 
 ********************************************************************/
 Model &SpeedDriver::outputFunction( const InternalMessage &msg ){
-	sendOutput(msg.time(), motorSpeedOut, motorSpeed);
 	if (prevIntensity != brakeIntensity) {
 		prevIntensity = brakeIntensity;
+		prevMotor = -1;
 		sendOutput(msg.time(), brakeIntensityOut, brakeIntensity);
+	} else if(prevMotor != motorSpeed) {
+		prevMotor = motorSpeed;
+		sendOutput(msg.time(), motorSpeedOut, motorSpeed);
 	}
 	return *this ;
 }

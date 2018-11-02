@@ -28,7 +28,7 @@ Odometer::Odometer( const string &name )
 {
 	secondsToTravelOneMeter = 0;
 	distance = 1;
-	partOfMeterLeft = 0;
+	partOfMeterLeft = 1;
 }
 
 /*******************************************************************
@@ -47,21 +47,17 @@ Model &Odometer::initFunction() {
 ********************************************************************/
 Model &Odometer::externalFunction( const ExternalMessage &msg ) {
 	if( msg.port() == speedIn) {
-		float x = float(msg.value());
+		float x = float(msg.value())/3.6;
 		if (this->state() == passive) {
-			if(x == 0){
-				passivate();
-			} else if(partOfMeterLeft == 0) {
-				holdIn(active, Time( static_cast<float>(1/x)));
-				partOfMeterLeft = 1;
-			} else {
-				holdIn(active, Time( static_cast<float>(partOfMeterLeft/x)));
-			}
+			if(x == 0) passivate();
+			holdIn(active, Time( static_cast<float>(partOfMeterLeft/x)));
 		} else {
-			/*TODO:: Fix e maths */
-			partOfMeterLeft -= ((60*msg.time().minutes() + msg.time().seconds()) - (60*lastChange().minutes() + lastChange().seconds()))*secondsToTravelOneMeter;
-			if(x == 0) passivate(); /*we are not moving, wait until we are moving again*/
-			else {
+			partOfMeterLeft -= ((msg.time().asMsecs()  - lastChange().asMsecs()) / 1000) / secondsToTravelOneMeter;
+			if(x <= 0) {
+				passivate(); /*we are not moving, wait until we are moving again*/
+			} else if ( partOfMeterLeft <= 0){
+				holdIn(active, Time::Zero);
+			} else {
 				float timeout = partOfMeterLeft/x;
 				holdIn(active, Time(timeout));
 			}
