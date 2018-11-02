@@ -14,7 +14,6 @@ Link : rightRangeIn rightRangeIn@DesiredSpeedCalculator
 Link : speedIn speedIn@DesiredSpeedCalculator  
 Link : odometerIn odometerIn@DesiredSpeedCalculator  
 Link : infrastructureIn infrastructureIn@DesiredSpeedCalculator  
-Link : brakeIntensityIn brakeIntensityIn@DesiredSpeedCalculator  
 Link : desiredSpeedReachedIn desiredSpeedReachedIn@DesiredSpeedCalculator  
 
 [desiredSpeedCalculator]

@@ -14,8 +14,15 @@
 #include "gpsQueue.h"      // class Queue
 #include "message.h"    // class ExternalMessage, InternalMessage
 #include "mainsimu.h"   // MainSimulator::Instance().getParameter( ... )
+#include <iostream.h>
 
 /** public functions **/
+
+//GPS Input: 4 MSB bits = turn direction (only use one of the bits)
+//			 28 LSB bits = distance
+
+#define TURN_MASK(msg) ((msg >> 28) & 0x000000F)
+#define DISTANCE_MASK(msg) (msg & 0x0FFFFFFF)
 
 /*******************************************************************
 * Function Name: GpsQueue
@@ -48,18 +55,17 @@ Model &GpsQueue::initFunction() {
 ********************************************************************/
 Model &GpsQueue::externalFunction( const ExternalMessage &msg ) {
 	if( msg.port() == gpsInstructionIn) {
-		//GpsInstruction x = gpsInstruction(msg.value()); /*Yikes, I sure hope I can just do this... Sorry :P*/
-		int x = int (msg.value());
-		distance = x & (0x7FFF);
-		nextTurn = (x & (0x8000)) >> 31;
+		//int inDistance = DISTANCE_MASK(int(msg.value()));
+		//int inNextTurn = TURN_MASK(int(msg.value()));
+
 		if (this->state() == passive) {
 			holdIn(active, (distance / speed));
 		} else {
 			GpsInstruction inst;
-			inst.distance = distance;
-			inst.direction = nextTurn;
+			inst.distance = DISTANCE_MASK(int(msg.value()));
+			inst.direction = TURN_MASK(int(msg.value()));
 			instructionQueue.push(inst);
-			holdIn(active, (msg.time() - lastChange()));
+			holdIn(active, nextChange());//(msg.time() - lastChange()));
 		}
 	} else if (msg.port() == speedIn) {
 		/*Speed in is in km/hr, this block will store it in m/s to simplify calculations.*/	
@@ -68,7 +74,7 @@ Model &GpsQueue::externalFunction( const ExternalMessage &msg ) {
 			this->passivate();
 		} else {
 			/*This will calculate the distance traveled at the old speed*/
-			distance -= (msg.time().seconds() - lastChange().seconds()) * speed;
+			distance -= (nextChange().asMsecs()) * (1/1000) * speed; //(msg.time().asMsecs() - lastChange().asMsecs()) * (1/1000) * speed;
 			/*Update speed and calculate the new timeout*/
 			holdIn(active, Time( static_cast<float>((distance / speed))));
 		}
