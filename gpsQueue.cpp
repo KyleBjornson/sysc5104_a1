@@ -63,18 +63,20 @@ Model &GpsQueue::externalFunction( const ExternalMessage &msg ) {
 			std::cout << "Got gpsIIn " <<inNextTurn << " in "  << inDistance<<"\n";
 		#endif
 
-		if (this->state() == passive && speed > 0) {
+		if (this->state() == passive && distance == 0) {
 			#if DEBUG
 				std::cout << "We were passive, assign d and next turn\n";
 			#endif
+
 			distance = inDistance;
 			nextTurn = inNextTurn;
-
-			float timeout = distance / speed;
-			#if DEBUG
-				std::cout << "New wait time: " << timeout <<"\n";
-			#endif
-			holdIn(active, Time(timeout));
+			if (speed > 0) {
+				float timeout = distance / speed;
+				#if DEBUG
+					std::cout << "New wait time: " << timeout <<"\n";
+				#endif
+				holdIn(active, Time(timeout));
+			} else passivate(); //The car is not moving, wait
 
 		} else {
 			#if DEBUG
@@ -91,15 +93,15 @@ Model &GpsQueue::externalFunction( const ExternalMessage &msg ) {
 		/*Speed in is in km/hr, this block will store it in m/s to simplify calculations.*/	
 		float x = long(msg.value())* MPS_FROM_KMPH;
 
-		if (this->state() == passive) {
+		if (this->state() == passive && distance == 0) {
 			this->passivate();
-		} else if (speed == 0) {
+		} else if (speed == 0 && distance > 0) {
 			float timeout = distance / x;
 			#if DEBUG
-				std::cout << "(s=0) New wait time: " << timeout <<"\n";
+				std::cout << "(s=0) We were stopped, calc new wait time: " << timeout <<"\n";
 			#endif
 			holdIn(active, Time(timeout));
-		} else {
+		} else if (distance > 0){
 			/*This will calculate the distance traveled at the old speed*/
 			distance -= (nextChange().asMsecs()) * (1/1000) * speed; //(msg.time().asMsecs() - lastChange().asMsecs()) * (1/1000) * speed;
 			/*Update speed and calculate the new timeout*/
@@ -108,6 +110,9 @@ Model &GpsQueue::externalFunction( const ExternalMessage &msg ) {
 				std::cout << "New wait time: " << timeout <<"\n";
 			#endif
 			holdIn(active, Time(timeout));
+		} else {
+			/* distance is zero, passivate*/
+			passivate();
 		}
 		speed = x;
 
@@ -129,6 +134,7 @@ Model &GpsQueue::internalFunction( const InternalMessage & ){
 		#if DEBUG
 			std::cout << "No requests waiting to be serviced, passivate\n";
 		#endif
+		distance == 0;
 		passivate();
 	} else {
 		#if DEBUG
