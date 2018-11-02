@@ -3,22 +3,35 @@
   <top>
     <components> Car &#xd;</components>
     <components> actualSpeedCalc@ActualSpeedCalc &#xd;</components>
+    <components> motorPwm@Pwm&#xd;</components>
     <out> motorVoltage turnRequest brakeIntensity steerState&#xd;</out>
     <in> laneDetection centerRange leftRange rightRange infrastructure gps&#xd;</in>
     <Link> actualSpeed@ActualSpeedCalc speedIn@Car&#xd;</Link>
     <Link> brakeIntensityOut@Car brakeIntensityIn@ActualSpeedCalc&#xd;</Link>
     <Link> motorDutyCycleOut@Car motorDutyCycleIn@ActualSpeedCalc&#xd;</Link>
-    <Link/>
+    <Link> motorDutyCycleOut@Car dutyCycleIn@motorPwm&#xd;</Link>
+    <Link> pwmStateOut@motorPwm motorVoltage&#xd;</Link>
+    <Link> turnRequest&#xd;</Link>
+    <Link> brakeIntensity&#xd;</Link>
+    <Link> steerState&#xd;</Link>
+    <Link> laneDetection &#xd;</Link>
+    <Link> centerRange &#xd;</Link>
+    <Link> leftRange &#xd;</Link>
+    <Link> rightRange &#xd;</Link>
+    <Link> infrastructure &#xd;</Link>
+    <Link> gps &#xd;</Link>
   </top>
-  <actualSpeed/>
+  <motorPwm>
+    <period> 10&#xd;</period>
+  </motorPwm>
   <Car>
     <components> SpeedController&#xd;</components>
+    <components> DirectionController&#xd;</components>
     <out> motorDutyCycleOut brakeIntensityOut  motorVoltage turnRequest brakeIntensity steerState&#xd;</out>
     <in> speedIn laneDetection centerRange leftRange rightRange infrastructure gps&#xd;</in>
   </Car>
   <SpeedController>
     <components> desiredSpeedCalculator@DesiredSpeedCalculator&#xd;</components>
     <components> speedDriver@SpeedDriver&#xd;</components>
-    <components> motorPwm@Pwm&#xd;</components>
   </SpeedController>
 </CDPlusPlus_Builder_Version_1.0.0>

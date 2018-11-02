@@ -8,12 +8,13 @@ in : speedIn
 in : odometerIn 
 in : infrastructureIn 
 in : desiredSpeedReachedIn 
-Link : leftRangeIn leftRangeIn@DesiredSpeedCalculator  
-Link : centerRangeIn centerRangeIn@DesiredSpeedCalculator  
-Link : rightRangeIn rightRangeIn@DesiredSpeedCalculator  
-Link : speedIn speedIn@DesiredSpeedCalculator  
-Link : odometerIn odometerIn@DesiredSpeedCalculator  
-Link : infrastructureIn infrastructureIn@DesiredSpeedCalculator  
-Link : desiredSpeedReachedIn desiredSpeedReachedIn@DesiredSpeedCalculator  
+Link : leftRangeIn leftRangeIn@desiredSpeedCalculator  
+Link : centerRangeIn centerRangeIn@desiredSpeedCalculator  
+Link : rightRangeIn rightRangeIn@desiredSpeedCalculator  
+Link : speedIn speedIn@desiredSpeedCalculator  
+Link : odometerIn odometerIn@desiredSpeedCalculator  
+Link : infrastructureIn infrastructureIn@desiredSpeedCalculator  
+Link : desiredSpeedReachedIn desiredSpeedReachedIn@desiredSpeedCalculator  
+Link : desiredSpeedOut@desiredSpeedCalculator desiredSpeedOut
 
 [desiredSpeedCalculator]
