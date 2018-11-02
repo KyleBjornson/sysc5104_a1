@@ -41,8 +41,8 @@ private:
 	const Port &gpsInstructionIn;
 	const Port &speedIn;
 	Port &turnRequest;
-	float speed;
-	float distance;
+	int speed;
+	int distance;
 	int nextTurn;
 	queue<GpsInstruction> instructionQueue;
 };	// class GpsQueue
