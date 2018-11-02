@@ -1,3 +1,10 @@
-00:00:05:00 speedIn 10
-00:00:07:00 GpsInstructionIn 32778
-00:00:30:00 GpsInstructionIn 20
+00:00:05:00 speedIn 60
+00:00:07:00 GpsInstructionIn 33268
+00:00:30:00 GpsInstructionIn 200
+00:01:00:00 speedIn 100
+00:05:00:00 GpsInstructionIn 500
+00:06:00:00 GpsInstructionIn 32969
+00:11:00:00 speedIn 0
+00:12:00:00 GpsInstructionIn 500
+00:13:00:00 speedIn 50
+00:15:00:00 GpsInstructionIn 500
