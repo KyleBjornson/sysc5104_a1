@@ -2,16 +2,16 @@
 *
 *  DESCRIPTION: Atomic Model Sender
 *
-*  AUTHOR:
+*  AUTHORS: Ben Earle, Kyle Bjornson
 *
-*  EMAIL:
+*  EMAIL: ben.earle@cmail.carleton.ca, kyle.bjornson@cmail.carleton.ca
 *
-*  DATE:
+*  DATE: November 2nd, 2018
 *
 *******************************************************************/
 
 /** include files **/
-#include "steerDriver.h"      // class Queue
+#include "steerDriver.h"
 #include "message.h"    // class ExternalMessage, InternalMessage
 #include "mainsimu.h"   // MainSimulator::Instance().getParameter( ... )
 
@@ -19,7 +19,6 @@
 
 /*******************************************************************
 * Function Name: SteerDriver
-* Description: 
 ********************************************************************/
 SteerDriver::SteerDriver( const string &name )
 : Atomic( name )
@@ -34,8 +33,6 @@ SteerDriver::SteerDriver( const string &name )
 
 /*******************************************************************
 * Function Name: initFunction
-* Description: Resetea la lista
-* Precondition: El tiempo del proximo evento interno es Infinito
 ********************************************************************/
 Model &SteerDriver::initFunction() {
 	this-> passivate();
@@ -44,7 +41,6 @@ Model &SteerDriver::initFunction() {
 
 /*******************************************************************
 * Function Name: externalFunction
-* Description: 
 ********************************************************************/
 Model &SteerDriver::externalFunction( const ExternalMessage &msg ) {
 	if( msg.port() == wheelDirectionIn) {
@@ -72,7 +68,6 @@ Model &SteerDriver::externalFunction( const ExternalMessage &msg ) {
 
 /*******************************************************************
 * Function Name: internalFunction
-* Description: 
 ********************************************************************/
 Model &SteerDriver::internalFunction( const InternalMessage & ){
 	/*We just output vout, select timeout related to the current output*/
@@ -91,7 +86,6 @@ Model &SteerDriver::internalFunction( const InternalMessage & ){
 
 /*******************************************************************
 * Function Name: outputFunction
-* Description: 
 ********************************************************************/
 Model &SteerDriver::outputFunction( const InternalMessage &msg ){
 	sendOutput( msg.time(), servoDutyCycle, (7.5 + (0.1*wheelDirection)));

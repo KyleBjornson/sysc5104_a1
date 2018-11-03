@@ -2,16 +2,16 @@
 *
 *  DESCRIPTION: Atomic Model SpeedDriver
 *
-*  AUTHOR:
+*  AUTHORS: Ben Earle, Kyle Bjornson
 *
-*  EMAIL:
+*  EMAIL: ben.earle@cmail.carleton.ca, kyle.bjornson@cmail.carleton.ca
 *
-*  DATE:
+*  DATE: November 2nd, 2018
 *
 *******************************************************************/
 
 /** include files **/
-#include "speedDriver.h"      // class Queue
+#include "speedDriver.h"
 #include "message.h"    // class ExternalMessage, InternalMessage
 #include "mainsimu.h"   // MainSimulator::Instance().getParameter( ... )
 #include <stdlib.h>
@@ -26,7 +26,6 @@ bool desSpeed = false;
 
 /*******************************************************************
 * Function Name: SpeedDriver
-* Description: 
 ********************************************************************/
 SpeedDriver::SpeedDriver( const string &name )
 : Atomic( name )
@@ -47,8 +46,6 @@ SpeedDriver::SpeedDriver( const string &name )
 
 /*******************************************************************
 * Function Name: initFunction
-* Description: Resetea la lista
-* Precondition: El tiempo del proximo evento interno es Infinito
 ********************************************************************/
 Model &SpeedDriver::initFunction() {
 	this-> passivate();
@@ -57,7 +54,6 @@ Model &SpeedDriver::initFunction() {
 
 /*******************************************************************
 * Function Name: externalFunction
-* Description: 
 ********************************************************************/
 Model &SpeedDriver::externalFunction( const ExternalMessage &msg ) {
 
@@ -125,7 +121,6 @@ Model &SpeedDriver::externalFunction( const ExternalMessage &msg ) {
 
 /*******************************************************************
 * Function Name: internalFunction
-* Description: 
 ********************************************************************/
 Model &SpeedDriver::internalFunction( const InternalMessage & ){
 	#if DEBUG
@@ -150,7 +145,6 @@ Model &SpeedDriver::internalFunction( const InternalMessage & ){
 
 /*******************************************************************
 * Function Name: outputFunction
-* Description: 
 ********************************************************************/
 Model &SpeedDriver::outputFunction( const InternalMessage &msg ){
 	if (prevIntensity != brakeIntensity) {

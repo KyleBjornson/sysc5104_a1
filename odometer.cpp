@@ -1,12 +1,12 @@
 /*******************************************************************
 *
-*  DESCRIPTION: Atomic Model Sender
+*  DESCRIPTION: Atomic Model Odometer
 *
-*  AUTHOR:
+*  AUTHORS: Ben Earle, Kyle Bjornson
 *
-*  EMAIL:
+*  EMAIL: ben.earle@cmail.carleton.ca, kyle.bjornson@cmail.carleton.ca
 *
-*  DATE:
+*  DATE: November 2nd, 2018
 *
 *******************************************************************/
 
@@ -19,7 +19,6 @@
 
 /*******************************************************************
 * Function Name: Odometer
-* Description: 
 ********************************************************************/
 Odometer::Odometer( const string &name )
 : Atomic( name )
@@ -33,8 +32,6 @@ Odometer::Odometer( const string &name )
 
 /*******************************************************************
 * Function Name: initFunction
-* Description: Resetea la lista
-* Precondition: El tiempo del proximo evento interno es Infinito
 ********************************************************************/
 Model &Odometer::initFunction() {
 	this-> passivate();
@@ -43,7 +40,6 @@ Model &Odometer::initFunction() {
 
 /*******************************************************************
 * Function Name: externalFunction
-* Description: 
 ********************************************************************/
 Model &Odometer::externalFunction( const ExternalMessage &msg ) {
 	if( msg.port() == speedIn) {
@@ -71,7 +67,6 @@ Model &Odometer::externalFunction( const ExternalMessage &msg ) {
 
 /*******************************************************************
 * Function Name: internalFunction
-* Description: 
 ********************************************************************/
 Model &Odometer::internalFunction( const InternalMessage & ){
 	distance++;
@@ -82,7 +77,6 @@ Model &Odometer::internalFunction( const InternalMessage & ){
 
 /*******************************************************************
 * Function Name: outputFunction
-* Description: 
 ********************************************************************/
 Model &Odometer::outputFunction( const InternalMessage &msg ){
 	sendOutput( msg.time(), distanceTraveled, distance);

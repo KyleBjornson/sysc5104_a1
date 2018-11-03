@@ -1,12 +1,12 @@
 /*******************************************************************
 *
-*  DESCRIPTION: Atomic Model Pwm
+*  DESCRIPTION: Atomic Model GPSQueue
 *
-*  AUTHOR:
+*  AUTHORS: Ben Earle, Kyle Bjornson
 *
-*  EMAIL:
+*  EMAIL: ben.earle@cmail.carleton.ca, kyle.bjornson@cmail.carleton.ca
 *
-*  DATE:
+*  DATE: November 2nd, 2018
 *
 *******************************************************************/
 
@@ -18,9 +18,8 @@
 
 #define MPS_FROM_KMPH (1/3.6)
 
-//enum Direction {LEFT=1, RIGHT=2};
+//LEFT=0, RIGHT=1
 struct GpsInstruction {
-	//Direction direction;
 	int direction;
 	int distance;
 };

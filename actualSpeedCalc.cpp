@@ -2,11 +2,11 @@
 *
 *  DESCRIPTION: Atomic Model ActualSpeedCalc
 *
-*  AUTHOR:
+*  AUTHORS: Ben Earle, Kyle Bjornson
 *
-*  EMAIL:
+*  EMAIL: ben.earle@cmail.carleton.ca, kyle.bjornson@cmail.carleton.ca
 *
-*  DATE:
+*  DATE: November 2nd, 2018
 *
 *******************************************************************/
 
@@ -38,8 +38,6 @@ ActualSpeedCalc::ActualSpeedCalc( const string &name )
 
 /*******************************************************************
 * Function Name: initFunction
-* Description: Resetea la lista
-* Precondition: El tiempo del proximo evento interno es Infinito
 ********************************************************************/
 Model &ActualSpeedCalc::initFunction() {
 	this-> passivate();
@@ -48,7 +46,6 @@ Model &ActualSpeedCalc::initFunction() {
 
 /*******************************************************************
 * Function Name: externalFunction
-* Description: 
 ********************************************************************/
 Model &ActualSpeedCalc::externalFunction( const ExternalMessage &msg ) {
 	if( msg.port() == brakeIntensityIn) {
@@ -204,7 +201,6 @@ Model &ActualSpeedCalc::externalFunction( const ExternalMessage &msg ) {
 
 /*******************************************************************
 * Function Name: internalFunction
-* Description: 
 ********************************************************************/
 Model &ActualSpeedCalc::internalFunction( const InternalMessage & ){
 	if (brakeIntensity != 0) {
@@ -235,7 +231,6 @@ Model &ActualSpeedCalc::internalFunction( const InternalMessage & ){
 
 /*******************************************************************
 * Function Name: outputFunction
-* Description: 
 ********************************************************************/
 Model &ActualSpeedCalc::outputFunction( const InternalMessage &msg ){
 	if (speed != previousSpeed) {
