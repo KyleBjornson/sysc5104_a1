@@ -1,6 +1,7 @@
-#Fri Nov 02 14:20:15 EDT 2018
+#Fri Nov 02 19:24:19 EDT 2018
 eclipse.preferences.version=1
 encoding/actualSpeedCalc.madesigner=UTF-8
+encoding/desiredSpeedCalculator.madesigner=UTF-8
 encoding/gpsQueueMA.madesigner=UTF-8
 encoding/odometer.madesigner=UTF-8
 encoding/testSpeedDriverWithActualSpeed.madesigner=UTF-8

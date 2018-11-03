@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns="http://www.example.org/DEVSModeler" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation">
+  <CoupledModelType xmi:id="_bFbQcN72EeiE3L42Aisn9g" modelName="top" defined="true" sourceFileRelativePath="desiredSpeedCalculator.ma">
+    <ports xmi:type="CoupledPort" xmi:id="_bFbQcd72EeiE3L42Aisn9g" portName="desiredSpeedOut" portType="OUTPUT_PORT" incomingLinks="_bFbQit72EeiE3L42Aisn9g"/>
+    <ports xmi:type="CoupledPort" xmi:id="_bFbQct72EeiE3L42Aisn9g" portName="leftRangeIn" outgoingLinks="_bFbQg972EeiE3L42Aisn9g"/>
+    <ports xmi:type="CoupledPort" xmi:id="_bFbQc972EeiE3L42Aisn9g" portName="centerRangeIn" outgoingLinks="_bFbQhN72EeiE3L42Aisn9g"/>
+    <ports xmi:type="CoupledPort" xmi:id="_bFbQdN72EeiE3L42Aisn9g" portName="rightRangeIn" outgoingLinks="_bFbQhd72EeiE3L42Aisn9g"/>
+    <ports xmi:type="CoupledPort" xmi:id="_bFbQdd72EeiE3L42Aisn9g" portName="speedIn" outgoingLinks="_bFbQht72EeiE3L42Aisn9g"/>
+    <ports xmi:type="CoupledPort" xmi:id="_bFbQdt72EeiE3L42Aisn9g" portName="odometerIn" outgoingLinks="_bFbQh972EeiE3L42Aisn9g"/>
+    <ports xmi:type="CoupledPort" xmi:id="_bFbQd972EeiE3L42Aisn9g" portName="infrastructureIn" outgoingLinks="_bFbQiN72EeiE3L42Aisn9g"/>
+    <ports xmi:type="CoupledPort" xmi:id="_bFbQeN72EeiE3L42Aisn9g" portName="desiredSpeedReachedIn" outgoingLinks="_bFbQid72EeiE3L42Aisn9g"/>
+    <atomicModels xmi:type="AtomicModelInstance" xmi:id="_bFbQed72EeiE3L42Aisn9g" instanceName="desiredSpeedCalculator">
+      <modelType xmi:type="CPPAtomicModelType" xmi:id="_bFbQet72EeiE3L42Aisn9g" modelName="DesiredSpeedCalculator" defined="true" sourceFileRelativePath="desiredSpeedCalculator.cpp">
+        <ports xmi:type="InputAtomicPort" xmi:id="_bFbQe972EeiE3L42Aisn9g" portName="leftRangeIn" incomingLinks="_bFbQg972EeiE3L42Aisn9g"/>
+        <ports xmi:type="InputAtomicPort" xmi:id="_bFbQfN72EeiE3L42Aisn9g" portName="centerRangeIn" incomingLinks="_bFbQhN72EeiE3L42Aisn9g"/>
+        <ports xmi:type="InputAtomicPort" xmi:id="_bFbQfd72EeiE3L42Aisn9g" portName="rightRangeIn" incomingLinks="_bFbQhd72EeiE3L42Aisn9g"/>
+        <ports xmi:type="InputAtomicPort" xmi:id="_bFbQft72EeiE3L42Aisn9g" portName="speedIn" incomingLinks="_bFbQht72EeiE3L42Aisn9g"/>
+        <ports xmi:type="InputAtomicPort" xmi:id="_bFbQf972EeiE3L42Aisn9g" portName="odometerIn" incomingLinks="_bFbQh972EeiE3L42Aisn9g"/>
+        <ports xmi:type="InputAtomicPort" xmi:id="_bFbQgN72EeiE3L42Aisn9g" portName="infrastructureIn" incomingLinks="_bFbQiN72EeiE3L42Aisn9g"/>
+        <ports xmi:type="InputAtomicPort" xmi:id="_bFbQgd72EeiE3L42Aisn9g" portName="desiredSpeedReachedIn" incomingLinks="_bFbQid72EeiE3L42Aisn9g"/>
+        <ports xmi:type="OutputAtomicPort" xmi:id="_bFbQgt72EeiE3L42Aisn9g" portName="desiredSpeedOut" portType="OUTPUT_PORT" outgoingLinks="_bFbQit72EeiE3L42Aisn9g"/>
+      </modelType>
+    </atomicModels>
+    <links xmi:type="CoupledLink" xmi:id="_bFbQg972EeiE3L42Aisn9g" target="_bFbQe972EeiE3L42Aisn9g" source="_bFbQct72EeiE3L42Aisn9g"/>
+    <links xmi:type="CoupledLink" xmi:id="_bFbQhN72EeiE3L42Aisn9g" target="_bFbQfN72EeiE3L42Aisn9g" source="_bFbQc972EeiE3L42Aisn9g"/>
+    <links xmi:type="CoupledLink" xmi:id="_bFbQhd72EeiE3L42Aisn9g" target="_bFbQfd72EeiE3L42Aisn9g" source="_bFbQdN72EeiE3L42Aisn9g"/>
+    <links xmi:type="CoupledLink" xmi:id="_bFbQht72EeiE3L42Aisn9g" target="_bFbQft72EeiE3L42Aisn9g" source="_bFbQdd72EeiE3L42Aisn9g"/>
+    <links xmi:type="CoupledLink" xmi:id="_bFbQh972EeiE3L42Aisn9g" target="_bFbQf972EeiE3L42Aisn9g" source="_bFbQdt72EeiE3L42Aisn9g"/>
+    <links xmi:type="CoupledLink" xmi:id="_bFbQiN72EeiE3L42Aisn9g" target="_bFbQgN72EeiE3L42Aisn9g" source="_bFbQd972EeiE3L42Aisn9g"/>
+    <links xmi:type="CoupledLink" xmi:id="_bFbQid72EeiE3L42Aisn9g" target="_bFbQgd72EeiE3L42Aisn9g" source="_bFbQeN72EeiE3L42Aisn9g"/>
+    <links xmi:type="CoupledLink" xmi:id="_bFbQit72EeiE3L42Aisn9g" target="_bFbQcd72EeiE3L42Aisn9g" source="_bFbQgt72EeiE3L42Aisn9g"/>
+  </CoupledModelType>
+  <notation:Diagram xmi:id="_bFbQi972EeiE3L42Aisn9g" type="DEVS" element="_bFbQcN72EeiE3L42Aisn9g" name="desiredSpeedCalculator.madesigner" measurementUnit="Pixel">
+    <styles xmi:type="notation:DiagramStyle" xmi:id="_bFbQjN72EeiE3L42Aisn9g"/>
+  </notation:Diagram>
+</xmi:XMI>

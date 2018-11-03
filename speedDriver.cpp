@@ -67,33 +67,34 @@ Model &SpeedDriver::externalFunction( const ExternalMessage &msg ) {
 		#if DEBUG
 			std::cout << "New desired speed motorSpeed: " << motorSpeed << " desiredSpeed: " << desiredSpeed << "\n";
 		#endif
-		float timeout = (distance)/(3.6*(desiredSpeed + currentSpeed));
-		float interval = timeout / abs(desiredSpeed - currentSpeed);
+		if(desiredSpeed != currentSpeed){
+			float timeout = (distance)/(3.6*(desiredSpeed + currentSpeed));
+			float interval = timeout / abs(desiredSpeed - currentSpeed);
 
-		//Bounded acceleration to 0-100km/h in 10 seconds
-		if (interval < 0.1) {
-			interval = 0.1;
-		}
-		accelerationTimeout = Time(timeout);
-		accelerationInterval = Time(interval);
-
-		//Now deal with the new desiredSpeed
-		if (desiredSpeed < currentSpeed) {
-			motorSpeed = 0;
-			brakeIntensity = ((abs(currentSpeed - desiredSpeed))*(abs(currentSpeed - desiredSpeed))) / (200*distance);
-
-			//Intensity is bounded to <= 1
-			if (brakeIntensity > 1) {
-				brakeIntensity = 1;
+			//Bounded acceleration to 0-100km/h in 10 seconds
+			if (interval < 0.1) {
+				interval = 0.1;
 			}
-			holdIn(active, Time::Zero); //Deal with this now
+			accelerationTimeout = Time(timeout);
+			accelerationInterval = Time(interval);
 
-		} else if (desiredSpeed > currentSpeed) {
-			brakeIntensity = 0;
-			motorSpeed = currentSpeed;
-			currentSpeed++;
-			holdIn(active, Time::Zero);  //Deal with this now
+			//Now deal with the new desiredSpeed
+			if (desiredSpeed < currentSpeed) {
+				motorSpeed = 0;
+				brakeIntensity = ((abs(currentSpeed - desiredSpeed))*(abs(currentSpeed - desiredSpeed))) / (200*distance);
 
+				//Intensity is bounded to <= 1
+				if (brakeIntensity > 1) {
+					brakeIntensity = 1;
+				}
+				holdIn(active, Time::Zero); //Deal with this now
+
+			} else if (desiredSpeed > currentSpeed) {
+				brakeIntensity = 0;
+				motorSpeed = currentSpeed;
+				currentSpeed++;
+				holdIn(active, Time::Zero);  //Deal with this now
+			}
 		} else {
 			desSpeed = true;
 			holdIn(active, Time::Zero);
@@ -133,6 +134,9 @@ Model &SpeedDriver::internalFunction( const InternalMessage & ){
 
 	if (desiredSpeed > motorSpeed) {
 		motorSpeed++;
+		if (accelerationInterval.asMsecs() <= 0){
+			std::cout << "Error in accelerationInterval: " << accelerationInterval << "motorspeed: "<< motorSpeed << " desiredSpeed: " << desiredSpeed << "\n";
+		}
 		holdIn(active, Time(accelerationInterval));
 	} else {
 		#if DEBUG

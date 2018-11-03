@@ -14,6 +14,7 @@
 #include "desiredSpeedCalculator.h"      // class DesiredSpeedCalculator
 #include "message.h"    // class ExternalMessage, InternalMessage
 #include "mainsimu.h"   // MainSimulator::Instance().getParameter( ... )
+#include <math.h> //sqrt
 
 #define DEBUG 0
 #define SUPRESS_ODO 1
@@ -97,6 +98,13 @@ Model &DesiredSpeedCalculator::externalFunction( const ExternalMessage &msg ) {
 			emergencySpeed.value = 0;
 			emergencySpeed.distance = centerRange;
 			holdIn(active, Time::Zero);
+		} else if (centerRange < (brakingDistance + 10)){
+			#if DEBUG
+				std::cout << "There is an obstacle close to being considered a risk.\n";
+			#endif
+			emergencySpeed.value = sqrt(200*(centerRange - 2)) ;//-2 since that is our buffer region
+			emergencySpeed.distance = 10;
+			holdIn(active, Time::Zero);
 		} else if (emergencySpeed.value != 0 || emergencySpeed.distance != 0) {
 			#if DEBUG
 				std::cout << "There are no obstacles that are within risk of collision.\n";
@@ -158,7 +166,14 @@ Model &DesiredSpeedCalculator::externalFunction( const ExternalMessage &msg ) {
 			emergencySpeed.value = 0;
 			emergencySpeed.distance = centerRange;
 			holdIn(active, Time::Zero);
-		} else if (emergencySpeed.value != 0 || emergencySpeed.distance != 0) {
+		} else if (centerRange < (brakingDistance + 10)){
+			#if DEBUG
+				std::cout << "There is an obstacle close to being considered a risk.\n";
+			#endif
+			emergencySpeed.value = sqrt(200*(centerRange - 2));
+			emergencySpeed.distance = 10;
+			holdIn(active, Time::Zero);
+} else if (emergencySpeed.value != 0 || emergencySpeed.distance != 0) {
 			#if DEBUG
 				std::cout << "There are no obstacles that are within risk of collision.\n";
 				std::cout << "The return to infrastructure control: " << nextSign.type << ", " << nextSign.value << ", "<< nextSign.distance << "\n";
