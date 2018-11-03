@@ -1,12 +1,12 @@
 /*******************************************************************
 *
-*  DESCRIPTION: Atomic Model DesiredSpeedCalculator desiredSpeedCalculator
+*  DESCRIPTION: Atomic Model desiredSpeedCalculator
 *
-*  AUTHOR:
+*  AUTHORS: Ben Earle, Kyle Bjornson
 *
-*  EMAIL:
+*  EMAIL: ben.earle@cmail.carleton.ca, kyle.bjornson@cmail.carleton.ca
 *
-*  DATE:
+*  DATE: November 2nd, 2018
 *
 *******************************************************************/
 

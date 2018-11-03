@@ -1,12 +1,12 @@
 /*******************************************************************
 *
-*  DESCRIPTION: Atomic Model ActualSpeedCalc
+*  DESCRIPTION: Atomic Model desiredSpeedCalculator
 *
-*  AUTHOR:
+*  AUTHORS: Ben Earle, Kyle Bjornson
 *
-*  EMAIL:
+*  EMAIL: ben.earle@cmail.carleton.ca, kyle.bjornson@cmail.carleton.ca
 *
-*  DATE:
+*  DATE: November 2nd, 2018
 *
 *******************************************************************/
 
@@ -26,7 +26,6 @@
 
 /*******************************************************************
 * Function Name: DesiredSpeedCalculator
-* Description: 
 ********************************************************************/
 DesiredSpeedCalculator::DesiredSpeedCalculator( const string &name )
 : Atomic( name )
@@ -54,8 +53,6 @@ DesiredSpeedCalculator::DesiredSpeedCalculator( const string &name )
 
 /*******************************************************************
 * Function Name: initFunction
-* Description: Resetea la lista
-* Precondition: El tiempo del proximo evento interno es Infinito
 ********************************************************************/
 Model &DesiredSpeedCalculator::initFunction() {
 	this-> passivate();
@@ -64,7 +61,6 @@ Model &DesiredSpeedCalculator::initFunction() {
 
 /*******************************************************************
 * Function Name: externalFunction
-* Description: 
 ********************************************************************/
 //The desired speed calc is not very good, we need more logic to smooth the handling of obstacles in its path.
 //We ran out of time on the assignment and didn't get to play around with this too much.
@@ -319,7 +315,6 @@ Model &DesiredSpeedCalculator::externalFunction( const ExternalMessage &msg ) {
 
 /*******************************************************************
 * Function Name: internalFunction
-* Description: 
 ********************************************************************/
 Model &DesiredSpeedCalculator::internalFunction( const InternalMessage & ){
 	if(emergencySpeed.value != 0 || emergencySpeed.distance != 0) {
@@ -365,7 +360,6 @@ Model &DesiredSpeedCalculator::internalFunction( const InternalMessage & ){
 
 /*******************************************************************
 * Function Name: outputFunction
-* Description: 
 ********************************************************************/
 Model &DesiredSpeedCalculator::outputFunction( const InternalMessage &msg) {
 	int out;
