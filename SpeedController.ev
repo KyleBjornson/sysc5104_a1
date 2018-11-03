@@ -1,5 +1,9 @@
 00:00:05:00 centerRange 60
 00:00:05:01 leftRange 50
 00:00:05:02 rightRange 50
-00:00:05:00 infrastructure 54512
-00:05:00:00 infrastructure 33268
+00:01:00:00 infrastructure 50226
+00:05:00:00 infrastructure 59692
+00:07:00:00 centerRange 40
+00:09:00:00 centerRange 45
+00:12:00:00 centerRange 60
+00:15:00:00 centerRange 10
