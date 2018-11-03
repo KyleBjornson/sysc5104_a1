@@ -20,7 +20,7 @@
 #define ACCELERATE_DISTANCE 10
 #define WAIT_TIMEOUT 3
 
-enum SignType {NONE=0, STOP=1, YIELD=2, SPEED=3};
+enum SignType {NONE=0, YIELD=1, STOP=2, SPEED=3};
 struct Sign {
 	SignType type;
 	int value;
