@@ -16,7 +16,7 @@
 #include "mainsimu.h"   // MainSimulator::Instance().getParameter( ... )
 #include <math.h> //sqrt
 
-#define DEBUG 1
+#define DEBUG 0
 #define SUPRESS_ODO 1
 
 #define TYPE_MASK(msg) ((msg >> 14) & 0x0003)
