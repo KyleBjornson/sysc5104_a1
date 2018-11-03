@@ -3,5 +3,6 @@
 *.o
 Makefile
 *.out
+*.log
 *.exe
 notes2.txt
