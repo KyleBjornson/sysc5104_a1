@@ -16,7 +16,7 @@
 #include "mainsimu.h"   // MainSimulator::Instance().getParameter( ... )
 #include <math.h> //sqrt
 
-#define DEBUG 0
+#define DEBUG 1
 #define SUPRESS_ODO 1
 
 #define TYPE_MASK(msg) ((msg >> 14) & 0x0003)
@@ -226,7 +226,7 @@ Model &DesiredSpeedCalculator::externalFunction( const ExternalMessage &msg ) {
 		#endif
 		if (this->state() == passive) {
 			int x = TYPE_MASK(temp);
-			nextSign.type = ((x == 0) ? NONE : ((x == 1) ? STOP : ((x == 2) ? YIELD : SPEED))); //top 2 bits are used for type
+			nextSign.type = ((x == 0) ? NONE : ((x == 2) ? STOP : ((x == 1) ? YIELD : SPEED))); //top 2 bits are used for type
 			nextSign.value = VALUE_MASK(temp) *5; //next 5 for the value if needed (in km/5hr to preserve bits)
 			nextSign.distance = DISTANCE_MASK(temp); //distance in m using the remianing bits
 			nextSign.distance += odometer;
@@ -276,7 +276,7 @@ Model &DesiredSpeedCalculator::externalFunction( const ExternalMessage &msg ) {
 			std::cout << "Speed was being controlled by infrastructure. Next Sign: "  << nextSign.type << ", " << nextSign.value << ", "<< nextSign.distance << ", speed: " << speed << "\n";
 		#endif
 			switch(nextSign.type) {
-				case NONE: 
+				case NONE:
 					/*Should never happen */
 					break;
 				case STOP:
@@ -305,7 +305,7 @@ Model &DesiredSpeedCalculator::externalFunction( const ExternalMessage &msg ) {
 						holdIn(active, WAIT_TIMEOUT);
 					}
 					break;
-				case SPEED:						
+				case SPEED:
 					nextSign.type = NONE;
 					passivate();
 					break;
@@ -332,23 +332,23 @@ Model &DesiredSpeedCalculator::internalFunction( const InternalMessage & ){
 				passivate();
 				break;
 			case STOP:
-				if(leftRange > STOP_DISTANCE && rightRange > STOP_DISTANCE && centerRange > STOP_DISTANCE) {
+				if(leftRange > STOP_DISTANCE && rightRange > STOP_DISTANCE && centerRange > STOP_DISTANCE && (nextSign.distance <= odometer) ) {
 					/* The intersection is clear, continue driving */
 					desiredSpeed.value = speedLimit;
 					desiredSpeed.distance = ACCELERATE_DISTANCE;
 					nextSign.type = NONE;
-					passivate();
+					holdIn(active, Time::Zero);
 				} else {
 					holdIn(active, WAIT_TIMEOUT);
 				}
 				break;
 			case YIELD:
-				if(leftRange > YIELD_DISTANCE && rightRange > YIELD_DISTANCE && centerRange > YIELD_DISTANCE) {
+				if(leftRange > YIELD_DISTANCE && rightRange > YIELD_DISTANCE && centerRange > YIELD_DISTANCE && (nextSign.distance <= odometer) ) {
 					/* The intersection is clear, continue driving */
 					desiredSpeed.value = speedLimit;
 					desiredSpeed.distance = ACCELERATE_DISTANCE;
 					nextSign.type = NONE;
-					passivate();
+					holdIn(active, Time::Zero);
 				} else {
 					holdIn(active, WAIT_TIMEOUT);
 				}
