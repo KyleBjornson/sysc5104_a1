@@ -2,7 +2,6 @@
 .project
 *.o
 Makefile
-*.log
 *.out
 *.exe
 notes2.txt

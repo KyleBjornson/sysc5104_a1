@@ -1,3 +1,3 @@
-simu.exe  -msteerDriverMA.ma -esteerDriver.ev -osteerDriverMA.out -lsteerDriverLOG.log 
+simu.exe  -msteerDriver.ma -esteerDriver.ev -osteerDriver.out -lsteerDriverLOG.log 
 rem 
 pause
